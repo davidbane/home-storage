@@ -45,6 +45,7 @@ class StorageSpot(models.Model):
     primary_color = models.CharField(max_length=30, blank=True)
     secondary_color = models.CharField(max_length=30, blank=True)
     description = models.TextField(blank=True)
+    qr_code_image_url = models.URLField(blank=True)
 
 
 class StorageItem(models.Model):
