@@ -32,8 +32,6 @@ class StorageArea(models.Model):
     name = models.CharField(max_length=50)
 
 
-# TODO: probably time to create a git project for this
-# TODO: looking at creating a frontend next
 class StorageSpot(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     parent = models.ForeignKey(
