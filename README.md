@@ -10,6 +10,9 @@ packages/
   ui/            @home/ui      Vue 3 components built on those tokens
 apps/
   storage-web/   the storage catalog: Vue 3, Pinia, axios, Vue Router
+  design-docs/   live design system docs (yarn docs)
+docs/
+  design-system/ guidelines: principles, foundations, layout, components, token reference
 backend/         Django + DRF API (moved in from davidbane/homeapi, history kept)
 ```
 
@@ -25,7 +28,8 @@ corepack enable   # once per Node install (Node 25+: npm install -g corepack fir
 yarn install
 yarn dev          # builds tokens, then runs the storage app at http://localhost:5173
 yarn build        # typecheck and build everything
-yarn tokens       # rebuild tokens after editing packages/tokens/src/tokens.json
+yarn tokens       # rebuild tokens (and docs/design-system/tokens.md) after editing tokens.json
+yarn docs         # live design system docs at http://localhost:5174
 ```
 
 Adding a dependency to one workspace: `yarn workspace storage-web add <pkg>` (or `@home/ui`, `@home/tokens`). Yarn is set to a plain `node_modules` layout in `.yarnrc.yml`.
@@ -53,6 +57,10 @@ VITE_DATA_SOURCE=api
 ```
 
 `src/api/endpoints.ts` types the DRF responses as they are today, and `src/api/adapt.ts` turns residences, areas, spots and items into the app's location tree. State lives in a Pinia store (`src/stores/house.ts`).
+
+## Design system
+
+The Apothecary design system is documented in [`docs/design-system`](docs/design-system/README.md) (principles, foundations, layout, every component, and a generated token reference with contrast ratios) and live in `apps/design-docs` (`yarn docs`).
 
 ## How the styling fits together
 

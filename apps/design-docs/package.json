@@ -1,0 +1,27 @@
+{
+  "name": "design-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5174",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview --port 5174",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@home/tokens": "workspace:*",
+    "@home/ui": "workspace:*",
+    "@tabler/icons-vue": "^3.31.0",
+    "vue": "^3.5.34",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "tailwindcss": "^4.3.0",
+    "typescript": "~5.9.2",
+    "vite": "^8.0.14",
+    "vue-tsc": "^3.0.0"
+  }
+}

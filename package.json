@@ -13,7 +13,9 @@
     "dev": "yarn workspace @home/tokens build && yarn workspace storage-web dev",
     "build": "yarn workspaces foreach --all --topological run build",
     "typecheck": "yarn tokens && yarn workspaces foreach --all --parallel run typecheck",
-    "tokens": "yarn workspace @home/tokens build",
-    "api": "cd backend && python manage.py runserver"
+    "tokens": "yarn workspace @home/tokens build && yarn workspace @home/tokens docs",
+    "api": "cd backend && python manage.py runserver",
+    "tokens:docs": "yarn workspace @home/tokens docs",
+    "docs": "yarn workspace @home/tokens build && yarn workspace design-docs dev"
   }
 }
