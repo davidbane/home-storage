@@ -11,7 +11,7 @@ import type { Item } from '@/models'
 const house = useHouseStore()
 const q = ref('')
 const results = computed(() => house.search(q.value))
-const attention = computed(() => [...lowItems.value, ...surplusItems.value].slice(0, 4))
+const attention = computed(() => [...house.lowItems, ...house.surplusItems].slice(0, 4))
 const { theme, toggle } = useTheme()
 
 const greeting = computed(() => {
