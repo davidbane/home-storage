@@ -828,6 +828,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"design-docs@workspace:apps/design-docs":
+  version: 0.0.0-use.local
+  resolution: "design-docs@workspace:apps/design-docs"
+  dependencies:
+    "@home/tokens": "workspace:*"
+    "@home/ui": "workspace:*"
+    "@tabler/icons-vue": "npm:^3.31.0"
+    "@tailwindcss/vite": "npm:^4.3.0"
+    "@vitejs/plugin-vue": "npm:^6.0.7"
+    tailwindcss: "npm:^4.3.0"
+    typescript: "npm:~5.9.2"
+    vite: "npm:^8.0.14"
+    vue: "npm:^3.5.34"
+    vue-router: "npm:^4.5.1"
+    vue-tsc: "npm:^3.0.0"
+  languageName: unknown
+  linkType: soft
+
 "detect-libc@npm:^2.0.3":
   version: 2.1.2
   resolution: "detect-libc@npm:2.1.2"
