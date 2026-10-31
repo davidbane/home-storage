@@ -16,9 +16,10 @@ The packages are Yarn workspaces, so a change to a component shows up in the app
 
 ## Getting started
 
-Requires Node 22+ and Yarn 4. The exact Yarn version is pinned in `package.json` (`packageManager`), and Corepack picks it up:
+Requires Node 22+ (`.nvmrc` pins 24, the current LTS) and Yarn 4. The exact Yarn version is pinned in `package.json` (`packageManager`), and Corepack picks it up:
 
 ```sh
+nvm install       # reads .nvmrc; afterwards `nvm use` in this folder
 corepack enable   # once per Node install (Node 25+: npm install -g corepack first)
 yarn install
 yarn dev          # builds tokens, then runs the storage app at http://localhost:5173
