@@ -25,8 +25,10 @@ async function sync(v: boolean) {
 watch(open, sync)
 onMounted(() => sync(open.value))
 
+// The native close event also fires after we close it ourselves; only report a close
+// the parent doesn't know about (Escape), so a hand-off to another dialog isn't undone.
 function onClose() {
-  open.value = false
+  if (open.value) open.value = false
   emit('closed')
 }
 // A click whose target is the <dialog> itself landed on the backdrop.

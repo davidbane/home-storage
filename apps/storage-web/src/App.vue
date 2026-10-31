@@ -6,7 +6,10 @@ import AppTabBar from '@/components/AppTabBar.vue'
 import FindDialog from '@/components/dialogs/FindDialog.vue'
 import ItemFormDialog from '@/components/dialogs/ItemFormDialog.vue'
 import MoveDialog from '@/components/dialogs/MoveDialog.vue'
+import PlaceRemoveDialog from '@/components/dialogs/PlaceRemoveDialog.vue'
 import RemoveDialog from '@/components/dialogs/RemoveDialog.vue'
+import RoomFormDialog from '@/components/dialogs/RoomFormDialog.vue'
+import SpotFormDialog from '@/components/dialogs/SpotFormDialog.vue'
 import { useHouseStore } from '@/stores/house'
 
 const route = useRoute()
@@ -33,5 +36,8 @@ const house = useHouseStore()
   <MoveDialog />
   <RemoveDialog />
   <FindDialog />
+  <RoomFormDialog />
+  <SpotFormDialog />
+  <PlaceRemoveDialog />
   <ApToaster />
 </template>

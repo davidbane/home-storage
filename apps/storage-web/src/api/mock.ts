@@ -1,43 +1,52 @@
-import type { Item, Location } from '@/models'
+import type { Item, Location, StorageType } from '@/models'
+
+export const storageTypes: StorageType[] = [
+  { id: 'type-chest', name: 'Drawer chest' },
+  { id: 'type-drawer', name: 'Drawer' },
+  { id: 'type-shelving', name: 'Shelving' },
+  { id: 'type-shelf', name: 'Shelf' },
+  { id: 'type-bin', name: 'Bin' },
+  { id: 'type-closet', name: 'Closet' },
+]
 
 // Sample data until the DRF endpoints exist. Shapes match ./types.ts.
 export const locations: Location[] = [
   { id: 'house', name: 'The House', kind: 'house', parent: null },
 
   { id: 'kitchen', name: 'Kitchen', kind: 'room', parent: 'house' },
-  { id: 'pantry', name: 'Pantry', kind: 'furniture', parent: 'kitchen', code: 'P-01' },
-  { id: 'pantry-top', name: 'Top shelf', kind: 'container', parent: 'pantry', note: 'paper goods' },
-  { id: 'pantry-mid', name: 'Middle shelf', kind: 'container', parent: 'pantry', note: 'baking' },
-  { id: 'pantry-low', name: 'Bottom shelf', kind: 'container', parent: 'pantry', note: 'bulk' },
+  { id: 'pantry', name: 'Pantry', kind: 'furniture', parent: 'kitchen', code: 'P-01', type: 'type-shelving' },
+  { id: 'pantry-top', name: 'Top shelf', kind: 'container', parent: 'pantry', note: 'paper goods', type: 'type-shelf' },
+  { id: 'pantry-mid', name: 'Middle shelf', kind: 'container', parent: 'pantry', note: 'baking', type: 'type-shelf' },
+  { id: 'pantry-low', name: 'Bottom shelf', kind: 'container', parent: 'pantry', note: 'bulk', type: 'type-shelf' },
 
   { id: 'hall-closet', name: 'Hall closet', kind: 'room', parent: 'house' },
-  { id: 'drawer-chest', name: 'Drawer chest', kind: 'furniture', parent: 'hall-closet', code: 'C-07', note: 'Oak drawer chest' },
-  { id: 'drawer-a', name: 'Drawer A', kind: 'container', parent: 'drawer-chest', code: 'C-07-A', note: 'tools, tape' },
-  { id: 'drawer-b', name: 'Drawer B', kind: 'container', parent: 'drawer-chest', code: 'C-07-B' },
-  { id: 'drawer-c', name: 'Drawer C', kind: 'container', parent: 'drawer-chest', code: 'C-07-C', note: 'chargers' },
-  { id: 'drawer-d', name: 'Drawer D', kind: 'container', parent: 'drawer-chest', code: 'C-07-D', note: 'gift wrap' },
-  { id: 'drawer-e', name: 'Drawer E', kind: 'container', parent: 'drawer-chest', code: 'C-07-E' },
-  { id: 'drawer-f', name: 'Drawer F', kind: 'container', parent: 'drawer-chest', code: 'C-07-F', note: 'first aid' },
+  { id: 'drawer-chest', name: 'Drawer chest', kind: 'furniture', parent: 'hall-closet', code: 'C-07', note: 'Oak drawer chest', type: 'type-chest' },
+  { id: 'drawer-a', name: 'Drawer A', kind: 'container', parent: 'drawer-chest', code: 'C-07-A', note: 'tools, tape', type: 'type-drawer' },
+  { id: 'drawer-b', name: 'Drawer B', kind: 'container', parent: 'drawer-chest', code: 'C-07-B', type: 'type-drawer' },
+  { id: 'drawer-c', name: 'Drawer C', kind: 'container', parent: 'drawer-chest', code: 'C-07-C', note: 'chargers', type: 'type-drawer' },
+  { id: 'drawer-d', name: 'Drawer D', kind: 'container', parent: 'drawer-chest', code: 'C-07-D', note: 'gift wrap', type: 'type-drawer' },
+  { id: 'drawer-e', name: 'Drawer E', kind: 'container', parent: 'drawer-chest', code: 'C-07-E', type: 'type-drawer' },
+  { id: 'drawer-f', name: 'Drawer F', kind: 'container', parent: 'drawer-chest', code: 'C-07-F', note: 'first aid', type: 'type-drawer' },
 
   { id: 'garage', name: 'Garage', kind: 'room', parent: 'house' },
-  { id: 'garage-shelves', name: 'Steel shelving', kind: 'furniture', parent: 'garage', code: 'G-02' },
-  { id: 'shelf-1', name: 'Shelf 1', kind: 'container', parent: 'garage-shelves' },
-  { id: 'shelf-2', name: 'Shelf 2', kind: 'container', parent: 'garage-shelves' },
-  { id: 'shelf-3', name: 'Shelf 3', kind: 'container', parent: 'garage-shelves', note: 'overflow' },
+  { id: 'garage-shelves', name: 'Steel shelving', kind: 'furniture', parent: 'garage', code: 'G-02', type: 'type-shelving' },
+  { id: 'shelf-1', name: 'Shelf 1', kind: 'container', parent: 'garage-shelves', type: 'type-shelf' },
+  { id: 'shelf-2', name: 'Shelf 2', kind: 'container', parent: 'garage-shelves', type: 'type-shelf' },
+  { id: 'shelf-3', name: 'Shelf 3', kind: 'container', parent: 'garage-shelves', note: 'overflow', type: 'type-shelf' },
 
   { id: 'basement', name: 'Basement', kind: 'room', parent: 'house' },
-  { id: 'utility-rack', name: 'Utility rack', kind: 'furniture', parent: 'basement', code: 'B-01' },
-  { id: 'gear-shelf', name: 'Gear shelf', kind: 'container', parent: 'utility-rack', note: 'camping' },
-  { id: 'filters-bin', name: 'Filters bin', kind: 'container', parent: 'utility-rack' },
+  { id: 'utility-rack', name: 'Utility rack', kind: 'furniture', parent: 'basement', code: 'B-01', type: 'type-shelving' },
+  { id: 'gear-shelf', name: 'Gear shelf', kind: 'container', parent: 'utility-rack', note: 'camping', type: 'type-shelf' },
+  { id: 'filters-bin', name: 'Filters bin', kind: 'container', parent: 'utility-rack', type: 'type-bin' },
 
   { id: 'bedroom', name: 'Bedroom', kind: 'room', parent: 'house' },
-  { id: 'closet', name: 'Closet', kind: 'furniture', parent: 'bedroom' },
-  { id: 'closet-top', name: 'Top shelf', kind: 'container', parent: 'closet', note: 'linens' },
+  { id: 'closet', name: 'Closet', kind: 'furniture', parent: 'bedroom', type: 'type-closet' },
+  { id: 'closet-top', name: 'Top shelf', kind: 'container', parent: 'closet', note: 'linens', type: 'type-shelf' },
 
   { id: 'attic', name: 'Attic', kind: 'room', parent: 'house' },
-  { id: 'attic-bins', name: 'Storage bins', kind: 'furniture', parent: 'attic', code: 'A-01' },
-  { id: 'bin-4', name: 'Bin 4', kind: 'container', parent: 'attic-bins', code: 'A-01-4', note: 'holiday' },
-  { id: 'bin-9', name: 'Bin 9', kind: 'container', parent: 'attic-bins', code: 'A-01-9', note: 'keepsakes' },
+  { id: 'attic-bins', name: 'Storage bins', kind: 'furniture', parent: 'attic', code: 'A-01', type: 'type-shelving' },
+  { id: 'bin-4', name: 'Bin 4', kind: 'container', parent: 'attic-bins', code: 'A-01-4', note: 'holiday', type: 'type-bin' },
+  { id: 'bin-9', name: 'Bin 9', kind: 'container', parent: 'attic-bins', code: 'A-01-9', note: 'keepsakes', type: 'type-bin' },
 ]
 
 const item = (p: Partial<Item> & Pick<Item, 'name' | 'quantity' | 'location'>): Item => ({

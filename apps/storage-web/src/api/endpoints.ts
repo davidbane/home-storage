@@ -55,6 +55,25 @@ export interface ApiItemWrite {
   storage_spot: string
 }
 
+/** Areas are flat in the serializer, so these writes work today. */
+export interface ApiAreaWrite {
+  name: string
+  description: string
+  residence: string
+}
+
+/**
+ * Spots: storage_area and storage_type are nested serializers today, so create and
+ * re-parent need the serializer to accept ids before they work against the API.
+ */
+export interface ApiSpotWrite {
+  name: string
+  parent: string | null
+  storage_area: string
+  storage_type: string
+  description: string
+}
+
 const get = async <T>(url: string) => (await http.get<T>(url)).data
 
 export const api = {
@@ -68,5 +87,21 @@ export const api = {
   updateItem: async (id: string, body: Partial<ApiItemWrite>) => (await http.patch<ApiStorageItem>(`/storage-items/${id}/`, body)).data,
   deleteItem: async (id: string) => {
     await http.delete(`/storage-items/${id}/`)
+  },
+  createArea: async (body: ApiAreaWrite) => (await http.post<ApiStorageArea>('/storage-areas/', body)).data,
+  updateArea: async (id: string, body: Partial<ApiAreaWrite>) => (await http.patch<ApiStorageArea>(`/storage-areas/${id}/`, body)).data,
+  deleteArea: async (id: string) => {
+    await http.delete(`/storage-areas/${id}/`)
+  },
+  createSpot: async (body: ApiSpotWrite) => (await http.post<ApiStorageSpot>('/storage-spots/', body)).data,
+  updateSpot: async (id: string, body: Partial<ApiSpotWrite>) => (await http.patch<ApiStorageSpot>(`/storage-spots/${id}/`, body)).data,
+  deleteSpot: async (id: string) => {
+    await http.delete(`/storage-spots/${id}/`)
+  },
+  createType: async (name: string) => (await http.post<ApiStorageType>('/storage-types/', { name })).data,
+  updateType: async (id: string, name: string) => (await http.patch<ApiStorageType>(`/storage-types/${id}/`, { name })).data,
+  /** The API protects types in use (on_delete=PROTECT); the app checks first. */
+  deleteType: async (id: string) => {
+    await http.delete(`/storage-types/${id}/`)
   },
 }

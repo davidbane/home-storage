@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { IconHome, IconAlertTriangle, IconList, IconQrcode, IconMoon, IconSun } from '@tabler/icons-vue'
-import { ApBrand, ApButton, ApNavGroup, ApNavItem, ApSidebar, useTheme } from '@home/ui'
+import { IconHome, IconAlertTriangle, IconList, IconPlus, IconQrcode, IconSettings } from '@tabler/icons-vue'
+import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@home/ui'
 import { useHouseStore } from '@/stores/house'
+import { useUiStore } from '@/stores/ui'
 
 const house = useHouseStore()
+const ui = useUiStore()
 const route = useRoute()
-const { theme, toggle } = useTheme()
 const icon = { size: 20, stroke: '1.5', 'aria-hidden': 'true' } as const
 </script>
 
@@ -28,12 +29,20 @@ const icon = { size: 20, stroke: '1.5', 'aria-hidden': 'true' } as const
         :count="house.countsFor(r.id).total"
         :alert="house.countsFor(r.id).low > 0"
       />
+      <li>
+        <button
+          type="button"
+          class="flex min-h-10 w-full cursor-pointer items-center gap-3 rounded-md border-0 bg-transparent px-3 text-sm leading-5 font-medium text-sapphire-ink hover:bg-surface-2"
+          @click="ui.openAddRoom()"
+        >
+          <IconPlus v-bind="icon" />Add a room
+        </button>
+      </li>
     </ApNavGroup>
     <template #footer>
-      <ApButton variant="ghost" block class="justify-start! px-3!" @click="toggle">
-        <template #icon><IconSun v-if="theme === 'night'" v-bind="icon" /><IconMoon v-else v-bind="icon" /></template>
-        {{ theme === 'night' ? 'Parchment theme' : 'Night theme' }}
-      </ApButton>
+      <ul class="m-0 list-none p-0">
+        <ApNavItem to="/settings" label="Settings"><template #icon><IconSettings v-bind="icon" /></template></ApNavItem>
+      </ul>
     </template>
   </ApSidebar>
 </template>

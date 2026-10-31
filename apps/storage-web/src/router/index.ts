@@ -12,6 +12,7 @@ export const router = createRouter({
     { path: '/lists', name: 'lists', component: () => import('@/views/ListsView.vue') },
     // ?room= preselects a room's bins; ?ids= preselects specific places.
     { path: '/labels', name: 'labels', component: () => import('@/views/LabelsView.vue') },
+    { path: '/settings', name: 'settings', component: () => import('@/views/SettingsView.vue') },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   scrollBehavior: (to, from, saved) => saved ?? (to.path !== from.path ? { top: 0 } : undefined),

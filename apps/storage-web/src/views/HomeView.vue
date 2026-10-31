@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { IconMoon, IconPlus, IconScan, IconSun } from '@tabler/icons-vue'
+import { IconPlus, IconScan, IconSettings } from '@tabler/icons-vue'
 import {
   ApButton, ApContainer, ApFeature, ApIconButton, ApList, ApListRow, ApLocationTile,
-  ApPageHead, ApSearchField, ApSection, ApStat, ApTileGrid, useTheme,
+  ApPageHead, ApSearchField, ApSection, ApStat, ApTileGrid,
 } from '@home/ui'
 import { status, useHouseStore } from '@/stores/house'
 import { useUiStore } from '@/stores/ui'
@@ -14,7 +14,6 @@ const ui = useUiStore()
 const q = ref('')
 const results = computed(() => house.search(q.value))
 const attention = computed(() => [...house.lowItems, ...house.surplusItems].slice(0, 4))
-const { theme, toggle } = useTheme()
 
 const greeting = computed(() => {
   const h = new Date().getHours()
@@ -35,9 +34,7 @@ const tileMeta = (id: string) => {
         <div class="flex items-center gap-2">
           <span class="flex-1 text-[13px] leading-[18px] font-medium text-ink-muted">{{ greeting }}</span>
           <div class="flex gap-2 md:hidden">
-            <ApIconButton :label="theme === 'night' ? 'Switch to parchment theme' : 'Switch to night theme'" @click="toggle">
-              <IconSun v-if="theme === 'night'" :size="20" stroke="1.5" aria-hidden="true" /><IconMoon v-else :size="20" stroke="1.5" aria-hidden="true" />
-            </ApIconButton>
+            <ApIconButton label="Settings" to="/settings"><IconSettings :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
             <ApIconButton label="Find a bin by its label code" @click="ui.openFind()"><IconScan :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
           </div>
         </div>
@@ -80,7 +77,21 @@ const tileMeta = (id: string) => {
       </div>
 
       <ApSection title="Rooms">
-        <ApTileGrid>
+        <template #aside>
+          <button
+            type="button"
+            class="inline-flex min-h-11 cursor-pointer items-center border-0 bg-transparent p-0 text-[13px] leading-[18px] font-medium text-sapphire-ink hover:underline md:text-sm"
+            @click="ui.openAddRoom()"
+          >
+            Add a room
+          </button>
+        </template>
+        <div v-if="!house.rooms.length" class="flex flex-col items-start gap-3 rounded-lg bg-surface-1 px-5 py-6 shadow-raised">
+          <h3 class="m-0 type-title">Start with a room</h3>
+          <p class="m-0 type-meta text-ink-muted">Add the rooms you store things in, then the furniture and bins inside each one.</p>
+          <ApButton variant="primary" @click="ui.openAddRoom()"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add a room</ApButton>
+        </div>
+        <ApTileGrid v-else>
           <ApLocationTile
             v-for="r in house.rooms"
             :key="r.id"

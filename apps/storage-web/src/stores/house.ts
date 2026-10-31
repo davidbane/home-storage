@@ -1,10 +1,10 @@
 import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 import type { Crumb, Status } from '@home/ui'
-import type { Item, ItemDraft, Location } from '@/models'
+import { deriveKinds, type Item, type ItemDraft, type Location, type RoomDraft, type SpotDraft, type StorageType } from '@/models'
 import { api, type ApiItemWrite } from '@/api/endpoints'
 import { adapt } from '@/api/adapt'
-import { items as mockItems, locations as mockLocations } from '@/api/mock'
+import { items as mockItems, locations as mockLocations, storageTypes as mockTypes } from '@/api/mock'
 
 /** VITE_DATA_SOURCE=api reads the DRF backend; anything else uses the sample data. */
 const useApi = import.meta.env.VITE_DATA_SOURCE === 'api'
@@ -45,6 +45,7 @@ export function status(i: Item): Status {
 export const useHouseStore = defineStore('house', () => {
   const locations = ref<Location[]>([])
   const items = ref<Item[]>([])
+  const types = ref<StorageType[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
   /** Last failed save, kept apart from `error` so a failed PATCH doesn't blank the page. */
@@ -55,15 +56,23 @@ export const useHouseStore = defineStore('house', () => {
     error.value = null
     try {
       if (useApi) {
-        const [residences, areas, spots, apiItems] = await Promise.all([api.residences(), api.areas(), api.spots(), api.items()])
+        const [residences, areas, spots, apiItems, apiTypes] = await Promise.all([
+          api.residences(),
+          api.areas(),
+          api.spots(),
+          api.items(),
+          api.types(),
+        ])
         const residence = residences[0]
         if (!residence) throw new Error('No residence yet. Add one in the Django admin.')
         const data = adapt(residence, areas, spots, apiItems)
         locations.value = data.locations
         items.value = data.items
+        types.value = apiTypes
       } else {
-        locations.value = structuredClone(mockLocations)
+        locations.value = deriveKinds(structuredClone(mockLocations))
         items.value = structuredClone(mockItems)
+        types.value = structuredClone(mockTypes)
       }
     } catch (e) {
       error.value = e instanceof Error ? e.message : String(e)
@@ -270,6 +279,163 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
+  // ---- rooms, storage spots and storage types ----
+  const newId = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 9)}`
+  const typeName = (id?: string) => types.value.find((t) => t.id === id)?.name
+  const typeUsage = (id: string) => locations.value.filter((l) => l.type === id).length
+  /** Ids at or below `id`, for keeping a spot from being moved inside itself. */
+  const descendants = (id: string) => subtree(id)
+  /** What removing a place would take with it. */
+  const contentsOf = (id: string) => ({ items: itemsIn(id).length, places: subtree(id).size - 1 })
+
+  async function addRoom(d: RoomDraft): Promise<Location | undefined> {
+    const h = house.value
+    if (!h) return
+    const room: Location = { id: newId('room'), name: d.name, kind: 'room', parent: h.id, note: d.note }
+    if (useApi) {
+      try {
+        room.id = (await api.createArea({ name: d.name, description: d.note ?? '', residence: h.id })).id
+        saveError.value = null
+      } catch (e) {
+        return void fail(e)
+      }
+    }
+    locations.value = [...locations.value, room]
+    return room
+  }
+
+  async function updateRoom(id: string, d: RoomDraft) {
+    const room = location(id)
+    if (!room) return
+    const before = { name: room.name, note: room.note }
+    Object.assign(room, { name: d.name, note: d.note })
+    if (!useApi) return
+    try {
+      await api.updateArea(id, { name: d.name, description: d.note ?? '' })
+      saveError.value = null
+    } catch (e) {
+      Object.assign(room, before)
+      fail(e)
+    }
+  }
+
+  /** The API's view of a spot's parent: null when it sits directly in a room. */
+  function spotApiFields(d: SpotDraft) {
+    const parent = location(d.parent)
+    const room = parent?.kind === 'room' ? parent : roomOf(d.parent)
+    return { parent: parent?.kind === 'room' ? null : d.parent, storage_area: room?.id ?? d.parent }
+  }
+
+  async function addSpot(d: SpotDraft): Promise<Location | undefined> {
+    const spot: Location = { id: newId('spot'), name: d.name, kind: 'container', parent: d.parent, type: d.type, code: d.code, note: d.note }
+    if (useApi) {
+      try {
+        spot.id = (await api.createSpot({ name: d.name, storage_type: d.type, description: d.note ?? '', ...spotApiFields(d) })).id
+        saveError.value = null
+      } catch (e) {
+        return void fail(e)
+      }
+    }
+    locations.value = deriveKinds([...locations.value, spot])
+    return spot
+  }
+
+  async function updateSpot(id: string, d: SpotDraft) {
+    const spot = location(id)
+    if (!spot || descendants(id).has(d.parent)) return
+    const before = { name: spot.name, parent: spot.parent, type: spot.type, code: spot.code, note: spot.note }
+    Object.assign(spot, { name: d.name, parent: d.parent, type: d.type, code: d.code, note: d.note })
+    deriveKinds(locations.value)
+    if (!useApi) return
+    try {
+      await api.updateSpot(id, { name: d.name, storage_type: d.type, description: d.note ?? '', ...spotApiFields(d) })
+      saveError.value = null
+    } catch (e) {
+      Object.assign(spot, before)
+      deriveKinds(locations.value)
+      fail(e)
+    }
+  }
+
+  /**
+   * Removes a room or spot and everything inside it. Refused while items are inside:
+   * the API would leave them with no spot, and they'd drop out of the app.
+   */
+  async function removePlace(id: string): Promise<boolean> {
+    const place = location(id)
+    if (!place || place.kind === 'house') return false
+    const held = contentsOf(id).items
+    if (held) {
+      saveError.value = `${place.name} still holds ${held} ${held === 1 ? 'item' : 'items'}. Move or remove them first.`
+      return false
+    }
+    if (useApi) {
+      try {
+        await (place.kind === 'room' ? api.deleteArea(id) : api.deleteSpot(id))
+        saveError.value = null
+      } catch (e) {
+        fail(e)
+        return false
+      }
+    }
+    const gone = subtree(id)
+    locations.value = deriveKinds(locations.value.filter((l) => !gone.has(l.id)))
+    return true
+  }
+
+  async function addType(name: string): Promise<StorageType | undefined> {
+    const clean = name.trim()
+    if (!clean) return
+    const existing = types.value.find((t) => t.name.toLowerCase() === clean.toLowerCase())
+    if (existing) return existing
+    const type: StorageType = { id: newId('type'), name: clean }
+    if (useApi) {
+      try {
+        type.id = (await api.createType(clean)).id
+        saveError.value = null
+      } catch (e) {
+        return void fail(e)
+      }
+    }
+    types.value = [...types.value, type].sort((a, b) => a.name.localeCompare(b.name))
+    return type
+  }
+
+  async function renameType(id: string, name: string) {
+    const t = types.value.find((x) => x.id === id)
+    const clean = name.trim()
+    if (!t || !clean || clean === t.name) return
+    const before = t.name
+    t.name = clean
+    if (!useApi) return
+    try {
+      await api.updateType(id, clean)
+      saveError.value = null
+    } catch (e) {
+      t.name = before
+      fail(e)
+    }
+  }
+
+  async function removeType(id: string): Promise<boolean> {
+    const used = typeUsage(id)
+    if (used) {
+      saveError.value = `${used} ${used === 1 ? 'place uses' : 'places use'} this type. Change them first.`
+      return false
+    }
+    if (useApi) {
+      try {
+        await api.deleteType(id)
+        saveError.value = null
+      } catch (e) {
+        fail(e)
+        return false
+      }
+    }
+    types.value = types.value.filter((t) => t.id !== id)
+    return true
+  }
+
   // ---- shopping list (kept in this browser until the API has lists) ----
   const shopping = ref<string[]>(readList())
   watch(shopping, (ids) => {
@@ -307,8 +473,9 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   return {
-    locations, items, loading, error, saveError, house, rooms, lowItems, surplusItems, longTermItems, places, labelled,
+    locations, items, types, loading, error, saveError, house, rooms, lowItems, surplusItems, longTermItems, places, labelled,
     shopping, shoppingItems,
+    typeName, typeUsage, descendants, contentsOf, addRoom, updateRoom, addSpot, updateSpot, removePlace, addType, renameType, removeType,
     load, location, children, item, itemsIn, ancestry, roomOf, crumbs, pathText, countsFor, findByCode, search,
     setQuantity, addItem, updateItem, moveItem, removeItem, onList, toggleList, markBought,
   }

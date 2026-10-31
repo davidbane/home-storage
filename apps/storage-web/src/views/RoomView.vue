@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { IconArrowLeft, IconCheck, IconPencil, IconPlus, IconPrinter, IconTrash } from '@tabler/icons-vue'
+import { IconArrowLeft, IconBoxMultiple, IconCheck, IconPencil, IconPlus, IconPrinter, IconTrash } from '@tabler/icons-vue'
 import {
   ApBinTag, ApBreadcrumb, ApButton, ApContainer, ApDock, ApIconButton, ApList, ApListRow,
   ApLocationTile, ApPageHead, ApSection, ApSplit, ApStatusChip, ApTileGrid, useIsDesktop,
@@ -27,7 +27,18 @@ const selectedId = computed(() => {
   return (containers.value.find((c) => house.countsFor(c.id).low) ?? containers.value[0])?.id
 })
 const selected = computed(() => (selectedId.value ? house.location(selectedId.value) : undefined))
-const contents = computed(() => (selectedId.value ? house.itemsIn(selectedId.value, false) : []))
+// Deep, so items in slots inside the selected container show too.
+const contents = computed(() => (selectedId.value ? house.itemsIn(selectedId.value) : []))
+/** Detail line for a row: the slot it's in when deeper than the selected container, else par or note. */
+const rowSub = (i: { location: string; par: number | null; used_for?: string }) => {
+  if (i.location !== selectedId.value) {
+    const path = house.ancestry(i.location)
+    const from = path.findIndex((l) => l.id === selectedId.value)
+    return path.slice(from + 1).map((l) => l.name).join(' / ')
+  }
+  return i.par !== null ? `Par ${i.par}` : i.used_for
+}
+const textBtn = 'inline-flex min-h-11 items-center cursor-pointer border-0 bg-transparent p-0 text-[13px] leading-[18px] font-medium text-sapphire-ink hover:underline md:text-sm'
 
 // ?item= opens an item: a pane on desktop, its own screen on phones. Same URL either way.
 const itemId = computed(() => (typeof route.query.item === 'string' && house.item(route.query.item) ? route.query.item : undefined))
@@ -83,7 +94,12 @@ const tileMeta = (id: string, note?: string) => {
     <template v-else>
       <ApPageHead :title="room.name">
         <template #back>
-          <ApIconButton label="Back" to="/"><IconArrowLeft :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+          <div class="flex items-center gap-2">
+            <ApIconButton label="Back" to="/"><IconArrowLeft :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+            <span class="flex-1"></span>
+            <ApIconButton label="Edit room" @click="ui.openEditRoom(room.id)"><IconPencil :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+            <ApIconButton label="Add storage to this room" @click="ui.openAddSpot(room.id)"><IconBoxMultiple :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+          </div>
         </template>
         <template #eyebrow><ApBreadcrumb :items="house.crumbs(room.id)" current /></template>
         <template #meta>
@@ -94,6 +110,8 @@ const tileMeta = (id: string, note?: string) => {
         </template>
         <template #actions>
           <div class="hidden gap-3 md:flex">
+            <ApIconButton label="Edit room" size="lg" @click="ui.openEditRoom(room.id)"><IconPencil :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+            <ApButton @click="ui.openAddSpot(room.id)"><template #icon><IconBoxMultiple :size="18" stroke="1.5" aria-hidden="true" /></template>Add storage</ApButton>
             <ApButton :to="{ name: 'labels', query: { room: room.id } }"><template #icon><IconPrinter :size="18" stroke="1.5" aria-hidden="true" /></template>Print labels</ApButton>
             <ApButton v-if="selected" @click="ui.openAdd(selected.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add to {{ selected.name }}</ApButton>
           </div>
@@ -101,7 +119,20 @@ const tileMeta = (id: string, note?: string) => {
       </ApPageHead>
 
       <ApSplit>
+        <div v-if="!furniture.length" class="flex flex-col items-start gap-3 rounded-lg bg-surface-1 px-5 py-6 shadow-raised">
+          <h2 class="m-0 type-title">No storage here yet</h2>
+          <p class="m-0 type-meta text-ink-muted">Add the furniture, shelves or bins in {{ room.name }}, then the drawers or slots inside them.</p>
+          <ApButton variant="primary" @click="ui.openAddSpot(room.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add storage</ApButton>
+        </div>
+
         <ApSection v-for="f in furniture" :key="f.id" :title="f.name">
+          <template #aside>
+            <div class="flex items-center gap-4">
+              <span v-if="house.typeName(f.type)" class="hidden type-meta text-ink-muted sm:inline">{{ house.typeName(f.type) }}</span>
+              <button type="button" :class="textBtn" @click="ui.openAddSpot(f.id)">Add inside</button>
+              <button type="button" :class="textBtn" :aria-label="`Edit ${f.name}`" @click="ui.openEditSpot(f.id)">Edit</button>
+            </div>
+          </template>
           <ApTileGrid :columns="house.children(f.id).length === 6 || house.children(f.id).length === 3 ? 3 : undefined">
             <ApLocationTile
               v-for="c in house.children(f.id).length ? house.children(f.id) : [f]"
@@ -118,13 +149,18 @@ const tileMeta = (id: string, note?: string) => {
         </ApSection>
 
         <ApSection v-if="selected" :title="`In ${selected.name}`">
-          <template #aside><span v-if="selected.code" class="type-code text-ink-muted">{{ selected.code }}</span></template>
+          <template #aside>
+            <div class="flex items-center gap-4">
+              <span v-if="selected.code" class="type-code text-ink-muted">{{ selected.code }}</span>
+              <button v-if="selected.kind !== 'furniture' && !furniture.some((f) => f.id === selected!.id)" type="button" :class="textBtn" :aria-label="`Edit ${selected.name}`" @click="ui.openEditSpot(selected.id)">Edit</button>
+            </div>
+          </template>
           <ApList v-if="contents.length">
             <ApListRow
               v-for="i in contents"
               :key="i.id"
               :name="i.name"
-              :sub="i.par !== null ? `Par ${i.par}` : i.used_for"
+              :sub="rowSub(i)"
               :status="status(i)"
               :qty="i.quantity"
               :selected="isDesktop && i.id === itemId"
