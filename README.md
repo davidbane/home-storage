@@ -40,11 +40,12 @@ Adding a dependency to one workspace: `yarn workspace storage-web add <pkg>` (or
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env               # then set SECRET_KEY (command inside) and DATABASE_URL
 python manage.py migrate
 python manage.py runserver        # or `yarn api` from the root with the venv active
 ```
 
-Settings expect a local Postgres database named after your user (see `backend/config/settings.py`).
+Settings come from `backend/.env` (or real environment variables): `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS` and `DATABASE_URL`. `.env` is git-ignored; `.env.example` lists every setting.
 
 ### Frontend ↔ API
 

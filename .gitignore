@@ -1,6 +1,8 @@
 node_modules
 dist
 *.local
+.env
+!.env.example
 .DS_Store
 .vite
 packages/tokens/dist
