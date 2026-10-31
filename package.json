@@ -1,5 +1,5 @@
 {
-  "name": "home-frontend",
+  "name": "home-storage",
   "private": true,
   "packageManager": "yarn@4.9.1",
   "engines": {

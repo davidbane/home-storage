@@ -1,4 +1,4 @@
-# home
+# home-storage
 
 My home apps, starting with the house storage catalog: a Django REST Framework API and a Vue 3 + TypeScript + Tailwind CSS v4 frontend, styled with the **Apothecary** design system (bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press).
 
