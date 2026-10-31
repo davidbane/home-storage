@@ -105,13 +105,3 @@ Controls: `ApButton`, `ApIconButton`, `ApSearchField`, `ApStepper`
 Composables: `useTheme()`, `useIsDesktop()`, `useMediaQuery()`
 
 Icons are [Tabler](https://tabler.io/icons) outline icons via `@tabler/icons-vue`, at stroke 1.5.
-
-## Next steps
-
-- [ ] API: add authentication and per-owner query scoping (every viewset is currently open)
-- [ ] API: ID fields for writes and a flat spot list in the serializers; `select_related`/`prefetch_related`
-- [ ] API: add `par`, storage class, timestamps and a spot code so Low, Surplus, history and bin tags come from real data
-- [ ] API: settings from `.env`, Django 5.2 LTS on Python 3.12+
-- [ ] Add Reka UI for dialogs, menus, comboboxes and toasts (move item, confirm remove, undo)
-- [ ] Add Histoire for a component playground, and Vitest for `ApStepper` and the status rules
-- [ ] Add/edit item forms, labels and lists screens
