@@ -25,7 +25,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
   <label
     class="flex h-12 items-center gap-2.5 rounded-md border border-line bg-surface-0 px-4 text-ink-muted shadow-sunken focus-within:border-sapphire-ink"
   >
-    <IconSearch :size="18" :stroke="1.5" aria-hidden="true" />
+    <IconSearch :size="18" stroke="1.5" aria-hidden="true" />
     <input
       ref="input"
       v-model="model"

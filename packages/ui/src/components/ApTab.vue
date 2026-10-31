@@ -2,7 +2,8 @@
 import { RouterLink, type RouteLocationRaw } from 'vue-router'
 
 /** A tab in ApTabBar: icon over a short label. Active tab is a sapphire-tint pill. */
-const props = defineProps<{ to: RouteLocationRaw; label: string; active?: boolean }>()
+// `active` defaults to undefined (not false) so the router decides unless you override it.
+const props = withDefaults(defineProps<{ to: RouteLocationRaw; label: string; active?: boolean }>(), { active: undefined })
 </script>
 
 <template>

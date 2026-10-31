@@ -21,6 +21,12 @@
     outline: 2px solid var(--color-focus);
     outline-offset: 2px;
   }
+  @media print {
+    html,
+    body {
+      background: #fff !important;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       transition-duration: 0s !important;

@@ -6,9 +6,11 @@ import {
   ApPageHead, ApSearchField, ApSection, ApStat, ApTileGrid, useTheme,
 } from '@home/ui'
 import { status, useHouseStore } from '@/stores/house'
+import { useUiStore } from '@/stores/ui'
 import type { Item } from '@/models'
 
 const house = useHouseStore()
+const ui = useUiStore()
 const q = ref('')
 const results = computed(() => house.search(q.value))
 const attention = computed(() => [...house.lowItems, ...house.surplusItems].slice(0, 4))
@@ -34,16 +36,16 @@ const tileMeta = (id: string) => {
           <span class="flex-1 text-[13px] leading-[18px] font-medium text-ink-muted">{{ greeting }}</span>
           <div class="flex gap-2 md:hidden">
             <ApIconButton :label="theme === 'night' ? 'Switch to parchment theme' : 'Switch to night theme'" @click="toggle">
-              <IconSun v-if="theme === 'night'" :size="20" :stroke="1.5" aria-hidden="true" /><IconMoon v-else :size="20" :stroke="1.5" aria-hidden="true" />
+              <IconSun v-if="theme === 'night'" :size="20" stroke="1.5" aria-hidden="true" /><IconMoon v-else :size="20" stroke="1.5" aria-hidden="true" />
             </ApIconButton>
-            <ApIconButton label="Scan a label"><IconScan :size="20" :stroke="1.5" aria-hidden="true" /></ApIconButton>
+            <ApIconButton label="Find a bin by its label code" @click="ui.openFind()"><IconScan :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
           </div>
         </div>
       </template>
       <template #actions>
         <ApSearchField v-model="q" shortcut class="max-w-105 flex-1" />
-        <ApIconButton label="Scan a label" size="lg" class="hidden! md:inline-flex!"><IconScan :size="20" :stroke="1.5" aria-hidden="true" /></ApIconButton>
-        <ApButton variant="primary" class="hidden! md:inline-flex!"><template #icon><IconPlus :size="18" :stroke="1.75" aria-hidden="true" /></template>Add item</ApButton>
+        <ApIconButton label="Find a bin by its label code" size="lg" class="hidden! md:inline-flex!" @click="ui.openFind()"><IconScan :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+        <ApButton variant="primary" class="hidden! md:inline-flex!" @click="ui.openAdd()"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add item</ApButton>
       </template>
     </ApPageHead>
 

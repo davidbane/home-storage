@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { IconTrash, IconX } from '@tabler/icons-vue'
+import { IconCheck, IconPencil, IconTrash, IconX } from '@tabler/icons-vue'
 import { ApBreadcrumb, ApButton, ApIconButton, ApPanel, ApStatusChip, ApStepper } from '@home/ui'
 import { status, useHouseStore } from '@/stores/house'
+import { useUiStore } from '@/stores/ui'
 
 const house = useHouseStore()
+const ui = useUiStore()
 /**
  * One item's detail. `pane` is the desktop side panel; `body` is the content
  * of the phone item screen (its header and actions come from the room view).
@@ -30,6 +32,7 @@ const details = computed(() => {
   const i = it.value
   if (!i) return []
   return [
+    ['Par', i.par !== null ? String(i.par) : undefined],
     ['Brand', i.brand],
     ['Used for', i.used_for],
     ['Storage', storageLabel[i.storage_class]],
@@ -47,7 +50,10 @@ const details = computed(() => {
         <h2 class="m-0 font-display text-4xl leading-[2.375rem] font-semibold tracking-[-0.01em]">{{ it.name }}</h2>
         <ApBreadcrumb :items="house.crumbs(it.location, false)" />
       </div>
-      <ApIconButton label="Close item" @click="$emit('close')"><IconX :size="18" :stroke="1.5" aria-hidden="true" /></ApIconButton>
+      <div class="flex flex-none gap-2">
+        <ApIconButton label="Edit item" @click="ui.openEdit(it.id)"><IconPencil :size="18" stroke="1.5" aria-hidden="true" /></ApIconButton>
+        <ApIconButton label="Close item" @click="$emit('close')"><IconX :size="18" stroke="1.5" aria-hidden="true" /></ApIconButton>
+      </div>
     </div>
 
     <div class="flex items-center justify-between gap-4 rounded-md bg-surface-0 py-3.5 pr-3.5 pl-4.5 shadow-sunken">
@@ -72,14 +78,17 @@ const details = computed(() => {
     <section v-if="it.history.length" class="flex flex-col gap-2">
       <h3 class="m-0 type-title md:text-xl md:leading-6">History</h3>
       <ul class="m-0 flex list-none flex-col gap-1.5 p-0 type-meta text-ink-muted">
-        <li v-for="e in it.history" :key="e.date + e.text" class="flex justify-between gap-4"><span>{{ e.text }}</span><span class="whitespace-nowrap">{{ fmt(e.date) }}</span></li>
+        <li v-for="(e, n) in it.history" :key="n" class="flex justify-between gap-4"><span>{{ e.text }}</span><span class="whitespace-nowrap">{{ fmt(e.date) }}</span></li>
       </ul>
     </section>
 
     <div v-if="variant === 'pane'" class="flex gap-2.5">
-      <ApButton variant="ghost" aria-label="Remove item" class="w-12 px-0! text-oxblood-ink!"><IconTrash :size="20" :stroke="1.5" aria-hidden="true" /></ApButton>
-      <ApButton class="flex-1">Move</ApButton>
-      <ApButton variant="primary" class="flex-2">Add to shopping list</ApButton>
+      <ApButton variant="ghost" aria-label="Remove item" title="Remove item" class="w-12 px-0! text-oxblood-ink!" @click="ui.openRemove(it.id)"><IconTrash :size="20" stroke="1.5" aria-hidden="true" /></ApButton>
+      <ApButton class="flex-1" @click="ui.openMove(it.id)">Move</ApButton>
+      <ApButton :variant="house.onList(it.id) ? 'tonal' : 'primary'" class="flex-2" :aria-pressed="house.onList(it.id)" @click="house.toggleList(it.id)">
+        <template v-if="house.onList(it.id)" #icon><IconCheck :size="18" stroke="1.75" aria-hidden="true" /></template>
+        {{ house.onList(it.id) ? 'On shopping list' : 'Add to shopping list' }}
+      </ApButton>
     </div>
   </component>
 </template>

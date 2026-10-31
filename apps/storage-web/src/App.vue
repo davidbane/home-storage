@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { RouterView, useRoute } from 'vue-router'
-import { ApButton, ApContainer, ApPanel, ApShell } from '@home/ui'
+import { ApButton, ApContainer, ApPanel, ApShell, ApToaster } from '@home/ui'
 import AppSidebar from '@/components/AppSidebar.vue'
 import AppTabBar from '@/components/AppTabBar.vue'
+import FindDialog from '@/components/dialogs/FindDialog.vue'
+import ItemFormDialog from '@/components/dialogs/ItemFormDialog.vue'
+import MoveDialog from '@/components/dialogs/MoveDialog.vue'
+import RemoveDialog from '@/components/dialogs/RemoveDialog.vue'
 import { useHouseStore } from '@/stores/house'
 
 const route = useRoute()
@@ -25,4 +29,9 @@ const house = useHouseStore()
     <RouterView v-else />
     <template #bottom><AppTabBar v-if="!route.meta.dock" /></template>
   </ApShell>
+  <ItemFormDialog />
+  <MoveDialog />
+  <RemoveDialog />
+  <FindDialog />
+  <ApToaster />
 </template>

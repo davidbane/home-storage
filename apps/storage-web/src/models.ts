@@ -35,3 +35,6 @@ export interface Item {
   moved_from?: string
   history: ItemEvent[]
 }
+
+/** What the add and edit forms produce. */
+export type ItemDraft = Pick<Item, 'name' | 'quantity' | 'par' | 'storage_class' | 'location' | 'brand' | 'used_for'>

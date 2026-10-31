@@ -43,6 +43,18 @@ export interface ApiStorageItem {
   storage_spot: ApiStorageSpot | null
 }
 
+/**
+ * What we send for an item. `storage_spot` is the spot's id: the serializer needs a
+ * PrimaryKeyRelatedField for writes before create and move work against the API.
+ */
+export interface ApiItemWrite {
+  name: string
+  brand: string
+  count: number
+  description: string
+  storage_spot: string
+}
+
 const get = async <T>(url: string) => (await http.get<T>(url)).data
 
 export const api = {
@@ -51,6 +63,10 @@ export const api = {
   spots: () => get<ApiStorageSpot[]>('/storage-spots/'),
   items: () => get<ApiStorageItem[]>('/storage-items/'),
   types: () => get<ApiStorageType[]>('/storage-types/'),
-  /** Only the count changes, so the nested storage_spot isn't sent (DRF can't write it yet). */
-  setItemCount: async (id: string, count: number) => (await http.patch<ApiStorageItem>(`/storage-items/${id}/`, { count })).data,
+  createItem: async (body: ApiItemWrite) => (await http.post<ApiStorageItem>('/storage-items/', body)).data,
+  /** PATCH sends only what changed. A count-only PATCH works today; storage_spot needs the serializer fix. */
+  updateItem: async (id: string, body: Partial<ApiItemWrite>) => (await http.patch<ApiStorageItem>(`/storage-items/${id}/`, body)).data,
+  deleteItem: async (id: string) => {
+    await http.delete(`/storage-items/${id}/`)
+  },
 }

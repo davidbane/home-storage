@@ -9,6 +9,9 @@ export const router = createRouter({
     // Desktop shows the item in a pane beside the list; phones show it as its own screen.
     { path: '/rooms/:roomId', name: 'room', component: () => import('@/views/RoomView.vue'), meta: { dock: true } },
     { path: '/low', name: 'low', component: () => import('@/views/LowStockView.vue') },
+    { path: '/lists', name: 'lists', component: () => import('@/views/ListsView.vue') },
+    // ?room= preselects a room's bins; ?ids= preselects specific places.
+    { path: '/labels', name: 'labels', component: () => import('@/views/LabelsView.vue') },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   scrollBehavior: (to, from, saved) => saved ?? (to.path !== from.path ? { top: 0 } : undefined),

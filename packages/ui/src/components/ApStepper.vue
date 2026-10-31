@@ -15,11 +15,11 @@ const btn =
 <template>
   <div class="inline-flex items-center gap-1 rounded-pill bg-surface-0 p-1 shadow-sunken" role="group" aria-label="Quantity">
     <button type="button" :class="btn" :aria-label="props.decrementLabel" :disabled="model <= props.min" @click="set(model - 1)">
-      <IconMinus :size="18" :stroke="1.75" aria-hidden="true" />
+      <IconMinus :size="18" stroke="1.75" aria-hidden="true" />
     </button>
     <output class="min-w-10 text-center type-numeral" aria-live="polite">{{ model }}</output>
     <button type="button" :class="btn" :aria-label="props.incrementLabel" :disabled="model >= props.max" @click="set(model + 1)">
-      <IconPlus :size="18" :stroke="1.75" aria-hidden="true" />
+      <IconPlus :size="18" stroke="1.75" aria-hidden="true" />
     </button>
   </div>
 </template>

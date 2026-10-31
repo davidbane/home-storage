@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { IconArrowLeft, IconPlus, IconPrinter } from '@tabler/icons-vue'
+import { IconArrowLeft, IconCheck, IconPencil, IconPlus, IconPrinter, IconTrash } from '@tabler/icons-vue'
 import {
   ApBinTag, ApBreadcrumb, ApButton, ApContainer, ApDock, ApIconButton, ApList, ApListRow,
   ApLocationTile, ApPageHead, ApSection, ApSplit, ApStatusChip, ApTileGrid, useIsDesktop,
 } from '@home/ui'
 import ItemDetail from '@/components/ItemDetail.vue'
 import { status, useHouseStore } from '@/stores/house'
+import { useUiStore } from '@/stores/ui'
 
 const house = useHouseStore()
+const ui = useUiStore()
 const route = useRoute()
 const router = useRouter()
 const isDesktop = useIsDesktop()
@@ -53,7 +55,12 @@ const tileMeta = (id: string, note?: string) => {
     <template v-if="showItemScreen && openItem">
       <ApPageHead :title="openItem.name">
         <template #back>
-          <ApIconButton label="Back" :to="withQuery({ item: undefined })"><IconArrowLeft :size="20" :stroke="1.5" aria-hidden="true" /></ApIconButton>
+          <div class="flex items-center gap-2">
+            <ApIconButton label="Back" :to="withQuery({ item: undefined })"><IconArrowLeft :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+            <span class="flex-1"></span>
+            <ApIconButton label="Edit item" @click="ui.openEdit(openItem.id)"><IconPencil :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+            <ApIconButton label="Remove item" class="text-oxblood-ink!" @click="ui.openRemove(openItem.id)"><IconTrash :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
+          </div>
         </template>
         <template #eyebrow><ApBreadcrumb :items="house.crumbs(openItem.location)" /></template>
         <template #meta>
@@ -65,15 +72,18 @@ const tileMeta = (id: string, note?: string) => {
       </ApPageHead>
       <ItemDetail :item-id="openItem.id" variant="body" />
       <ApDock>
-        <ApButton class="flex-1">Move</ApButton>
-        <ApButton variant="primary" class="flex-2">Add to shopping list</ApButton>
+        <ApButton class="flex-1" @click="ui.openMove(openItem.id)">Move</ApButton>
+        <ApButton :variant="house.onList(openItem.id) ? 'tonal' : 'primary'" class="flex-2" :aria-pressed="house.onList(openItem.id)" @click="house.toggleList(openItem.id)">
+          <template v-if="house.onList(openItem.id)" #icon><IconCheck :size="18" stroke="1.75" aria-hidden="true" /></template>
+          {{ house.onList(openItem.id) ? 'On shopping list' : 'Add to shopping list' }}
+        </ApButton>
       </ApDock>
     </template>
 
     <template v-else>
       <ApPageHead :title="room.name">
         <template #back>
-          <ApIconButton label="Back" to="/"><IconArrowLeft :size="20" :stroke="1.5" aria-hidden="true" /></ApIconButton>
+          <ApIconButton label="Back" to="/"><IconArrowLeft :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
         </template>
         <template #eyebrow><ApBreadcrumb :items="house.crumbs(room.id)" current /></template>
         <template #meta>
@@ -84,8 +94,8 @@ const tileMeta = (id: string, note?: string) => {
         </template>
         <template #actions>
           <div class="hidden gap-3 md:flex">
-            <ApButton><template #icon><IconPrinter :size="18" :stroke="1.5" aria-hidden="true" /></template>Print labels</ApButton>
-            <ApButton v-if="selected"><template #icon><IconPlus :size="18" :stroke="1.75" aria-hidden="true" /></template>Add to {{ selected.name }}</ApButton>
+            <ApButton :to="{ name: 'labels', query: { room: room.id } }"><template #icon><IconPrinter :size="18" stroke="1.5" aria-hidden="true" /></template>Print labels</ApButton>
+            <ApButton v-if="selected" @click="ui.openAdd(selected.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add to {{ selected.name }}</ApButton>
           </div>
         </template>
       </ApPageHead>
@@ -121,7 +131,10 @@ const tileMeta = (id: string, note?: string) => {
               :to="withQuery({ item: i.id })"
             />
           </ApList>
-          <p v-else class="m-0 rounded-md bg-surface-1 px-4 py-5 text-[15px] text-ink-muted shadow-raised">Nothing here yet.</p>
+          <div v-else class="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-1 px-4 py-4 shadow-raised">
+            <span class="text-[15px] text-ink-muted">Nothing here yet.</span>
+            <ApButton @click="ui.openAdd(selected.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add item</ApButton>
+          </div>
         </ApSection>
 
         <template v-if="openItem" #pane>
@@ -130,8 +143,8 @@ const tileMeta = (id: string, note?: string) => {
       </ApSplit>
 
       <ApDock>
-        <ApButton class="flex-1"><template #icon><IconPrinter :size="18" :stroke="1.5" aria-hidden="true" /></template>Print label</ApButton>
-        <ApButton v-if="selected" variant="primary" class="flex-[1.4]"><template #icon><IconPlus :size="18" :stroke="1.75" aria-hidden="true" /></template>Add to {{ selected.name }}</ApButton>
+        <ApButton class="flex-1" :to="{ name: 'labels', query: selected ? { ids: selected.id } : { room: room.id } }"><template #icon><IconPrinter :size="18" stroke="1.5" aria-hidden="true" /></template>Print label</ApButton>
+        <ApButton v-if="selected" variant="primary" class="flex-[1.4]" @click="ui.openAdd(selected.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add to {{ selected.name }}</ApButton>
       </ApDock>
     </template>
   </ApContainer>

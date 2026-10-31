@@ -7,7 +7,7 @@ import { useHouseStore } from '@/stores/house'
 const house = useHouseStore()
 const route = useRoute()
 const { theme, toggle } = useTheme()
-const icon = { size: 20, stroke: 1.5, 'aria-hidden': 'true' } as const
+const icon = { size: 20, stroke: '1.5', 'aria-hidden': 'true' } as const
 </script>
 
 <template>
@@ -15,9 +15,9 @@ const icon = { size: 20, stroke: 1.5, 'aria-hidden': 'true' } as const
     <template #brand><ApBrand :name="house.house?.name ?? 'The House'" to="/" /></template>
     <ApNavGroup label="Catalog">
       <ApNavItem to="/" label="Browse" :active="route.name === 'home'"><template #icon><IconHome v-bind="icon" /></template></ApNavItem>
-      <ApNavItem to="/lists" label="Lists" :active="false"><template #icon><IconList v-bind="icon" /></template></ApNavItem>
+      <ApNavItem to="/lists" label="Shopping list" :count="house.shopping.length || undefined"><template #icon><IconList v-bind="icon" /></template></ApNavItem>
       <ApNavItem to="/low" label="Low stock" :count="house.lowItems.length" alert><template #icon><IconAlertTriangle v-bind="icon" /></template></ApNavItem>
-      <ApNavItem to="/labels" label="Labels" :active="false"><template #icon><IconQrcode v-bind="icon" /></template></ApNavItem>
+      <ApNavItem to="/labels" label="Labels"><template #icon><IconQrcode v-bind="icon" /></template></ApNavItem>
     </ApNavGroup>
     <ApNavGroup label="Rooms">
       <ApNavItem
