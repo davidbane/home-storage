@@ -1,7 +1,7 @@
 // Compiles src/tokens.json into:
 //   dist/tokens.css  raw design tokens as --ap-* custom properties, one block per theme
 //   dist/theme.css   a Tailwind v4 theme that maps utilities onto those properties
-// Run: pnpm --filter @home/tokens build
+// Run: yarn tokens (from the repo root)
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'

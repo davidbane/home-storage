@@ -1,11 +1,15 @@
 {
   "name": "home-frontend",
   "private": true,
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "yarn@4.9.1",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "pnpm --filter @home/tokens build && pnpm --filter storage-web dev",
-    "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck",
-    "tokens": "pnpm --filter @home/tokens build"
+    "dev": "yarn workspace @home/tokens build && yarn workspace storage-web dev",
+    "build": "yarn workspaces foreach --all --topological run build",
+    "typecheck": "yarn tokens && yarn workspaces foreach --all --parallel run typecheck",
+    "tokens": "yarn workspace @home/tokens build"
   }
 }

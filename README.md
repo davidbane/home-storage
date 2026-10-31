@@ -12,25 +12,28 @@ apps/
   storage-web/   the storage catalog (talks to the DRF backend)
 ```
 
-The packages are workspace packages, so a change to a component shows up in the app on save. When a second home app needs them outside this repo, publish `@home/tokens` and `@home/ui` (GitHub Packages works well) and version them with Changesets.
+The packages are Yarn workspaces, so a change to a component shows up in the app on save. When a second home app needs them outside this repo, publish `@home/tokens` and `@home/ui` (GitHub Packages works well) and version them with Changesets.
 
 ## Getting started
 
-Requires Node 22+ and pnpm 10 (`corepack enable` gives you the pinned version).
+Requires Node 22+ and Yarn 4. The exact Yarn version is pinned in `package.json` (`packageManager`), and Corepack picks it up:
 
 ```sh
-pnpm install
-pnpm dev          # builds tokens, then runs the storage app at http://localhost:5173
-pnpm build        # typecheck and build everything
-pnpm tokens       # rebuild tokens after editing packages/tokens/src/tokens.json
+corepack enable   # once per Node install (Node 25+: npm install -g corepack first)
+yarn install
+yarn dev          # builds tokens, then runs the storage app at http://localhost:5173
+yarn build        # typecheck and build everything
+yarn tokens       # rebuild tokens after editing packages/tokens/src/tokens.json
 ```
+
+Adding a dependency to one workspace: `yarn workspace storage-web add <pkg>` (or `@home/ui`, `@home/tokens`). Yarn is set to a plain `node_modules` layout in `.yarnrc.yml`.
 
 In dev, Vite proxies `/api` to `http://localhost:8000`, so run the DRF server there and the browser sees a single origin (no CORS setup needed locally).
 
 ## How the styling fits together
 
 1. **`packages/tokens/src/tokens.json`** is the source of truth: colors per theme (`night`, `parchment`), type styles, spacing, radii, shadows and breakpoints. It's the same file the Apothecary design-system page uses.
-2. **`pnpm tokens`** compiles it into
+2. **`yarn tokens`** compiles it into
    - `dist/tokens.css`: raw `--ap-*` custom properties, one block per `[data-theme]`
    - `dist/theme.css`: a Tailwind `@theme` that maps utilities onto those properties, plus `type-*` utilities for each text style.
 3. **`@home/ui/styles.css`** imports both, adds base styles and a few system utilities (`rounded-arch-top`, `sheen`, `feature-wash`), and points Tailwind at the component sources.

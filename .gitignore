@@ -4,3 +4,12 @@ dist
 .DS_Store
 .vite
 packages/tokens/dist
+
+# Yarn 4 (no zero-installs): keep config and any vendored releases/plugins/patches, ignore caches.
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
