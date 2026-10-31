@@ -1,0 +1,47 @@
+/*
+  Apothecary base layer. Import after Tailwind in the app's stylesheet:
+
+    @import "tailwindcss";
+    @import "@home/ui/styles.css";
+*/
+@import "@home/tokens/theme.css";
+@import "@home/tokens/tokens.css";
+
+/* Let Tailwind see the utility classes used inside the components. */
+@source "./components";
+
+@layer base {
+  html {
+    background: var(--color-surface-0);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0s !important;
+      animation-duration: 0s !important;
+    }
+  }
+}
+
+/* The location tile's lancet arch: the system's one ornamental shape. */
+@utility rounded-arch-top {
+  border-radius: var(--radius-arch) var(--radius-arch) var(--radius-md) var(--radius-md);
+}
+
+/* A faint top sheen on raised surfaces, the light source in the depth model. */
+@utility sheen {
+  background-image: linear-gradient(180deg, #ffffff08, #ffffff00 50%);
+}
+@utility sheen-strong {
+  background-image: linear-gradient(180deg, #ffffff14, #ffffff00 70%);
+}
+/* Bottle only ever darkens: lightening it drops brass-on-bottle under 4.5:1. */
+@utility feature-wash {
+  background-image: linear-gradient(180deg, #00000000, #00000040);
+}

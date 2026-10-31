@@ -1,0 +1,11 @@
+{
+  "name": "home-frontend",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "dev": "pnpm --filter @home/tokens build && pnpm --filter storage-web dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "tokens": "pnpm --filter @home/tokens build"
+  }
+}
