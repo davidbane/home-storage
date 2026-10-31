@@ -1,7 +1,13 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import '@home/ui/fonts'
 import './style.css'
 import App from './App.vue'
 import { router } from './router'
+import { useHouseStore } from './stores/house'
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+const pinia = createPinia()
+app.use(pinia).use(router)
+useHouseStore(pinia).load()
+app.mount('#app')

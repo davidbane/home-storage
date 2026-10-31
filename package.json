@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "yarn@4.9.1",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.12"
   },
   "workspaces": [
     "packages/*",
@@ -13,6 +13,7 @@
     "dev": "yarn workspace @home/tokens build && yarn workspace storage-web dev",
     "build": "yarn workspaces foreach --all --topological run build",
     "typecheck": "yarn tokens && yarn workspaces foreach --all --parallel run typecheck",
-    "tokens": "yarn workspace @home/tokens build"
+    "tokens": "yarn workspace @home/tokens build",
+    "api": "cd backend && python manage.py runserver"
   }
 }

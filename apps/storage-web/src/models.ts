@@ -1,4 +1,4 @@
-// Shapes the DRF API is expected to return. Keep these in step with the serializers.
+// The app's view of the catalog. API responses are adapted into these shapes (see api/adapt.ts).
 
 /** Locations form one tree: house → room → furniture → container → slot. */
 export type LocationKind = 'house' | 'room' | 'furniture' | 'container' | 'slot'

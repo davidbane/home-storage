@@ -7,31 +7,32 @@ import {
   ApLocationTile, ApPageHead, ApSection, ApSplit, ApStatusChip, ApTileGrid, useIsDesktop,
 } from '@home/ui'
 import ItemDetail from '@/components/ItemDetail.vue'
-import { children, countsFor, crumbs, item as getItem, itemsIn, location, status } from '@/api/house'
+import { status, useHouseStore } from '@/stores/house'
 
+const house = useHouseStore()
 const route = useRoute()
 const router = useRouter()
 const isDesktop = useIsDesktop()
 
-const room = computed(() => location(String(route.params.roomId)))
-const furniture = computed(() => (room.value ? children(room.value.id) : []))
-const containers = computed(() => furniture.value.flatMap((f) => (children(f.id).length ? children(f.id) : [f])))
+const room = computed(() => house.location(String(route.params.roomId)))
+const furniture = computed(() => (room.value ? house.children(room.value.id) : []))
+const containers = computed(() => furniture.value.flatMap((f) => (house.children(f.id).length ? house.children(f.id) : [f])))
 
 // ?in= selects a container (default: the first with something low, else the first).
 const selectedId = computed(() => {
   const q = route.query.in
   if (typeof q === 'string' && containers.value.some((c) => c.id === q)) return q
-  return (containers.value.find((c) => countsFor(c.id).low) ?? containers.value[0])?.id
+  return (containers.value.find((c) => house.countsFor(c.id).low) ?? containers.value[0])?.id
 })
-const selected = computed(() => (selectedId.value ? location(selectedId.value) : undefined))
-const contents = computed(() => (selectedId.value ? itemsIn(selectedId.value, false) : []))
+const selected = computed(() => (selectedId.value ? house.location(selectedId.value) : undefined))
+const contents = computed(() => (selectedId.value ? house.itemsIn(selectedId.value, false) : []))
 
 // ?item= opens an item: a pane on desktop, its own screen on phones. Same URL either way.
-const itemId = computed(() => (typeof route.query.item === 'string' && getItem(route.query.item) ? route.query.item : undefined))
-const openItem = computed(() => (itemId.value ? getItem(itemId.value) : undefined))
+const itemId = computed(() => (typeof route.query.item === 'string' && house.item(route.query.item) ? route.query.item : undefined))
+const openItem = computed(() => (itemId.value ? house.item(itemId.value) : undefined))
 const showItemScreen = computed(() => Boolean(openItem.value) && !isDesktop.value)
 
-const roomCounts = computed(() => (room.value ? countsFor(room.value.id) : { total: 0, low: 0, surplus: 0 }))
+const roomCounts = computed(() => (room.value ? house.countsFor(room.value.id) : { total: 0, low: 0, surplus: 0 }))
 const summary = computed(() => {
   const c = roomCounts.value
   return [`${c.total} items`, c.low && `${c.low} low`, c.surplus && `${c.surplus} surplus`].filter(Boolean).join(' · ')
@@ -39,7 +40,7 @@ const summary = computed(() => {
 const withQuery = (q: Record<string, string | undefined>) => ({ query: { ...route.query, ...q } })
 const closeItem = () => router.replace(withQuery({ item: undefined }))
 const tileMeta = (id: string, note?: string) => {
-  const c = countsFor(id)
+  const c = house.countsFor(id)
   if (c.low) return { meta: `${c.low} low`, tone: 'alert' as const }
   if (c.total === 0) return { meta: 'empty', tone: 'muted' as const }
   return { meta: note, tone: 'muted' as const }
@@ -54,11 +55,11 @@ const tileMeta = (id: string, note?: string) => {
         <template #back>
           <ApIconButton label="Back" :to="withQuery({ item: undefined })"><IconArrowLeft :size="20" :stroke="1.5" aria-hidden="true" /></ApIconButton>
         </template>
-        <template #eyebrow><ApBreadcrumb :items="crumbs(openItem.location)" /></template>
+        <template #eyebrow><ApBreadcrumb :items="house.crumbs(openItem.location)" /></template>
         <template #meta>
           <div class="flex flex-wrap items-center gap-2">
             <ApStatusChip :status="status(openItem)" />
-            <ApBinTag v-if="location(openItem.location)?.code" :code="location(openItem.location)!.code!" :label="location(openItem.location)!.name" />
+            <ApBinTag v-if="house.location(openItem.location)?.code" :code="house.location(openItem.location)!.code!" :label="house.location(openItem.location)!.name" />
           </div>
         </template>
       </ApPageHead>
@@ -74,7 +75,7 @@ const tileMeta = (id: string, note?: string) => {
         <template #back>
           <ApIconButton label="Back" to="/"><IconArrowLeft :size="20" :stroke="1.5" aria-hidden="true" /></ApIconButton>
         </template>
-        <template #eyebrow><ApBreadcrumb :items="crumbs(room.id)" current /></template>
+        <template #eyebrow><ApBreadcrumb :items="house.crumbs(room.id)" current /></template>
         <template #meta>
           <div class="flex flex-wrap items-center gap-2.5">
             <ApBinTag v-for="f in furniture.filter((x) => x.code)" :key="f.id" :code="f.code!" :label="f.note ?? f.name" />
@@ -91,12 +92,12 @@ const tileMeta = (id: string, note?: string) => {
 
       <ApSplit>
         <ApSection v-for="f in furniture" :key="f.id" :title="f.name">
-          <ApTileGrid :columns="children(f.id).length === 6 || children(f.id).length === 3 ? 3 : undefined">
+          <ApTileGrid :columns="house.children(f.id).length === 6 || house.children(f.id).length === 3 ? 3 : undefined">
             <ApLocationTile
-              v-for="c in children(f.id).length ? children(f.id) : [f]"
+              v-for="c in house.children(f.id).length ? house.children(f.id) : [f]"
               :key="c.id"
               :name="c.name"
-              :count="countsFor(c.id).total"
+              :count="house.countsFor(c.id).total"
               :meta="tileMeta(c.id, c.note).meta"
               :meta-tone="tileMeta(c.id, c.note).tone"
               :selected="c.id === selectedId"

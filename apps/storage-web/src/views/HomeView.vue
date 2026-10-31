@@ -5,11 +5,12 @@ import {
   ApButton, ApContainer, ApFeature, ApIconButton, ApList, ApListRow, ApLocationTile,
   ApPageHead, ApSearchField, ApSection, ApStat, ApTileGrid, useTheme,
 } from '@home/ui'
-import { allItems, countsFor, longTermItems, lowItems, pathText, roomOf, rooms, search, status, surplusItems } from '@/api/house'
-import type { Item } from '@/api/types'
+import { status, useHouseStore } from '@/stores/house'
+import type { Item } from '@/models'
 
+const house = useHouseStore()
 const q = ref('')
-const results = computed(() => search(q.value))
+const results = computed(() => house.search(q.value))
 const attention = computed(() => [...lowItems.value, ...surplusItems.value].slice(0, 4))
 const { theme, toggle } = useTheme()
 
@@ -18,16 +19,16 @@ const greeting = computed(() => {
   const day = new Date().toLocaleDateString(undefined, { weekday: 'long' })
   return `${day} ${h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening'}`
 })
-const linkFor = (i: Item) => ({ path: `/rooms/${roomOf(i.location)?.id}`, query: { in: i.location, item: i.id } })
+const linkFor = (i: Item) => ({ path: `/rooms/${house.roomOf(i.location)?.id}`, query: { in: i.location, item: i.id } })
 const tileMeta = (id: string) => {
-  const c = countsFor(id)
+  const c = house.countsFor(id)
   return c.low ? { meta: `${c.low} low`, tone: 'alert' as const } : c.surplus ? { meta: `${c.surplus} surplus`, tone: 'muted' as const } : { meta: 'all stocked', tone: 'muted' as const }
 }
 </script>
 
 <template>
   <ApContainer>
-    <ApPageHead title="The House">
+    <ApPageHead :title="house.house?.name ?? 'The House'">
       <template #eyebrow>
         <div class="flex items-center gap-2">
           <span class="flex-1 text-[13px] leading-[18px] font-medium text-ink-muted">{{ greeting }}</span>
@@ -49,29 +50,29 @@ const tileMeta = (id: string) => {
     <div v-if="q.trim()" class="flex flex-col gap-3">
       <p class="m-0 type-meta text-ink-muted">{{ results.length }} {{ results.length === 1 ? 'match' : 'matches' }} for “{{ q.trim() }}”</p>
       <ApList v-if="results.length" label="Search results">
-        <ApListRow v-for="i in results" :key="i.id" :name="i.name" :sub="pathText(i.location)" :status="status(i)" :qty="i.quantity" :to="linkFor(i)" />
+        <ApListRow v-for="i in results" :key="i.id" :name="i.name" :sub="house.pathText(i.location)" :status="status(i)" :qty="i.quantity" :to="linkFor(i)" />
       </ApList>
       <p v-else class="m-0 text-[15px] text-ink-muted">No match. Try a room name, or browse below.</p>
     </div>
 
     <div v-else class="flex flex-col gap-6 md:gap-10">
       <ApFeature aria-label="Summary" class="grid grid-cols-3 gap-x-6 gap-y-4 md:grid-cols-4">
-        <ApStat :value="allItems.length" label="items filed" />
-        <ApStat :value="lowItems.length" label="running low" />
-        <ApStat :value="surplusItems.length" label="in surplus" class="hidden md:flex" />
-        <ApStat :value="rooms.length" label="rooms" class="md:hidden" />
-        <ApStat :value="longTermItems.length" label="long-term" class="hidden md:flex" />
+        <ApStat :value="house.items.length" label="items filed" />
+        <ApStat :value="house.lowItems.length" label="running low" />
+        <ApStat :value="house.surplusItems.length" label="in surplus" class="hidden md:flex" />
+        <ApStat :value="house.rooms.length" label="rooms" class="md:hidden" />
+        <ApStat :value="house.longTermItems.length" label="long-term" class="hidden md:flex" />
       </ApFeature>
 
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
         <ApSection title="Needs attention" link-label="See all" link-to="/low">
           <ApList>
-            <ApListRow v-for="i in attention" :key="i.id" :name="i.name" :sub="pathText(i.location)" :status="status(i)" :qty="i.quantity" :to="linkFor(i)" />
+            <ApListRow v-for="i in attention" :key="i.id" :name="i.name" :sub="house.pathText(i.location)" :status="status(i)" :qty="i.quantity" :to="linkFor(i)" />
           </ApList>
         </ApSection>
         <ApSection title="Recently moved" class="hidden md:flex">
           <ApList>
-            <ApListRow v-for="i in allItems.filter((x) => x.moved_from)" :key="i.id" :name="i.name" :sub="`${i.moved_from} → ${pathText(i.location)}`" :to="linkFor(i)" />
+            <ApListRow v-for="i in house.items.filter((x) => x.moved_from)" :key="i.id" :name="i.name" :sub="`${i.moved_from} → ${house.pathText(i.location)}`" :to="linkFor(i)" />
           </ApList>
         </ApSection>
       </div>
@@ -79,10 +80,10 @@ const tileMeta = (id: string) => {
       <ApSection title="Rooms">
         <ApTileGrid>
           <ApLocationTile
-            v-for="r in rooms"
+            v-for="r in house.rooms"
             :key="r.id"
             :name="r.name"
-            :count="countsFor(r.id).total"
+            :count="house.countsFor(r.id).total"
             :meta="tileMeta(r.id).meta"
             :meta-tone="tileMeta(r.id).tone"
             :to="`/rooms/${r.id}`"

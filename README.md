@@ -1,6 +1,6 @@
-# home-frontend
+# home
 
-Frontend for my home apps, starting with the house storage catalog. Vue 3, Vite, TypeScript and Tailwind CSS v4, styled with the **Apothecary** design system: bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press.
+My home apps, starting with the house storage catalog: a Django REST Framework API and a Vue 3 + TypeScript + Tailwind CSS v4 frontend, styled with the **Apothecary** design system (bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press).
 
 ## Layout
 
@@ -9,7 +9,8 @@ packages/
   tokens/        @home/tokens  design tokens → CSS variables + a Tailwind v4 theme
   ui/            @home/ui      Vue 3 components built on those tokens
 apps/
-  storage-web/   the storage catalog (talks to the DRF backend)
+  storage-web/   the storage catalog: Vue 3, Pinia, axios, Vue Router
+backend/         Django + DRF API (moved in from davidbane/homeapi, history kept)
 ```
 
 The packages are Yarn workspaces, so a change to a component shows up in the app on save. When a second home app needs them outside this repo, publish `@home/tokens` and `@home/ui` (GitHub Packages works well) and version them with Changesets.
@@ -29,7 +30,29 @@ yarn tokens       # rebuild tokens after editing packages/tokens/src/tokens.json
 
 Adding a dependency to one workspace: `yarn workspace storage-web add <pkg>` (or `@home/ui`, `@home/tokens`). Yarn is set to a plain `node_modules` layout in `.yarnrc.yml`.
 
-In dev, Vite proxies `/api` to `http://localhost:8000`, so run the DRF server there and the browser sees a single origin (no CORS setup needed locally).
+### Backend
+
+```sh
+cd backend
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver        # or `yarn api` from the root with the venv active
+```
+
+Settings expect a local Postgres database named after your user (see `backend/config/settings.py`).
+
+### Frontend ↔ API
+
+In dev, Vite proxies `/api` to `http://localhost:8000`, so the browser sees one origin: Django's session cookie and CSRF token work with no CORS setup. The axios client (`apps/storage-web/src/api/client.ts`) sends the `csrftoken` cookie back as `X-CSRFToken`.
+
+The app reads sample data by default. To use the real API, create `apps/storage-web/.env.local` with:
+
+```sh
+VITE_DATA_SOURCE=api
+```
+
+`src/api/endpoints.ts` types the DRF responses as they are today, and `src/api/adapt.ts` turns residences, areas, spots and items into the app's location tree. State lives in a Pinia store (`src/stores/house.ts`).
 
 ## How the styling fits together
 
@@ -77,7 +100,10 @@ Icons are [Tabler](https://tabler.io/icons) outline icons via `@tabler/icons-vue
 
 ## Next steps
 
-- [ ] Replace `apps/storage-web/src/api/mock.ts` with fetches to the DRF API (types in `api/types.ts` mirror the expected serializers)
+- [ ] API: add authentication and per-owner query scoping (every viewset is currently open)
+- [ ] API: ID fields for writes and a flat spot list in the serializers; `select_related`/`prefetch_related`
+- [ ] API: add `par`, storage class, timestamps and a spot code so Low, Surplus, history and bin tags come from real data
+- [ ] API: settings from `.env`, Django 5.2 LTS on Python 3.12+
 - [ ] Add Reka UI for dialogs, menus, comboboxes and toasts (move item, confirm remove, undo)
 - [ ] Add Histoire for a component playground, and Vitest for `ApStepper` and the status rules
 - [ ] Add/edit item forms, labels and lists screens

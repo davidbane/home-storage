@@ -2,8 +2,9 @@
 import { computed } from 'vue'
 import { IconTrash, IconX } from '@tabler/icons-vue'
 import { ApBreadcrumb, ApButton, ApIconButton, ApPanel, ApStatusChip, ApStepper } from '@home/ui'
-import { crumbs, item as getItem, location, setQuantity, status } from '@/api/house'
+import { status, useHouseStore } from '@/stores/house'
 
+const house = useHouseStore()
 /**
  * One item's detail. `pane` is the desktop side panel; `body` is the content
  * of the phone item screen (its header and actions come from the room view).
@@ -11,10 +12,10 @@ import { crumbs, item as getItem, location, setQuantity, status } from '@/api/ho
 const props = defineProps<{ itemId: string; variant: 'pane' | 'body' }>()
 defineEmits<{ close: [] }>()
 
-const it = computed(() => getItem(props.itemId))
+const it = computed(() => house.item(props.itemId))
 const qty = computed({
   get: () => it.value?.quantity ?? 0,
-  set: (v: number) => setQuantity(props.itemId, v),
+  set: (v: number) => house.setQuantity(props.itemId, v),
 })
 const st = computed(() => (it.value ? status(it.value) : 'ok'))
 const parLine = computed(() => {
@@ -32,7 +33,7 @@ const details = computed(() => {
     ['Brand', i.brand],
     ['Used for', i.used_for],
     ['Storage', storageLabel[i.storage_class]],
-    ['Bin', location(i.location)?.code],
+    ['Bin', house.location(i.location)?.code],
     ['Moved from', i.moved_from],
   ].filter((r): r is [string, string] => Boolean(r[1]))
 })
@@ -44,7 +45,7 @@ const details = computed(() => {
       <div class="flex min-w-0 flex-col gap-2">
         <ApStatusChip :status="st" class="self-start" />
         <h2 class="m-0 font-display text-4xl leading-[2.375rem] font-semibold tracking-[-0.01em]">{{ it.name }}</h2>
-        <ApBreadcrumb :items="crumbs(it.location, false)" />
+        <ApBreadcrumb :items="house.crumbs(it.location, false)" />
       </div>
       <ApIconButton label="Close item" @click="$emit('close')"><IconX :size="18" :stroke="1.5" aria-hidden="true" /></ApIconButton>
     </div>
@@ -53,6 +54,7 @@ const details = computed(() => {
       <div class="flex flex-col gap-0.5">
         <span class="text-[15px] leading-5 font-medium">On hand</span>
         <span :class="['type-meta', st === 'low' ? 'text-oxblood-ink' : 'text-ink-muted']">{{ parLine }}</span>
+        <span v-if="house.saveError" role="alert" class="type-meta text-oxblood-ink">Couldn't save that change. Try again.</span>
       </div>
       <ApStepper v-model="qty" />
     </div>

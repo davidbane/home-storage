@@ -1,8 +1,8 @@
-import type { Item, Location } from './types'
+import type { Item, Location } from '@/models'
 
 // Sample data until the DRF endpoints exist. Shapes match ./types.ts.
 export const locations: Location[] = [
-  { id: 'house', name: 'House', kind: 'house', parent: null },
+  { id: 'house', name: 'The House', kind: 'house', parent: null },
 
   { id: 'kitchen', name: 'Kitchen', kind: 'room', parent: 'house' },
   { id: 'pantry', name: 'Pantry', kind: 'furniture', parent: 'kitchen', code: 'P-01' },
