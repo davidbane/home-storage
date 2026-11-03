@@ -1,7 +1,7 @@
 import { http } from './client'
 
 // Shapes as backend/homeapi/serializers.py returns them today.
-
+//WTF is this?
 /**
  * @typedef {object} ApiStorageType
  * @property {string} id

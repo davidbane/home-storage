@@ -13,12 +13,12 @@ const { show } = useToast()
 const editing = computed(() => (ui.dialog?.kind === 'room-edit' ? house.location(ui.dialog.id) : undefined))
 const open = computed({
   get: () => ui.dialog?.kind === 'room-add' || (ui.dialog?.kind === 'room-edit' && Boolean(editing.value)),
-  set: (v) => !v && ui.close(),
+  set: (isOpen) => !isOpen && ui.close(),
 })
 const form = reactive({ name: '', note: '' })
 const error = ref('')
-watch(open, (v) => {
-  if (!v) return
+watch(open, (isOpen) => {
+  if (!isOpen) return
   error.value = ''
   form.name = editing.value?.name ?? ''
   form.note = editing.value?.note ?? ''

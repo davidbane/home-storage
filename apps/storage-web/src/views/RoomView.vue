@@ -18,25 +18,25 @@ const isDesktop = useIsDesktop()
 
 const room = computed(() => house.location(String(route.params.roomId)))
 const furniture = computed(() => (room.value ? house.children(room.value.id) : []))
-const containers = computed(() => furniture.value.flatMap((f) => (house.children(f.id).length ? house.children(f.id) : [f])))
+const containers = computed(() => furniture.value.flatMap((piece) => (house.children(piece.id).length ? house.children(piece.id) : [piece])))
 
 // ?in= selects a container (default: the first with something low, else the first).
 const selectedId = computed(() => {
-  const q = route.query.in
-  if (typeof q === 'string' && containers.value.some((c) => c.id === q)) return q
-  return (containers.value.find((c) => house.countsFor(c.id).low) ?? containers.value[0])?.id
+  const requested = route.query.in
+  if (typeof requested === 'string' && containers.value.some((container) => container.id === requested)) return requested
+  return (containers.value.find((container) => house.countsFor(container.id).low) ?? containers.value[0])?.id
 })
 const selected = computed(() => (selectedId.value ? house.location(selectedId.value) : undefined))
 // Deep, so items in slots inside the selected container show too.
 const contents = computed(() => (selectedId.value ? house.itemsIn(selectedId.value) : []))
 /** Detail line for a row: the slot it's in when deeper than the selected container, else par or note. */
-const rowSub = (i) => {
-  if (i.location !== selectedId.value) {
-    const path = house.ancestry(i.location)
-    const from = path.findIndex((l) => l.id === selectedId.value)
-    return path.slice(from + 1).map((l) => l.name).join(' / ')
+const rowSub = (item) => {
+  if (item.location !== selectedId.value) {
+    const path = house.ancestry(item.location)
+    const from = path.findIndex((place) => place.id === selectedId.value)
+    return path.slice(from + 1).map((place) => place.name).join(' / ')
   }
-  return i.par !== null ? `Par ${i.par}` : i.used_for
+  return item.par !== null ? `Par ${item.par}` : item.used_for
 }
 const textBtn = 'inline-flex min-h-11 items-center cursor-pointer border-0 bg-transparent p-0 text-[13px] leading-[18px] font-medium text-sapphire-ink hover:underline md:text-sm'
 
@@ -47,15 +47,15 @@ const showItemScreen = computed(() => Boolean(openItem.value) && !isDesktop.valu
 
 const roomCounts = computed(() => (room.value ? house.countsFor(room.value.id) : { total: 0, low: 0, surplus: 0 }))
 const summary = computed(() => {
-  const c = roomCounts.value
-  return [`${c.total} items`, c.low && `${c.low} low`, c.surplus && `${c.surplus} surplus`].filter(Boolean).join(' · ')
+  const counts = roomCounts.value
+  return [`${counts.total} items`, counts.low && `${counts.low} low`, counts.surplus && `${counts.surplus} surplus`].filter(Boolean).join(' · ')
 })
-const withQuery = (q) => ({ query: { ...route.query, ...q } })
+const withQuery = (changes) => ({ query: { ...route.query, ...changes } })
 const closeItem = () => router.replace(withQuery({ item: undefined }))
 const tileMeta = (id, note) => {
-  const c = house.countsFor(id)
-  if (c.low) return { meta: `${c.low} low`, tone: 'alert' }
-  if (c.total === 0) return { meta: 'empty', tone: 'muted' }
+  const counts = house.countsFor(id)
+  if (counts.low) return { meta: `${counts.low} low`, tone: 'alert' }
+  if (counts.total === 0) return { meta: 'empty', tone: 'muted' }
   return { meta: note, tone: 'muted' }
 }
 </script>
@@ -104,7 +104,7 @@ const tileMeta = (id, note) => {
         <template #eyebrow><ApBreadcrumb :items="house.crumbs(room.id)" current /></template>
         <template #meta>
           <div class="flex flex-wrap items-center gap-2.5">
-            <ApBinTag v-for="f in furniture.filter((x) => x.code)" :key="f.id" :code="f.code" :label="f.note ?? f.name" />
+            <ApBinTag v-for="piece in furniture.filter((candidate) => candidate.code)" :key="piece.id" :code="piece.code" :label="piece.note ?? piece.name" />
             <span class="type-meta text-ink-muted">{{ summary }}</span>
           </div>
         </template>
@@ -125,24 +125,24 @@ const tileMeta = (id, note) => {
           <ApButton variant="primary" @click="ui.openAddSpot(room.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add storage</ApButton>
         </div>
 
-        <ApSection v-for="f in furniture" :key="f.id" :title="f.name">
+        <ApSection v-for="piece in furniture" :key="piece.id" :title="piece.name">
           <template #aside>
             <div class="flex items-center gap-4">
-              <span v-if="house.typeName(f.type)" class="hidden type-meta text-ink-muted sm:inline">{{ house.typeName(f.type) }}</span>
-              <button type="button" :class="textBtn" @click="ui.openAddSpot(f.id)">Add inside</button>
-              <button type="button" :class="textBtn" :aria-label="`Edit ${f.name}`" @click="ui.openEditSpot(f.id)">Edit</button>
+              <span v-if="house.typeName(piece.type)" class="hidden type-meta text-ink-muted sm:inline">{{ house.typeName(piece.type) }}</span>
+              <button type="button" :class="textBtn" @click="ui.openAddSpot(piece.id)">Add inside</button>
+              <button type="button" :class="textBtn" :aria-label="`Edit ${piece.name}`" @click="ui.openEditSpot(piece.id)">Edit</button>
             </div>
           </template>
-          <ApTileGrid :columns="house.children(f.id).length === 6 || house.children(f.id).length === 3 ? 3 : undefined">
+          <ApTileGrid :columns="house.children(piece.id).length === 6 || house.children(piece.id).length === 3 ? 3 : undefined">
             <ApLocationTile
-              v-for="c in house.children(f.id).length ? house.children(f.id) : [f]"
-              :key="c.id"
-              :name="c.name"
-              :count="house.countsFor(c.id).total"
-              :meta="tileMeta(c.id, c.note).meta"
-              :meta-tone="tileMeta(c.id, c.note).tone"
-              :selected="c.id === selectedId"
-              :to="withQuery({ in: c.id, item: undefined })"
+              v-for="container in house.children(piece.id).length ? house.children(piece.id) : [piece]"
+              :key="container.id"
+              :name="container.name"
+              :count="house.countsFor(container.id).total"
+              :meta="tileMeta(container.id, container.note).meta"
+              :meta-tone="tileMeta(container.id, container.note).tone"
+              :selected="container.id === selectedId"
+              :to="withQuery({ in: container.id, item: undefined })"
               replace
             />
           </ApTileGrid>
@@ -152,19 +152,19 @@ const tileMeta = (id, note) => {
           <template #aside>
             <div class="flex items-center gap-4">
               <span v-if="selected.code" class="type-code text-ink-muted">{{ selected.code }}</span>
-              <button v-if="selected.kind !== 'furniture' && !furniture.some((f) => f.id === selected.id)" type="button" :class="textBtn" :aria-label="`Edit ${selected.name}`" @click="ui.openEditSpot(selected.id)">Edit</button>
+              <button v-if="selected.kind !== 'furniture' && !furniture.some((piece) => piece.id === selected.id)" type="button" :class="textBtn" :aria-label="`Edit ${selected.name}`" @click="ui.openEditSpot(selected.id)">Edit</button>
             </div>
           </template>
           <ApList v-if="contents.length">
             <ApListRow
-              v-for="i in contents"
-              :key="i.id"
-              :name="i.name"
-              :sub="rowSub(i)"
-              :status="status(i)"
-              :qty="i.quantity"
-              :selected="isDesktop && i.id === itemId"
-              :to="withQuery({ item: i.id })"
+              v-for="item in contents"
+              :key="item.id"
+              :name="item.name"
+              :sub="rowSub(item)"
+              :status="status(item)"
+              :qty="item.quantity"
+              :selected="isDesktop && item.id === itemId"
+              :to="withQuery({ item: item.id })"
             />
           </ApList>
           <div v-else class="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-1 px-4 py-4 shadow-raised">

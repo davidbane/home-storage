@@ -22,12 +22,12 @@ const icon = { size: 20, stroke: '1.5', 'aria-hidden': 'true' }
     </ApNavGroup>
     <ApNavGroup label="Rooms">
       <ApNavItem
-        v-for="r in house.rooms"
-        :key="r.id"
-        :to="`/rooms/${r.id}`"
-        :label="r.name"
-        :count="house.countsFor(r.id).total"
-        :alert="house.countsFor(r.id).low > 0"
+        v-for="room in house.rooms"
+        :key="room.id"
+        :to="`/rooms/${room.id}`"
+        :label="room.name"
+        :count="house.countsFor(room.id).total"
+        :alert="house.countsFor(room.id).low > 0"
       />
       <li>
         <button

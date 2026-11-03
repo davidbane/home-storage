@@ -11,22 +11,22 @@ const useApi = import.meta.env.VITE_DATA_SOURCE === 'api'
 const LIST_KEY = 'home-storage:shopping'
 function readList() {
   try {
-    const v = JSON.parse(localStorage.getItem(LIST_KEY) ?? '[]')
-    return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []
+    const stored = JSON.parse(localStorage.getItem(LIST_KEY) ?? '[]')
+    return Array.isArray(stored) ? stored.filter((id) => typeof id === 'string') : []
   } catch {
     return []
   }
 }
 
-const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item'
+const slug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item'
 
 /** The fields the API knows today. Par, storage class and history stay client-side until it has them. */
-const toApi = (d) => ({
-  name: d.name,
-  brand: d.brand ?? '',
-  count: d.quantity,
-  description: d.used_for ?? '',
-  storage_spot: d.location,
+const toApi = (draft) => ({
+  name: draft.name,
+  brand: draft.brand ?? '',
+  count: draft.quantity,
+  description: draft.used_for ?? '',
+  storage_spot: draft.location,
 })
 
 /**
@@ -34,10 +34,10 @@ const toApi = (d) => ({
  * long-term storage class → Long-term; under par → Low;
  * surplus storage class or at least double par → Surplus; else Stocked.
  */
-export function status(i) {
-  if (i.storage_class === 'long_term') return 'long'
-  if (i.par !== null && i.quantity < i.par) return 'low'
-  if (i.storage_class === 'surplus' || (i.par !== null && i.quantity >= i.par * 2)) return 'surplus'
+export function status(item) {
+  if (item.storage_class === 'long_term') return 'long'
+  if (item.par !== null && item.quantity < item.par) return 'low'
+  if (item.storage_class === 'surplus' || (item.par !== null && item.quantity >= item.par * 2)) return 'surplus'
   return 'ok'
 }
 
@@ -73,40 +73,40 @@ export const useHouseStore = defineStore('house', () => {
         items.value = structuredClone(mockItems)
         types.value = structuredClone(mockTypes)
       }
-    } catch (e) {
-      error.value = e instanceof Error ? e.message : String(e)
+    } catch (exception) {
+      error.value = exception instanceof Error ? exception.message : String(exception)
     } finally {
       loading.value = false
     }
   }
 
   // ---- tree lookups ----
-  const byId = computed(() => new Map(locations.value.map((l) => [l.id, l])))
+  const byId = computed(() => new Map(locations.value.map((place) => [place.id, place])))
   const childMap = computed(() => {
-    const m = new Map()
-    for (const l of locations.value) if (l.parent) m.set(l.parent, [...(m.get(l.parent) ?? []), l])
-    return m
+    const byParent = new Map()
+    for (const place of locations.value) if (place.parent) byParent.set(place.parent, [...(byParent.get(place.parent) ?? []), place])
+    return byParent
   })
-  const house = computed(() => locations.value.find((l) => l.kind === 'house'))
+  const house = computed(() => locations.value.find((place) => place.kind === 'house'))
   const location = (id) => byId.value.get(id)
   const children = (id) => childMap.value.get(id) ?? []
   const rooms = computed(() => (house.value ? children(house.value.id) : []))
-  const item = (id) => items.value.find((i) => i.id === id)
+  const item = (id) => items.value.find((candidate) => candidate.id === id)
 
   function subtree(id) {
     const out = new Set([id])
-    for (const c of children(id)) for (const d of subtree(c.id)) out.add(d)
+    for (const child of children(id)) for (const descendant of subtree(child.id)) out.add(descendant)
     return out
   }
   const itemsIn = (id, deep = true) => {
     const ids = deep ? subtree(id) : new Set([id])
-    return items.value.filter((i) => ids.has(i.location))
+    return items.value.filter((record) => ids.has(record.location))
   }
 
   /** From the room down, excluding the house. */
   function ancestry(id) {
     const out = []
-    for (let l = location(id); l && l.kind !== 'house'; l = l.parent ? location(l.parent) : undefined) out.unshift(l)
+    for (let place = location(id); place && place.kind !== 'house'; place = place.parent ? location(place.parent) : undefined) out.unshift(place)
     return out
   }
   const roomOf = (id) => ancestry(id)[0]
@@ -115,9 +115,9 @@ export const useHouseStore = defineStore('house', () => {
   function crumbs(id, withHouse = true) {
     const path = ancestry(id)
     const room = path[0]
-    const list = path.map((l) => ({
-      label: l.name,
-      to: l.kind === 'room' ? `/rooms/${l.id}` : room ? { path: `/rooms/${room.id}`, query: l.kind === 'container' ? { in: l.id } : {} } : undefined,
+    const list = path.map((place) => ({
+      label: place.name,
+      to: place.kind === 'room' ? `/rooms/${place.id}` : room ? { path: `/rooms/${room.id}`, query: place.kind === 'container' ? { in: place.id } : {} } : undefined,
     }))
     return withHouse ? [{ label: house.value?.name ?? 'House', to: '/' }, ...list] : list
   }
@@ -125,12 +125,12 @@ export const useHouseStore = defineStore('house', () => {
   /** "Hall closet / Drawer B": skips furniture that only groups containers. */
   const pathText = (id) =>
     ancestry(id)
-      .filter((l) => l.kind !== 'furniture' || children(l.id).length === 0)
-      .map((l) => l.name)
+      .filter((place) => place.kind !== 'furniture' || children(place.id).length === 0)
+      .map((place) => place.name)
       .join(' / ')
 
   // ---- status ----
-  const byStatus = (s) => computed(() => items.value.filter((i) => status(i) === s))
+  const byStatus = (wanted) => computed(() => items.value.filter((record) => status(record) === wanted))
   const lowItems = byStatus('low')
   const surplusItems = byStatus('surplus')
   const longTermItems = byStatus('long')
@@ -139,8 +139,8 @@ export const useHouseStore = defineStore('house', () => {
     const list = itemsIn(id)
     return {
       total: list.length,
-      low: list.filter((i) => status(i) === 'low').length,
-      surplus: list.filter((i) => status(i) === 'surplus').length,
+      low: list.filter((record) => status(record) === 'low').length,
+      surplus: list.filter((record) => status(record) === 'surplus').length,
     }
   }
 
@@ -151,40 +151,40 @@ export const useHouseStore = defineStore('house', () => {
       options: [...subtree(room.id)]
         .filter((id) => id !== room.id)
         .map((id) => location(id))
-        .map((l) => ({ id: l.id, label: ancestry(l.id).slice(1).map((a) => a.name).join(' / ') }))
-        .sort((a, b) => a.label.localeCompare(b.label)),
+        .map((place) => ({ id: place.id, label: ancestry(place.id).slice(1).map((ancestor) => ancestor.name).join(' / ') }))
+        .sort((left, right) => left.label.localeCompare(right.label)),
     })),
   )
 
   /** Everything with a printable code, or any container, for the Labels page. */
-  const labelled = computed(() => locations.value.filter((l) => l.code || l.kind === 'container' || l.kind === 'slot'))
+  const labelled = computed(() => locations.value.filter((place) => place.code || place.kind === 'container' || place.kind === 'slot'))
 
   /** A location by its printed code (case-insensitive), falling back to an exact name. */
-  function findByCode(q) {
-    const term = q.trim().toLowerCase()
+  function findByCode(query) {
+    const term = query.trim().toLowerCase()
     if (!term) return undefined
     return (
-      locations.value.find((l) => l.code?.toLowerCase() === term) ??
-      locations.value.find((l) => l.kind !== 'house' && l.name.toLowerCase() === term)
+      locations.value.find((place) => place.code?.toLowerCase() === term) ??
+      locations.value.find((place) => place.kind !== 'house' && place.name.toLowerCase() === term)
     )
   }
 
   // ---- actions ----
-  const fail = (e) => (saveError.value = e instanceof Error ? e.message : String(e))
+  const fail = (exception) => (saveError.value = exception instanceof Error ? exception.message : String(exception))
   const today = () => new Date().toISOString().slice(0, 10)
 
   async function setQuantity(id, quantity) {
-    const i = item(id)
-    if (!i) return
-    const previous = i.quantity
-    i.quantity = quantity // optimistic
+    const record = item(id)
+    if (!record) return
+    const previous = record.quantity
+    record.quantity = quantity // optimistic
     if (!useApi) return
     try {
       await api.updateItem(id, { count: quantity })
       saveError.value = null
-    } catch (e) {
-      i.quantity = previous
-      fail(e)
+    } catch (exception) {
+      record.quantity = previous
+      fail(exception)
     }
   }
 
@@ -204,155 +204,155 @@ export const useHouseStore = defineStore('house', () => {
       items.value = [...items.value, saved]
       saveError.value = null
       return saved
-    } catch (e) {
-      fail(e)
+    } catch (exception) {
+      fail(exception)
     }
   }
 
   async function updateItem(id, draft) {
-    const i = item(id)
-    if (!i) return
-    const before = { ...i }
-    const moved = draft.location !== i.location
-    Object.assign(i, draft)
-    if (moved) recordMove(i, before.location)
+    const record = item(id)
+    if (!record) return
+    const before = { ...record }
+    const moved = draft.location !== record.location
+    Object.assign(record, draft)
+    if (moved) recordMove(record, before.location)
     if (!useApi) return
     try {
       await api.updateItem(id, toApi(draft))
       saveError.value = null
-    } catch (e) {
-      Object.assign(i, before)
-      fail(e)
+    } catch (exception) {
+      Object.assign(record, before)
+      fail(exception)
     }
   }
 
-  function recordMove(i, from) {
-    i.moved_from = pathText(from)
-    i.history = [{ date: today(), text: `Moved to ${pathText(i.location)}` }, ...i.history]
+  function recordMove(record, from) {
+    record.moved_from = pathText(from)
+    record.history = [{ date: today(), text: `Moved to ${pathText(record.location)}` }, ...record.history]
   }
 
   async function moveItem(id, to) {
-    const i = item(id)
-    if (!i || i.location === to) return
-    const before = { location: i.location, moved_from: i.moved_from, history: i.history }
-    i.location = to
-    recordMove(i, before.location)
+    const record = item(id)
+    if (!record || record.location === to) return
+    const before = { location: record.location, moved_from: record.moved_from, history: record.history }
+    record.location = to
+    recordMove(record, before.location)
     if (!useApi) return
     try {
       await api.updateItem(id, { storage_spot: to })
       saveError.value = null
-    } catch (e) {
-      Object.assign(i, before)
-      fail(e)
+    } catch (exception) {
+      Object.assign(record, before)
+      fail(exception)
     }
   }
 
   /** Removes an item and returns a function that puts it back (for Undo). */
   async function removeItem(id) {
-    const i = item(id)
-    if (!i) return
-    const index = items.value.indexOf(i)
-    items.value = items.value.filter((x) => x.id !== id)
+    const record = item(id)
+    if (!record) return
+    const index = items.value.indexOf(record)
+    items.value = items.value.filter((other) => other.id !== id)
     const wasListed = shopping.value.includes(id)
-    shopping.value = shopping.value.filter((x) => x !== id)
+    shopping.value = shopping.value.filter((listedId) => listedId !== id)
     const restore = async () => {
       if (useApi) {
         // The API gives a re-created item a new id.
-        const created = await api.createItem(toApi(i)).catch((e) => (fail(e), undefined))
+        const created = await api.createItem(toApi(record)).catch((exception) => (fail(exception), undefined))
         if (!created) return
-        i.id = created.id
+        record.id = created.id
       }
       const next = [...items.value]
-      next.splice(Math.min(index, next.length), 0, i)
+      next.splice(Math.min(index, next.length), 0, record)
       items.value = next
-      if (wasListed) shopping.value = [...shopping.value, i.id]
+      if (wasListed) shopping.value = [...shopping.value, record.id]
     }
     if (!useApi) return restore
     try {
       await api.deleteItem(id)
       saveError.value = null
       return restore
-    } catch (e) {
-      items.value.splice(index, 0, i)
-      fail(e)
+    } catch (exception) {
+      items.value.splice(index, 0, record)
+      fail(exception)
     }
   }
 
   // ---- rooms, storage spots and storage types ----
   const newId = (prefix) => `${prefix}-${Math.random().toString(36).slice(2, 9)}`
-  const typeName = (id) => types.value.find((t) => t.id === id)?.name
-  const typeUsage = (id) => locations.value.filter((l) => l.type === id).length
+  const typeName = (id) => types.value.find((storageType) => storageType.id === id)?.name
+  const typeUsage = (id) => locations.value.filter((place) => place.type === id).length
   /** Ids at or below `id`, for keeping a spot from being moved inside itself. */
   const descendants = (id) => subtree(id)
   /** What removing a place would take with it. */
   const contentsOf = (id) => ({ items: itemsIn(id).length, places: subtree(id).size - 1 })
 
-  async function addRoom(d) {
-    const h = house.value
-    if (!h) return
-    const room = { id: newId('room'), name: d.name, kind: 'room', parent: h.id, note: d.note }
+  async function addRoom(draft) {
+    const home = house.value
+    if (!home) return
+    const room = { id: newId('room'), name: draft.name, kind: 'room', parent: home.id, note: draft.note }
     if (useApi) {
       try {
-        room.id = (await api.createArea({ name: d.name, description: d.note ?? '', residence: h.id })).id
+        room.id = (await api.createArea({ name: draft.name, description: draft.note ?? '', residence: home.id })).id
         saveError.value = null
-      } catch (e) {
-        return void fail(e)
+      } catch (exception) {
+        return void fail(exception)
       }
     }
     locations.value = [...locations.value, room]
     return room
   }
 
-  async function updateRoom(id, d) {
+  async function updateRoom(id, draft) {
     const room = location(id)
     if (!room) return
     const before = { name: room.name, note: room.note }
-    Object.assign(room, { name: d.name, note: d.note })
+    Object.assign(room, { name: draft.name, note: draft.note })
     if (!useApi) return
     try {
-      await api.updateArea(id, { name: d.name, description: d.note ?? '' })
+      await api.updateArea(id, { name: draft.name, description: draft.note ?? '' })
       saveError.value = null
-    } catch (e) {
+    } catch (exception) {
       Object.assign(room, before)
-      fail(e)
+      fail(exception)
     }
   }
 
   /** The API's view of a spot's parent: null when it sits directly in a room. */
-  function spotApiFields(d) {
-    const parent = location(d.parent)
-    const room = parent?.kind === 'room' ? parent : roomOf(d.parent)
-    return { parent: parent?.kind === 'room' ? null : d.parent, storage_area: room?.id ?? d.parent }
+  function spotApiFields(draft) {
+    const parent = location(draft.parent)
+    const room = parent?.kind === 'room' ? parent : roomOf(draft.parent)
+    return { parent: parent?.kind === 'room' ? null : draft.parent, storage_area: room?.id ?? draft.parent }
   }
 
-  async function addSpot(d) {
-    const spot = { id: newId('spot'), name: d.name, kind: 'container', parent: d.parent, type: d.type, code: d.code, note: d.note }
+  async function addSpot(draft) {
+    const spot = { id: newId('spot'), name: draft.name, kind: 'container', parent: draft.parent, type: draft.type, code: draft.code, note: draft.note }
     if (useApi) {
       try {
-        spot.id = (await api.createSpot({ name: d.name, storage_type: d.type, description: d.note ?? '', ...spotApiFields(d) })).id
+        spot.id = (await api.createSpot({ name: draft.name, storage_type: draft.type, description: draft.note ?? '', ...spotApiFields(draft) })).id
         saveError.value = null
-      } catch (e) {
-        return void fail(e)
+      } catch (exception) {
+        return void fail(exception)
       }
     }
     locations.value = deriveKinds([...locations.value, spot])
     return spot
   }
 
-  async function updateSpot(id, d) {
+  async function updateSpot(id, draft) {
     const spot = location(id)
-    if (!spot || descendants(id).has(d.parent)) return
+    if (!spot || descendants(id).has(draft.parent)) return
     const before = { name: spot.name, parent: spot.parent, type: spot.type, code: spot.code, note: spot.note }
-    Object.assign(spot, { name: d.name, parent: d.parent, type: d.type, code: d.code, note: d.note })
+    Object.assign(spot, { name: draft.name, parent: draft.parent, type: draft.type, code: draft.code, note: draft.note })
     deriveKinds(locations.value)
     if (!useApi) return
     try {
-      await api.updateSpot(id, { name: d.name, storage_type: d.type, description: d.note ?? '', ...spotApiFields(d) })
+      await api.updateSpot(id, { name: draft.name, storage_type: draft.type, description: draft.note ?? '', ...spotApiFields(draft) })
       saveError.value = null
-    } catch (e) {
+    } catch (exception) {
       Object.assign(spot, before)
       deriveKinds(locations.value)
-      fail(e)
+      fail(exception)
     }
   }
 
@@ -372,47 +372,47 @@ export const useHouseStore = defineStore('house', () => {
       try {
         await (place.kind === 'room' ? api.deleteArea(id) : api.deleteSpot(id))
         saveError.value = null
-      } catch (e) {
-        fail(e)
+      } catch (exception) {
+        fail(exception)
         return false
       }
     }
     const gone = subtree(id)
-    locations.value = deriveKinds(locations.value.filter((l) => !gone.has(l.id)))
+    locations.value = deriveKinds(locations.value.filter((remaining) => !gone.has(remaining.id)))
     return true
   }
 
   async function addType(name) {
     const clean = name.trim()
     if (!clean) return
-    const existing = types.value.find((t) => t.name.toLowerCase() === clean.toLowerCase())
+    const existing = types.value.find((storageType) => storageType.name.toLowerCase() === clean.toLowerCase())
     if (existing) return existing
     const type = { id: newId('type'), name: clean }
     if (useApi) {
       try {
         type.id = (await api.createType(clean)).id
         saveError.value = null
-      } catch (e) {
-        return void fail(e)
+      } catch (exception) {
+        return void fail(exception)
       }
     }
-    types.value = [...types.value, type].sort((a, b) => a.name.localeCompare(b.name))
+    types.value = [...types.value, type].sort((left, right) => left.name.localeCompare(right.name))
     return type
   }
 
   async function renameType(id, name) {
-    const t = types.value.find((x) => x.id === id)
+    const storageType = types.value.find((candidate) => candidate.id === id)
     const clean = name.trim()
-    if (!t || !clean || clean === t.name) return
-    const before = t.name
-    t.name = clean
+    if (!storageType || !clean || clean === storageType.name) return
+    const before = storageType.name
+    storageType.name = clean
     if (!useApi) return
     try {
       await api.updateType(id, clean)
       saveError.value = null
-    } catch (e) {
-      t.name = before
-      fail(e)
+    } catch (exception) {
+      storageType.name = before
+      fail(exception)
     }
   }
 
@@ -426,12 +426,12 @@ export const useHouseStore = defineStore('house', () => {
       try {
         await api.deleteType(id)
         saveError.value = null
-      } catch (e) {
-        fail(e)
+      } catch (exception) {
+        fail(exception)
         return false
       }
     }
-    types.value = types.value.filter((t) => t.id !== id)
+    types.value = types.value.filter((storageType) => storageType.id !== id)
     return true
   }
 
@@ -447,28 +447,28 @@ export const useHouseStore = defineStore('house', () => {
   const shoppingItems = computed(() => shopping.value.map((id) => item(id)).filter(Boolean))
   const onList = (id) => shopping.value.includes(id)
   function toggleList(id) {
-    shopping.value = onList(id) ? shopping.value.filter((x) => x !== id) : [...shopping.value, id]
+    shopping.value = onList(id) ? shopping.value.filter((listedId) => listedId !== id) : [...shopping.value, id]
   }
   /** Marks a listed item bought: restocks it to par (or by one with no par) and takes it off the list. */
   async function markBought(id) {
-    const i = item(id)
-    if (!i) return
-    const before = i.quantity
-    const target = i.par !== null ? Math.max(i.par, i.quantity + 1) : i.quantity + 1
-    shopping.value = shopping.value.filter((x) => x !== id)
-    i.history = [{ date: today(), text: `Restocked to ${target}` }, ...i.history]
+    const record = item(id)
+    if (!record) return
+    const before = record.quantity
+    const target = record.par !== null ? Math.max(record.par, record.quantity + 1) : record.quantity + 1
+    shopping.value = shopping.value.filter((listedId) => listedId !== id)
+    record.history = [{ date: today(), text: `Restocked to ${target}` }, ...record.history]
     await setQuantity(id, target)
     return async () => {
-      i.history = i.history.slice(1)
+      record.history = record.history.slice(1)
       await setQuantity(id, before)
       shopping.value = [...shopping.value, id]
     }
   }
 
-  function search(q) {
-    const term = q.trim().toLowerCase()
+  function search(query) {
+    const term = query.trim().toLowerCase()
     if (!term) return []
-    return items.value.filter((i) => `${i.name} ${pathText(i.location)} ${i.used_for ?? ''}`.toLowerCase().includes(term))
+    return items.value.filter((record) => `${record.name} ${pathText(record.location)} ${record.used_for ?? ''}`.toLowerCase().includes(term))
   }
 
   return {

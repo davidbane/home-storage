@@ -9,7 +9,7 @@ import ApStatusChip from './ApStatusChip.vue'
 const props = defineProps({
   name: { type: String, required: true },
   sub: String,
-  status: { type: String, validator: (v) => ['low', 'surplus', 'long', 'ok'].includes(v) },
+  status: { type: String, validator: (value) => ['low', 'surplus', 'long', 'ok'].includes(value) },
   qty: [Number, String],
   to: [String, Object],
   selected: Boolean,

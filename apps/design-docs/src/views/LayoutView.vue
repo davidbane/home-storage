@@ -46,16 +46,16 @@ const patterns = [
             </thead>
             <tbody>
               <tr
-                v-for="r in rows"
-                :key="r.bp"
-                :aria-current="r.bp === now ? 'true' : undefined"
-                :class="['[&+&]:border-t [&+&]:border-line', r.bp === now && 'bg-sapphire-tint text-sapphire-ink']"
+                v-for="row in rows"
+                :key="row.bp"
+                :aria-current="row.bp === now ? 'true' : undefined"
+                :class="['[&+&]:border-t [&+&]:border-line', row.bp === now && 'bg-sapphire-tint text-sapphire-ink']"
               >
-                <th scope="row" class="p-3 font-mono text-[13px] font-normal">{{ r.bp === 'base' ? '(none)' : `${r.bp}:` }}</th>
-                <td class="p-3">{{ r.width }}{{ r.bp === now ? ' · you are here' : '' }}</td>
-                <td class="p-3">{{ r.nav }}</td>
-                <td class="p-3">{{ r.layout }}</td>
-                <td class="p-3">{{ r.title }}</td>
+                <th scope="row" class="p-3 font-mono text-[13px] font-normal">{{ row.bp === 'base' ? '(none)' : `${row.bp}:` }}</th>
+                <td class="p-3">{{ row.width }}{{ row.bp === now ? ' · you are here' : '' }}</td>
+                <td class="p-3">{{ row.nav }}</td>
+                <td class="p-3">{{ row.layout }}</td>
+                <td class="p-3">{{ row.title }}</td>
               </tr>
             </tbody>
           </table>
@@ -64,9 +64,9 @@ const patterns = [
 
       <ApSection title="Patterns">
         <div class="grid gap-3 md:grid-cols-2">
-          <div v-for="[t, d] in patterns" :key="t" class="flex flex-col gap-1 rounded-lg bg-surface-1 sheen p-4 shadow-raised">
-            <span class="text-[15px] leading-5 font-medium">{{ t }}</span>
-            <span class="type-meta text-ink-muted">{{ d }}</span>
+          <div v-for="[title, description] in patterns" :key="title" class="flex flex-col gap-1 rounded-lg bg-surface-1 sheen p-4 shadow-raised">
+            <span class="text-[15px] leading-5 font-medium">{{ title }}</span>
+            <span class="type-meta text-ink-muted">{{ description }}</span>
           </div>
         </div>
       </ApSection>

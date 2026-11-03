@@ -7,10 +7,10 @@ import ApLink from './ApLink.vue'
  * (always behind a confirmation that names the item and its location).
  */
 const props = defineProps({
-  variant: { type: String, default: 'tonal', validator: (v) => ['primary', 'tonal', 'ghost', 'danger'].includes(v) },
+  variant: { type: String, default: 'tonal', validator: (value) => ['primary', 'tonal', 'ghost', 'danger'].includes(value) },
   to: [String, Object],
   href: String,
-  type: { type: String, default: 'button', validator: (v) => ['button', 'submit', 'reset'].includes(v) },
+  type: { type: String, default: 'button', validator: (value) => ['button', 'submit', 'reset'].includes(value) },
   block: Boolean,
 })
 

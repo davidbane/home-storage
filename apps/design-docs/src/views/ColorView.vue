@@ -12,9 +12,9 @@ const groups = [
   { title: 'Status', names: ['oxblood', 'oxblood-ink', 'oxblood-tint', 'verdigris-ink', 'verdigris-tint'] },
   { title: 'Feature: bottle', names: ['bottle', 'on-bottle', 'brass-on-bottle'] },
 ]
-const byName = new Map(tokens.color.tokens.map((t) => [t.name, t]))
-const listed = new Set(groups.flatMap((g) => g.names))
-const rest = tokens.color.tokens.filter((t) => !listed.has(t.name)).map((t) => t.name)
+const byName = new Map(tokens.color.tokens.map((token) => [token.name, token]))
+const listed = new Set(groups.flatMap((group) => group.names))
+const rest = tokens.color.tokens.filter((token) => !listed.has(token.name)).map((token) => token.name)
 const allGroups = rest.length ? [...groups, { title: 'Other', names: rest }] : groups
 
 const textTokens = ['ink', 'ink-muted', 'brass', 'sapphire-ink', 'oxblood-ink', 'verdigris-ink']
@@ -29,7 +29,7 @@ const pairs = [
   ['brass-on-bottle', 'bottle'],
 ]
 const ratio = (fg, bg) => contrast(hex(fg, theme.value), hex(bg, theme.value))
-const themeName = computed(() => tokens.color.themes.find((t) => t.id === theme.value)?.name ?? theme.value)
+const themeName = computed(() => tokens.color.themes.find((candidate) => candidate.id === theme.value)?.name ?? theme.value)
 </script>
 
 <template>
@@ -43,14 +43,14 @@ const themeName = computed(() => tokens.color.themes.find((t) => t.id === theme.
     </ApPageHead>
 
     <div class="flex flex-col gap-10">
-      <ApSection v-for="g in allGroups" :key="g.title" :title="g.title">
+      <ApSection v-for="group in allGroups" :key="group.title" :title="group.title">
         <div class="grid grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] gap-3">
-          <figure v-for="n in g.names" :key="n" class="m-0 overflow-hidden rounded-lg bg-surface-1 shadow-raised">
-            <div class="h-20 border-b border-line" :style="{ background: `var(--ap-${n})` }"></div>
+          <figure v-for="name in group.names" :key="name" class="m-0 overflow-hidden rounded-lg bg-surface-1 shadow-raised">
+            <div class="h-20 border-b border-line" :style="{ background: `var(--ap-${name})` }"></div>
             <figcaption class="flex flex-col gap-0.5 p-3">
-              <code class="font-mono text-[13px] text-ink">{{ n }}</code>
-              <span class="type-code text-ink-muted">{{ hex(n, theme) }}</span>
-              <span v-if="byName.get(n)?.usage" class="type-meta text-ink-muted">{{ byName.get(n)?.usage }}</span>
+              <code class="font-mono text-[13px] text-ink">{{ name }}</code>
+              <span class="type-code text-ink-muted">{{ hex(name, theme) }}</span>
+              <span v-if="byName.get(name)?.usage" class="type-meta text-ink-muted">{{ byName.get(name)?.usage }}</span>
             </figcaption>
           </figure>
         </div>
@@ -63,15 +63,15 @@ const themeName = computed(() => tokens.color.themes.find((t) => t.id === theme.
             <thead>
               <tr class="border-b border-line">
                 <th scope="col" class="p-3 font-medium">Text on</th>
-                <th v-for="s in surfaces" :key="s" scope="col" class="p-3 font-mono text-[13px] font-normal text-ink-muted">{{ s }}</th>
+                <th v-for="surface in surfaces" :key="surface" scope="col" class="p-3 font-mono text-[13px] font-normal text-ink-muted">{{ surface }}</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="fg in textTokens" :key="fg" class="[&+&]:border-t [&+&]:border-line">
                 <th scope="row" class="p-3 font-normal"><span :style="{ color: `var(--ap-${fg})` }" class="font-mono text-[13px]">{{ fg }}</span></th>
-                <td v-for="s in surfaces" :key="s" class="p-3" :style="{ background: `var(--ap-${s})` }">
-                  <span :style="{ color: `var(--ap-${fg})` }">{{ ratio(fg, s).toFixed(1) }}</span>
-                  <span v-if="ratio(fg, s) < 4.5" class="ml-1 text-oxblood-ink">below 4.5</span>
+                <td v-for="surface in surfaces" :key="surface" class="p-3" :style="{ background: `var(--ap-${surface})` }">
+                  <span :style="{ color: `var(--ap-${fg})` }">{{ ratio(fg, surface).toFixed(1) }}</span>
+                  <span v-if="ratio(fg, surface) < 4.5" class="ml-1 text-oxblood-ink">below 4.5</span>
                 </td>
               </tr>
             </tbody>

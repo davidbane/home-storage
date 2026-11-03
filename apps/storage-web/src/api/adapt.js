@@ -7,43 +7,43 @@ import { deriveKinds } from '@/models'
  * Spot kinds come from depth (deriveKinds in models.ts).
  */
 export function adapt(residence, areas, spots, items) {
-  const roomIds = new Set(areas.filter((a) => a.residence === residence.id).map((a) => a.id))
-  const ourSpots = spots.filter((s) => roomIds.has(s.storage_area.id))
-  const byId = new Map(ourSpots.map((s) => [s.id, s]))
+  const roomIds = new Set(areas.filter((area) => area.residence === residence.id).map((area) => area.id))
+  const ourSpots = spots.filter((spot) => roomIds.has(spot.storage_area.id))
+  const byId = new Map(ourSpots.map((spot) => [spot.id, spot]))
 
   const locations = deriveKinds([
     { id: residence.id, name: residence.name, kind: 'house', parent: null },
     ...areas
-      .filter((a) => roomIds.has(a.id))
-      .map((a) => ({ id: a.id, name: a.name, kind: 'room', parent: residence.id, note: a.description ?? undefined })),
+      .filter((area) => roomIds.has(area.id))
+      .map((area) => ({ id: area.id, name: area.name, kind: 'room', parent: residence.id, note: area.description ?? undefined })),
     ...ourSpots.map(
-      (s) => ({
-        id: s.id,
-        name: s.name,
+      (spot) => ({
+        id: spot.id,
+        name: spot.name,
         kind: 'container',
-        parent: s.parent && byId.has(s.parent) ? s.parent : s.storage_area.id,
-        note: s.description || undefined,
-        type: s.storage_type.id,
+        parent: spot.parent && byId.has(spot.parent) ? spot.parent : spot.storage_area.id,
+        note: spot.description || undefined,
+        type: spot.storage_type.id,
       }),
     ),
   ])
 
-  const spotIds = new Set(ourSpots.map((s) => s.id))
+  const spotIds = new Set(ourSpots.map((spot) => spot.id))
   return {
     locations,
     items: items
-      .filter((i) => i.storage_spot && spotIds.has(i.storage_spot.id))
+      .filter((item) => item.storage_spot && spotIds.has(item.storage_spot.id))
       .map(
-        (i) => ({
-          id: i.id,
-          name: i.name,
-          quantity: i.count,
+        (item) => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.count,
           // Not in the API yet: par, storage class, history.
           par: null,
           storage_class: 'daily',
-          location: i.storage_spot.id,
-          brand: i.brand || undefined,
-          used_for: i.description || undefined,
+          location: item.storage_spot.id,
+          brand: item.brand || undefined,
+          used_for: item.description || undefined,
           history: [],
         }),
       ),

@@ -12,19 +12,19 @@ const router = useRouter()
 const { show } = useToast()
 
 const it = computed(() => (ui.dialog?.kind === 'remove' ? house.item(ui.dialog.itemId) : undefined))
-const open = computed({ get: () => Boolean(it.value), set: (v) => !v && ui.close() })
+const open = computed({ get: () => Boolean(it.value), set: (isOpen) => !isOpen && ui.close() })
 const error = ref('')
-watch(open, (v) => v && (error.value = ''))
+watch(open, (isOpen) => isOpen && (error.value = ''))
 
 async function remove() {
-  const i = it.value
-  if (!i) return
-  const place = house.location(i.location)?.name ?? 'the house'
-  const restore = await house.removeItem(i.id)
+  const item = it.value
+  if (!item) return
+  const place = house.location(item.location)?.name ?? 'the house'
+  const restore = await house.removeItem(item.id)
   if (!restore) return void (error.value = `Couldn't remove it: ${house.saveError}`)
   ui.close()
-  if (route.query.item === i.id) router.replace({ query: { ...route.query, item: undefined } })
-  show(`Removed ${i.name} from ${place}`, { action: { label: 'Undo', run: () => void restore() } })
+  if (route.query.item === item.id) router.replace({ query: { ...route.query, item: undefined } })
+  show(`Removed ${item.name} from ${place}`, { action: { label: 'Undo', run: () => void restore() } })
 }
 </script>
 

@@ -13,29 +13,29 @@ const router = useRouter()
 const { show } = useToast()
 
 const place = computed(() => (ui.dialog?.kind === 'place-remove' ? house.location(ui.dialog.id) : undefined))
-const open = computed({ get: () => Boolean(place.value), set: (v) => !v && ui.close() })
+const open = computed({ get: () => Boolean(place.value), set: (isOpen) => !isOpen && ui.close() })
 const contents = computed(() => (place.value ? house.contentsOf(place.value.id) : { items: 0, places: 0 }))
 const error = ref('')
-watch(open, (v) => v && (error.value = ''))
+watch(open, (isOpen) => isOpen && (error.value = ''))
 
 const description = computed(() => {
-  const c = contents.value
-  if (c.items) return `It still holds ${c.items} ${c.items === 1 ? 'item' : 'items'}. Move or remove them first.`
-  if (c.places) return `This also removes the ${c.places} ${c.places === 1 ? 'place' : 'places'} inside it. It can't be undone.`
+  const counts = contents.value
+  if (counts.items) return `It still holds ${counts.items} ${counts.items === 1 ? 'item' : 'items'}. Move or remove them first.`
+  if (counts.places) return `This also removes the ${counts.places} ${counts.places === 1 ? 'place' : 'places'} inside it. It can't be undone.`
   return "It's empty. This can't be undone."
 })
 
 async function remove() {
-  const p = place.value
-  if (!p) return
-  const parent = p.parent
-  const wasRoom = p.kind === 'room'
-  const ok = await house.removePlace(p.id)
+  const target = place.value
+  if (!target) return
+  const parent = target.parent
+  const wasRoom = target.kind === 'room'
+  const ok = await house.removePlace(target.id)
   if (!ok) return void (error.value = house.saveError ?? "Couldn't remove it.")
   ui.close()
-  if (wasRoom && route.params.roomId === p.id) router.replace('/')
-  else if (route.query.in === p.id) router.replace({ query: { ...route.query, in: parent && house.location(parent)?.kind !== 'room' ? parent : undefined } })
-  show(`Removed ${p.name}`)
+  if (wasRoom && route.params.roomId === target.id) router.replace('/')
+  else if (route.query.in === target.id) router.replace({ query: { ...route.query, in: parent && house.location(parent)?.kind !== 'room' ? parent : undefined } })
+  show(`Removed ${target.name}`)
 }
 </script>
 

@@ -4,7 +4,7 @@ import { statusLabel } from '../types'
 
 /** One of the four fixed statuses. The word is always shown; color is never the only signal. */
 const props = defineProps({
-  status: { type: String, required: true, validator: (v) => v in statusLabel },
+  status: { type: String, required: true, validator: (value) => value in statusLabel },
   label: String,
 })
 

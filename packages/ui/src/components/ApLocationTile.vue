@@ -9,7 +9,7 @@ const props = defineProps({
   name: { type: String, required: true },
   count: { type: Number, required: true },
   meta: String,
-  metaTone: { type: String, validator: (v) => ['muted', 'alert'].includes(v) },
+  metaTone: { type: String, validator: (value) => ['muted', 'alert'].includes(value) },
   to: [String, Object],
   selected: Boolean,
 })

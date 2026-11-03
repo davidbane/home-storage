@@ -46,16 +46,16 @@
  * container, its children are containers, and anything deeper is a slot.
  */
 export function deriveKinds(locations) {
-  const byId = new Map(locations.map((l) => [l.id, l]))
-  const parents = new Set(locations.flatMap((l) => (l.parent ? [l.parent] : [])))
-  const depth = (l) => {
-    const p = l.parent ? byId.get(l.parent) : undefined
-    return !p || p.kind === 'house' || p.kind === 'room' ? 0 : 1 + depth(p)
+  const byId = new Map(locations.map((location) => [location.id, location]))
+  const parents = new Set(locations.flatMap((location) => (location.parent ? [location.parent] : [])))
+  const depth = (location) => {
+    const parent = location.parent ? byId.get(location.parent) : undefined
+    return !parent || parent.kind === 'house' || parent.kind === 'room' ? 0 : 1 + depth(parent)
   }
-  for (const l of locations) {
-    if (l.kind === 'house' || l.kind === 'room') continue
-    const d = depth(l)
-    l.kind = d === 0 ? (parents.has(l.id) ? 'furniture' : 'container') : d === 1 ? 'container' : 'slot'
+  for (const location of locations) {
+    if (location.kind === 'house' || location.kind === 'room') continue
+    const level = depth(location)
+    location.kind = level === 0 ? (parents.has(location.id) ? 'furniture' : 'container') : level === 1 ? 'container' : 'slot'
   }
   return locations
 }

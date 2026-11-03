@@ -15,12 +15,12 @@ const el = ref()
 const titleId = useId()
 const descId = useId()
 
-async function sync(v) {
+async function sync(shouldOpen) {
   await nextTick()
-  const d = el.value
-  if (!d) return
-  if (v && !d.open) d.showModal()
-  if (!v && d.open) d.close()
+  const dialog = el.value
+  if (!dialog) return
+  if (shouldOpen && !dialog.open) dialog.showModal()
+  if (!shouldOpen && dialog.open) dialog.close()
 }
 watch(open, sync)
 onMounted(() => sync(open.value))
@@ -32,8 +32,8 @@ function onClose() {
   emit('closed')
 }
 // A click whose target is the <dialog> itself landed on the backdrop.
-function onClick(e) {
-  if (e.target === el.value) open.value = false
+function onClick(event) {
+  if (event.target === el.value) open.value = false
 }
 </script>
 

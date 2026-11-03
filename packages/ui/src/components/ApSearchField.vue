@@ -11,10 +11,10 @@ const props = defineProps({
 })
 const input = ref()
 
-function onKey(e) {
-  const t = e.target
-  if (e.key !== '/' || t?.closest('input, textarea, [contenteditable]')) return
-  e.preventDefault()
+function onKey(event) {
+  const target = event.target
+  if (event.key !== '/' || target?.closest('input, textarea, [contenteditable]')) return
+  event.preventDefault()
   input.value?.focus()
 }
 onMounted(() => props.shortcut && window.addEventListener('keydown', onKey))

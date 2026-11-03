@@ -6,7 +6,7 @@ defineProps({
   title: { type: String, required: true },
   linkLabel: String,
   linkTo: [String, Object],
-  as: { type: String, validator: (v) => ['h2', 'h3'].includes(v) },
+  as: { type: String, validator: (value) => ['h2', 'h3'].includes(value) },
 })
 </script>
 

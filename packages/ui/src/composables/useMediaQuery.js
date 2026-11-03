@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 export function useMediaQuery(query) {
   const matches = ref(typeof window !== 'undefined' && window.matchMedia(query).matches)
   let mql
-  const update = (e) => (matches.value = e.matches)
+  const update = (event) => (matches.value = event.matches)
   onMounted(() => {
     mql = window.matchMedia(query)
     matches.value = mql.matches

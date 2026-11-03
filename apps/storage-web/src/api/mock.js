@@ -47,12 +47,12 @@ export const locations = [
   { id: 'bin-9', name: 'Bin 9', kind: 'container', parent: 'attic-bins', code: 'A-01-9', note: 'keepsakes', type: 'type-bin' },
 ]
 
-const item = (p) => ({
-  id: p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+const item = (fields) => ({
+  id: fields.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
   par: null,
   storage_class: 'daily',
   history: [],
-  ...p,
+  ...fields,
 })
 
 export const items = [

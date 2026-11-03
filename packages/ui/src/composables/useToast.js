@@ -12,7 +12,7 @@ const toasts = ref([])
 let next = 1
 
 function dismiss(id) {
-  toasts.value = toasts.value.filter((t) => t.id !== id)
+  toasts.value = toasts.value.filter((toast) => toast.id !== id)
 }
 
 /**

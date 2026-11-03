@@ -13,35 +13,35 @@ const ui = useUiStore()
  */
 const props = defineProps({
   itemId: { type: String, required: true },
-  variant: { type: String, required: true, validator: (v) => ['pane', 'body'].includes(v) },
+  variant: { type: String, required: true, validator: (value) => ['pane', 'body'].includes(value) },
 })
 defineEmits(['close'])
 
 const it = computed(() => house.item(props.itemId))
 const qty = computed({
   get: () => it.value?.quantity ?? 0,
-  set: (v) => house.setQuantity(props.itemId, v),
+  set: (quantity) => house.setQuantity(props.itemId, quantity),
 })
 const st = computed(() => (it.value ? status(it.value) : 'ok'))
 const parLine = computed(() => {
-  const i = it.value
-  if (!i || i.par === null) return 'No par set'
-  const d = i.quantity - i.par
-  return d < 0 ? `${-d} under par of ${i.par}` : d === 0 ? `At par of ${i.par}` : `${d} over par of ${i.par}`
+  const item = it.value
+  if (!item || item.par === null) return 'No par set'
+  const difference = item.quantity - item.par
+  return difference < 0 ? `${-difference} under par of ${item.par}` : difference === 0 ? `At par of ${item.par}` : `${difference} over par of ${item.par}`
 })
 const storageLabel = { daily: 'Daily use', surplus: 'Surplus store', long_term: 'Long-term' }
-const fmt = (d) => new Date(`${d}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+const fmt = (date) => new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
 const details = computed(() => {
-  const i = it.value
-  if (!i) return []
+  const item = it.value
+  if (!item) return []
   return [
-    ['Par', i.par !== null ? String(i.par) : undefined],
-    ['Brand', i.brand],
-    ['Used for', i.used_for],
-    ['Storage', storageLabel[i.storage_class]],
-    ['Bin', house.location(i.location)?.code],
-    ['Moved from', i.moved_from],
-  ].filter((r) => Boolean(r[1]))
+    ['Par', item.par !== null ? String(item.par) : undefined],
+    ['Brand', item.brand],
+    ['Used for', item.used_for],
+    ['Storage', storageLabel[item.storage_class]],
+    ['Bin', house.location(item.location)?.code],
+    ['Moved from', item.moved_from],
+  ].filter((row) => Boolean(row[1]))
 })
 </script>
 
@@ -71,9 +71,9 @@ const details = computed(() => {
     <section v-if="details.length" class="flex flex-col gap-3">
       <h3 class="m-0 type-title md:text-xl md:leading-6">Details</h3>
       <dl class="m-0 grid grid-cols-[6.5rem_minmax(0,1fr)] text-sm leading-5">
-        <template v-for="([k, v], i) in details" :key="k">
-          <dt :class="['py-2.5 text-ink-muted', i > 0 && 'border-t border-line']">{{ k }}</dt>
-          <dd :class="['m-0 py-2.5', i > 0 && 'border-t border-line', k === 'Bin' && 'type-code leading-5']">{{ v }}</dd>
+        <template v-for="([label, value], index) in details" :key="label">
+          <dt :class="['py-2.5 text-ink-muted', index > 0 && 'border-t border-line']">{{ label }}</dt>
+          <dd :class="['m-0 py-2.5', index > 0 && 'border-t border-line', label === 'Bin' && 'type-code leading-5']">{{ value }}</dd>
         </template>
       </dl>
     </section>
@@ -81,7 +81,7 @@ const details = computed(() => {
     <section v-if="it.history.length" class="flex flex-col gap-2">
       <h3 class="m-0 type-title md:text-xl md:leading-6">History</h3>
       <ul class="m-0 flex list-none flex-col gap-1.5 p-0 type-meta text-ink-muted">
-        <li v-for="(e, n) in it.history" :key="n" class="flex justify-between gap-4"><span>{{ e.text }}</span><span class="whitespace-nowrap">{{ fmt(e.date) }}</span></li>
+        <li v-for="(entry, index) in it.history" :key="index" class="flex justify-between gap-4"><span>{{ entry.text }}</span><span class="whitespace-nowrap">{{ fmt(entry.date) }}</span></li>
       </ul>
     </section>
 

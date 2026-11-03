@@ -5,11 +5,11 @@ import { status, useHouseStore } from '@/stores/house'
 
 const house = useHouseStore()
 const { show } = useToast()
-const notListed = computed(() => house.lowItems.filter((i) => !house.onList(i.id)))
+const notListed = computed(() => house.lowItems.filter((item) => !house.onList(item.id)))
 function listAll() {
-  const n = notListed.value.length
-  notListed.value.forEach((i) => house.toggleList(i.id))
-  show(`Added ${n} to the shopping list`)
+  const count = notListed.value.length
+  notListed.value.forEach((item) => house.toggleList(item.id))
+  show(`Added ${count} to the shopping list`)
 }
 </script>
 
@@ -23,13 +23,13 @@ function listAll() {
     </ApPageHead>
     <ApList v-if="house.lowItems.length" class="md:max-w-3xl">
       <ApListRow
-        v-for="i in house.lowItems"
-        :key="i.id"
-        :name="i.name"
-        :sub="house.pathText(i.location)"
-        :status="status(i)"
-        :qty="i.par !== null ? `${i.quantity} of ${i.par}` : i.quantity"
-        :to="{ path: `/rooms/${house.roomOf(i.location)?.id}`, query: { in: i.location, item: i.id } }"
+        v-for="item in house.lowItems"
+        :key="item.id"
+        :name="item.name"
+        :sub="house.pathText(item.location)"
+        :status="status(item)"
+        :qty="item.par !== null ? `${item.quantity} of ${item.par}` : item.quantity"
+        :to="{ path: `/rooms/${house.roomOf(item.location)?.id}`, query: { in: item.location, item: item.id } }"
       />
     </ApList>
     <p v-else class="m-0 text-[15px] text-ink-muted">Everything's at par.</p>

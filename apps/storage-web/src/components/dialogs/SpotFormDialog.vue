@@ -16,23 +16,23 @@ const NEW_TYPE = '__new__'
 const editing = computed(() => (ui.dialog?.kind === 'spot-edit' ? house.location(ui.dialog.id) : undefined))
 const open = computed({
   get: () => ui.dialog?.kind === 'spot-add' || (ui.dialog?.kind === 'spot-edit' && Boolean(editing.value)),
-  set: (v) => !v && ui.close(),
+  set: (isOpen) => !isOpen && ui.close(),
 })
 
 const form = reactive({ name: '', parent: null, type: null, newType: '', code: '', note: '' })
 const errors = reactive({})
 
-watch(open, (v) => {
-  if (!v) return
-  Object.keys(errors).forEach((k) => delete errors[k])
-  const s = editing.value
+watch(open, (isOpen) => {
+  if (!isOpen) return
+  Object.keys(errors).forEach((field) => delete errors[field])
+  const spot = editing.value
   Object.assign(form, {
-    name: s?.name ?? '',
-    parent: s?.parent ?? (ui.dialog?.kind === 'spot-add' ? ui.dialog.parent : null),
-    type: s?.type ?? null,
+    name: spot?.name ?? '',
+    parent: spot?.parent ?? (ui.dialog?.kind === 'spot-add' ? ui.dialog.parent : null),
+    type: spot?.type ?? null,
     newType: '',
-    code: s?.code ?? '',
-    note: s?.note ?? '',
+    code: spot?.code ?? '',
+    note: spot?.note ?? '',
   })
 })
 
@@ -44,21 +44,21 @@ const parentGroups = computed(() => {
     options: [
       { id: room.id, label: `Directly in ${room.name}` },
       ...house.places
-        .find((g) => g.room.id === room.id)
-        .options.filter((o) => !blocked.has(o.id))
-        .map((o) => ({ id: o.id, label: `In ${o.label}` })),
+        .find((group) => group.room.id === room.id)
+        .options.filter((option) => !blocked.has(option.id))
+        .map((option) => ({ id: option.id, label: `In ${option.label}` })),
     ],
   }))
 })
 
 const title = computed(() => {
   if (editing.value) return `Edit ${editing.value.name}`
-  const p = form.parent ? house.location(form.parent) : undefined
-  return p ? `Add storage to ${p.name}` : 'Add storage'
+  const parent = form.parent ? house.location(form.parent) : undefined
+  return parent ? `Add storage to ${parent.name}` : 'Add storage'
 })
 
 async function save() {
-  Object.keys(errors).forEach((k) => delete errors[k])
+  Object.keys(errors).forEach((field) => delete errors[field])
   if (!form.name.trim()) errors.name = 'Enter a name.'
   if (!form.parent) errors.parent = 'Choose where it is.'
   if (!form.type) errors.type = 'Choose a type.'
@@ -93,13 +93,13 @@ async function save() {
       <ApTextField v-model="form.name" label="Name" required :maxlength="75" placeholder="Drawer B" :error="errors.name" autofocus />
       <ApSelect v-model="form.parent" label="Inside" required :error="errors.parent">
         <option :value="null" disabled>Choose a room or spot</option>
-        <optgroup v-for="g in parentGroups" :key="g.room.id" :label="g.room.name">
-          <option v-for="o in g.options" :key="o.id" :value="o.id">{{ o.label }}</option>
+        <optgroup v-for="group in parentGroups" :key="group.room.id" :label="group.room.name">
+          <option v-for="option in group.options" :key="option.id" :value="option.id">{{ option.label }}</option>
         </optgroup>
       </ApSelect>
       <ApSelect v-model="form.type" label="Type" required :error="errors.type">
         <option :value="null" disabled>Choose a type</option>
-        <option v-for="t in house.types" :key="t.id" :value="t.id">{{ t.name }}</option>
+        <option v-for="storageType in house.types" :key="storageType.id" :value="storageType.id">{{ storageType.name }}</option>
         <option :value="NEW_TYPE">New type…</option>
       </ApSelect>
       <ApTextField v-if="form.type === NEW_TYPE" v-model="form.newType" label="New type name" required :maxlength="30" placeholder="Tote" :error="errors.newType" />

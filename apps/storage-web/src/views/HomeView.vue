@@ -10,19 +10,19 @@ import { useUiStore } from '@/stores/ui'
 
 const house = useHouseStore()
 const ui = useUiStore()
-const q = ref('')
-const results = computed(() => house.search(q.value))
+const query = ref('')
+const results = computed(() => house.search(query.value))
 const attention = computed(() => [...house.lowItems, ...house.surplusItems].slice(0, 4))
 
 const greeting = computed(() => {
-  const h = new Date().getHours()
+  const hour = new Date().getHours()
   const day = new Date().toLocaleDateString(undefined, { weekday: 'long' })
-  return `${day} ${h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening'}`
+  return `${day} ${hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'}`
 })
-const linkFor = (i) => ({ path: `/rooms/${house.roomOf(i.location)?.id}`, query: { in: i.location, item: i.id } })
+const linkFor = (item) => ({ path: `/rooms/${house.roomOf(item.location)?.id}`, query: { in: item.location, item: item.id } })
 const tileMeta = (id) => {
-  const c = house.countsFor(id)
-  return c.low ? { meta: `${c.low} low`, tone: 'alert' } : c.surplus ? { meta: `${c.surplus} surplus`, tone: 'muted' } : { meta: 'all stocked', tone: 'muted' }
+  const counts = house.countsFor(id)
+  return counts.low ? { meta: `${counts.low} low`, tone: 'alert' } : counts.surplus ? { meta: `${counts.surplus} surplus`, tone: 'muted' } : { meta: 'all stocked', tone: 'muted' }
 }
 </script>
 
@@ -39,16 +39,16 @@ const tileMeta = (id) => {
         </div>
       </template>
       <template #actions>
-        <ApSearchField v-model="q" shortcut class="max-w-105 flex-1" />
+        <ApSearchField v-model="query" shortcut class="max-w-105 flex-1" />
         <ApIconButton label="Find a bin by its label code" size="lg" class="hidden! md:inline-flex!" @click="ui.openFind()"><IconScan :size="20" stroke="1.5" aria-hidden="true" /></ApIconButton>
         <ApButton variant="primary" class="hidden! md:inline-flex!" @click="ui.openAdd()"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add item</ApButton>
       </template>
     </ApPageHead>
 
-    <div v-if="q.trim()" class="flex flex-col gap-3">
-      <p class="m-0 type-meta text-ink-muted">{{ results.length }} {{ results.length === 1 ? 'match' : 'matches' }} for “{{ q.trim() }}”</p>
+    <div v-if="query.trim()" class="flex flex-col gap-3">
+      <p class="m-0 type-meta text-ink-muted">{{ results.length }} {{ results.length === 1 ? 'match' : 'matches' }} for “{{ query.trim() }}”</p>
       <ApList v-if="results.length" label="Search results">
-        <ApListRow v-for="i in results" :key="i.id" :name="i.name" :sub="house.pathText(i.location)" :status="status(i)" :qty="i.quantity" :to="linkFor(i)" />
+        <ApListRow v-for="item in results" :key="item.id" :name="item.name" :sub="house.pathText(item.location)" :status="status(item)" :qty="item.quantity" :to="linkFor(item)" />
       </ApList>
       <p v-else class="m-0 text-[15px] text-ink-muted">No match. Try a room name, or browse below.</p>
     </div>
@@ -65,12 +65,12 @@ const tileMeta = (id) => {
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
         <ApSection title="Needs attention" link-label="See all" link-to="/low">
           <ApList>
-            <ApListRow v-for="i in attention" :key="i.id" :name="i.name" :sub="house.pathText(i.location)" :status="status(i)" :qty="i.quantity" :to="linkFor(i)" />
+            <ApListRow v-for="item in attention" :key="item.id" :name="item.name" :sub="house.pathText(item.location)" :status="status(item)" :qty="item.quantity" :to="linkFor(item)" />
           </ApList>
         </ApSection>
         <ApSection title="Recently moved" class="hidden md:flex">
           <ApList>
-            <ApListRow v-for="i in house.items.filter((x) => x.moved_from)" :key="i.id" :name="i.name" :sub="`${i.moved_from} → ${house.pathText(i.location)}`" :to="linkFor(i)" />
+            <ApListRow v-for="item in house.items.filter((candidate) => candidate.moved_from)" :key="item.id" :name="item.name" :sub="`${item.moved_from} → ${house.pathText(item.location)}`" :to="linkFor(item)" />
           </ApList>
         </ApSection>
       </div>
@@ -92,13 +92,13 @@ const tileMeta = (id) => {
         </div>
         <ApTileGrid v-else>
           <ApLocationTile
-            v-for="r in house.rooms"
-            :key="r.id"
-            :name="r.name"
-            :count="house.countsFor(r.id).total"
-            :meta="tileMeta(r.id).meta"
-            :meta-tone="tileMeta(r.id).tone"
-            :to="`/rooms/${r.id}`"
+            v-for="room in house.rooms"
+            :key="room.id"
+            :name="room.name"
+            :count="house.countsFor(room.id).total"
+            :meta="tileMeta(room.id).meta"
+            :meta-tone="tileMeta(room.id).tone"
+            :to="`/rooms/${room.id}`"
           />
         </ApTileGrid>
       </ApSection>

@@ -5,14 +5,14 @@ import { useId } from 'vue'
 const model = defineModel({ type: [String, Number] })
 const props = defineProps({
   label: { type: String, required: true },
-  type: { type: String, default: 'text', validator: (v) => ['text', 'number', 'search'].includes(v) },
+  type: { type: String, default: 'text', validator: (value) => ['text', 'number', 'search'].includes(value) },
   placeholder: String,
   hint: String,
   error: String,
   required: Boolean,
   maxlength: Number,
   min: Number,
-  inputmode: { type: String, validator: (v) => ['text', 'numeric', 'decimal'].includes(v) },
+  inputmode: { type: String, validator: (value) => ['text', 'numeric', 'decimal'].includes(value) },
   autofocus: Boolean,
 })
 const id = useId()

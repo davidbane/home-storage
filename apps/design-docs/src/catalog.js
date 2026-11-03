@@ -27,10 +27,10 @@ export const catalog = [
   { slug: 'dock', name: 'ApDock', group: 'Layout and navigation', example: 'Dock', summary: 'Bottom action dock on phones, casting a shadow up over content.' },
 ]
 
-export const groups = [...new Set(catalog.map((e) => e.group))]
+export const groups = [...new Set(catalog.map((entry) => entry.group))]
 
 const live = import.meta.glob('./examples/*Example.vue', { eager: true })
 const source = import.meta.glob('./examples/*Example.vue', { eager: true, query: '?raw', import: 'default' })
 
-export const exampleFor = (e) => live[`./examples/${e.example}Example.vue`]?.default
-export const sourceFor = (e) => source[`./examples/${e.example}Example.vue`] ?? ''
+export const exampleFor = (entry) => live[`./examples/${entry.example}Example.vue`]?.default
+export const sourceFor = (entry) => source[`./examples/${entry.example}Example.vue`] ?? ''

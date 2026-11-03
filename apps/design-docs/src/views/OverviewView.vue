@@ -38,15 +38,15 @@ const sections = [
       <ApFeature class="grid grid-cols-2 gap-6 md:grid-cols-4">
         <ApStat :value="tokens.color.tokens.length" label="color tokens" />
         <ApStat :value="tokens.color.themes.length" label="themes" />
-        <ApStat :value="tokens.type.groups.reduce((n, g) => n + g.styles.length, 0)" label="type styles" />
+        <ApStat :value="tokens.type.groups.reduce((total, group) => total + group.styles.length, 0)" label="type styles" />
         <ApStat :value="catalog.length" label="components" />
       </ApFeature>
 
       <section class="flex flex-col gap-4">
         <h2 class="m-0 type-title md:text-[1.625rem]">Principles</h2>
         <ol class="m-0 grid list-none gap-3 p-0 md:grid-cols-2">
-          <li v-for="([title, text], i) in principles" :key="title" class="flex gap-4 rounded-lg bg-surface-1 sheen p-4 shadow-raised">
-            <span class="type-numeral text-brass" aria-hidden="true">{{ i + 1 }}</span>
+          <li v-for="([title, text], index) in principles" :key="title" class="flex gap-4 rounded-lg bg-surface-1 sheen p-4 shadow-raised">
+            <span class="type-numeral text-brass" aria-hidden="true">{{ index + 1 }}</span>
             <span class="flex flex-col gap-1">
               <span class="text-[15px] leading-5 font-medium">{{ title }}</span>
               <span class="type-meta text-ink-muted">{{ text }}</span>
@@ -59,13 +59,13 @@ const sections = [
         <h2 class="m-0 type-title md:text-[1.625rem]">Explore</h2>
         <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <RouterLink
-            v-for="s in sections"
-            :key="s.to"
-            :to="s.to"
+            v-for="section in sections"
+            :key="section.to"
+            :to="section.to"
             class="flex flex-col gap-1 rounded-lg bg-surface-1 sheen p-5 text-ink no-underline shadow-raised transition duration-150 hover:-translate-y-0.5 hover:shadow-raised-hover"
           >
-            <span class="type-title">{{ s.title }}</span>
-            <span class="type-meta text-ink-muted">{{ s.text }}</span>
+            <span class="type-title">{{ section.title }}</span>
+            <span class="type-meta text-ink-muted">{{ section.text }}</span>
           </RouterLink>
         </div>
       </section>

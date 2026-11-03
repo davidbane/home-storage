@@ -8,7 +8,7 @@ import InlineMd from '@/components/InlineMd.vue'
 import { catalog } from '@/catalog'
 
 const route = useRoute()
-const entry = computed(() => catalog.find((e) => e.slug === route.params.slug))
+const entry = computed(() => catalog.find((candidate) => candidate.slug === route.params.slug))
 const index = computed(() => (entry.value ? catalog.indexOf(entry.value) : -1))
 const prev = computed(() => catalog[index.value - 1])
 const next = computed(() => catalog[index.value + 1])
@@ -33,7 +33,7 @@ const next = computed(() => catalog[index.value + 1])
 
       <ApSection v-if="entry.rules?.length" title="Rules">
         <ul class="m-0 flex flex-col gap-2 pl-5 text-[15px] leading-[22px]">
-          <li v-for="r in entry.rules" :key="r"><InlineMd :text="r" /></li>
+          <li v-for="rule in entry.rules" :key="rule"><InlineMd :text="rule" /></li>
         </ul>
       </ApSection>
 

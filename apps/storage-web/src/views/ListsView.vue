@@ -7,15 +7,15 @@ import { status, useHouseStore } from '@/stores/house'
 const house = useHouseStore()
 const { show } = useToast()
 
-const suggestions = computed(() => house.lowItems.filter((i) => !house.onList(i.id)))
-const need = (i) => (i.par !== null ? `${i.quantity} of ${i.par}` : `×${i.quantity}`)
+const suggestions = computed(() => house.lowItems.filter((item) => !house.onList(item.id)))
+const need = (item) => (item.par !== null ? `${item.quantity} of ${item.par}` : `×${item.quantity}`)
 
-async function bought(i) {
-  const undo = await house.markBought(i.id)
-  if (undo) show(`Restocked ${i.name} to ${i.quantity}`, { action: { label: 'Undo', run: () => void undo() } })
+async function bought(item) {
+  const undo = await house.markBought(item.id)
+  if (undo) show(`Restocked ${item.name} to ${item.quantity}`, { action: { label: 'Undo', run: () => void undo() } })
 }
 function addAll() {
-  suggestions.value.forEach((i) => house.toggleList(i.id))
+  suggestions.value.forEach((item) => house.toggleList(item.id))
 }
 function clear() {
   const ids = [...house.shopping]
@@ -37,11 +37,11 @@ function clear() {
 
     <div class="flex flex-col gap-8 md:max-w-3xl">
       <ApList v-if="house.shoppingItems.length" label="To buy">
-        <ApListRow v-for="i in house.shoppingItems" :key="i.id" :name="i.name" :sub="house.pathText(i.location)" :status="status(i)">
+        <ApListRow v-for="item in house.shoppingItems" :key="item.id" :name="item.name" :sub="house.pathText(item.location)" :status="status(item)">
           <template #trailing>
-            <span class="type-meta whitespace-nowrap text-ink-muted">{{ need(i) }}</span>
-            <ApButton class="h-10! px-3.5!" @click="bought(i)"><template #icon><IconCheck :size="18" stroke="1.75" aria-hidden="true" /></template>Bought</ApButton>
-            <ApIconButton :label="`Take ${i.name} off the list`" @click="house.toggleList(i.id)"><IconX :size="18" stroke="1.5" aria-hidden="true" /></ApIconButton>
+            <span class="type-meta whitespace-nowrap text-ink-muted">{{ need(item) }}</span>
+            <ApButton class="h-10! px-3.5!" @click="bought(item)"><template #icon><IconCheck :size="18" stroke="1.75" aria-hidden="true" /></template>Bought</ApButton>
+            <ApIconButton :label="`Take ${item.name} off the list`" @click="house.toggleList(item.id)"><IconX :size="18" stroke="1.5" aria-hidden="true" /></ApIconButton>
           </template>
         </ApListRow>
       </ApList>
@@ -54,10 +54,10 @@ function clear() {
           <button type="button" class="cursor-pointer border-0 bg-transparent p-0 text-[13px] leading-[18px] font-medium text-sapphire-ink hover:underline md:text-sm" @click="addAll">Add all</button>
         </template>
         <ApList>
-          <ApListRow v-for="i in suggestions" :key="i.id" :name="i.name" :sub="house.pathText(i.location)">
+          <ApListRow v-for="item in suggestions" :key="item.id" :name="item.name" :sub="house.pathText(item.location)">
             <template #trailing>
-              <span class="type-meta whitespace-nowrap text-oxblood-ink">{{ need(i) }}</span>
-              <ApButton class="h-10! px-3.5!" @click="house.toggleList(i.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add</ApButton>
+              <span class="type-meta whitespace-nowrap text-oxblood-ink">{{ need(item) }}</span>
+              <ApButton class="h-10! px-3.5!" @click="house.toggleList(item.id)"><template #icon><IconPlus :size="18" stroke="1.75" aria-hidden="true" /></template>Add</ApButton>
             </template>
           </ApListRow>
         </ApList>

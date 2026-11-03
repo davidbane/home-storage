@@ -11,8 +11,8 @@ const house = useHouseStore()
 <template>
   <ApSelect v-model="model" :label="label" :error="error" required>
     <option :value="null" disabled>Choose a place</option>
-    <optgroup v-for="g in house.places" :key="g.room.id" :label="g.room.name">
-      <option v-for="o in g.options" :key="o.id" :value="o.id" :disabled="o.id === exclude">{{ o.label }}{{ o.id === exclude ? ' (current)' : '' }}</option>
+    <optgroup v-for="group in house.places" :key="group.room.id" :label="group.room.name">
+      <option v-for="option in group.options" :key="option.id" :value="option.id" :disabled="option.id === exclude">{{ option.label }}{{ option.id === exclude ? ' (current)' : '' }}</option>
     </optgroup>
   </ApSelect>
 </template>

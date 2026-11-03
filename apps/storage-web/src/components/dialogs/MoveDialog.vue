@@ -12,22 +12,22 @@ const router = useRouter()
 const { show } = useToast()
 
 const it = computed(() => (ui.dialog?.kind === 'move' ? house.item(ui.dialog.itemId) : undefined))
-const open = computed({ get: () => Boolean(it.value), set: (v) => !v && ui.close() })
+const open = computed({ get: () => Boolean(it.value), set: (isOpen) => !isOpen && ui.close() })
 const to = ref(null)
 const error = ref('')
-watch(open, (v) => v && ((to.value = null), (error.value = '')))
+watch(open, (isOpen) => isOpen && ((to.value = null), (error.value = '')))
 
 async function move() {
-  const i = it.value
-  if (!i) return
+  const item = it.value
+  if (!item) return
   if (!to.value) return void (error.value = 'Choose where it goes.')
-  const from = i.location
-  await house.moveItem(i.id, to.value)
+  const from = item.location
+  await house.moveItem(item.id, to.value)
   if (house.saveError) return void (error.value = `Couldn't move it: ${house.saveError}`)
   ui.close()
   // Follow the item to its new place.
-  router.replace({ path: `/rooms/${house.roomOf(i.location)?.id}`, query: { in: i.location, item: i.id } })
-  show(`Moved ${i.name} to ${house.location(i.location)?.name}`, { action: { label: 'Undo', run: () => house.moveItem(i.id, from) } })
+  router.replace({ path: `/rooms/${house.roomOf(item.location)?.id}`, query: { in: item.location, item: item.id } })
+  show(`Moved ${item.name} to ${house.location(item.location)?.name}`, { action: { label: 'Undo', run: () => house.moveItem(item.id, from) } })
 }
 </script>
 

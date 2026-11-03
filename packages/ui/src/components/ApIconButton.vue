@@ -6,7 +6,7 @@ const props = defineProps({
   label: { type: String, required: true },
   to: [String, Object],
   href: String,
-  size: { type: String, default: 'md', validator: (v) => ['md', 'lg'].includes(v) },
+  size: { type: String, default: 'md', validator: (value) => ['md', 'lg'].includes(value) },
 })
 </script>
 

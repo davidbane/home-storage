@@ -22,8 +22,8 @@ const tabIcon = { size: 22, stroke: '1.5', 'aria-hidden': 'true' }
           <ApNavItem to="/shape" label="Space, shape and depth"><template #icon><IconBox v-bind="icon" /></template></ApNavItem>
           <ApNavItem to="/layout" label="Layout"><template #icon><IconLayout v-bind="icon" /></template></ApNavItem>
         </ApNavGroup>
-        <ApNavGroup v-for="g in groups" :key="g" :label="g">
-          <ApNavItem v-for="e in catalog.filter((x) => x.group === g)" :key="e.slug" :to="`/components/${e.slug}`" :label="e.name" />
+        <ApNavGroup v-for="group in groups" :key="group" :label="group">
+          <ApNavItem v-for="entry in catalog.filter((candidate) => candidate.group === group)" :key="entry.slug" :to="`/components/${entry.slug}`" :label="entry.name" />
         </ApNavGroup>
         <template #footer>
           <ApButton variant="ghost" block class="justify-start! px-3!" @click="toggle">

@@ -9,7 +9,7 @@ const props = defineProps({
   decrementLabel: { type: String, default: 'Use one' },
   incrementLabel: { type: String, default: 'Add one' },
 })
-const set = (n) => (model.value = Math.min(props.max, Math.max(props.min, n)))
+const set = (count) => (model.value = Math.min(props.max, Math.max(props.min, count)))
 const btn =
   'inline-flex size-10 cursor-pointer items-center justify-center rounded-pill border-0 bg-surface-1 sheen text-ink shadow-raised transition duration-150 hover:bg-line active:translate-y-px disabled:cursor-default disabled:opacity-50'
 </script>

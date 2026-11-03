@@ -10,17 +10,17 @@ const house = useHouseStore()
 const ui = useUiStore()
 const router = useRouter()
 
-const open = computed({ get: () => ui.dialog?.kind === 'find', set: (v) => !v && ui.close() })
+const open = computed({ get: () => ui.dialog?.kind === 'find', set: (isOpen) => !isOpen && ui.close() })
 const code = ref('')
 const error = ref('')
-watch(open, (v) => v && ((code.value = ''), (error.value = '')))
+watch(open, (isOpen) => isOpen && ((code.value = ''), (error.value = '')))
 
 function go() {
-  const l = house.findByCode(code.value)
-  if (!l) return void (error.value = code.value.trim() ? `No bin with the code "${code.value.trim()}".` : 'Enter a code.')
+  const place = house.findByCode(code.value)
+  if (!place) return void (error.value = code.value.trim() ? `No bin with the code "${code.value.trim()}".` : 'Enter a code.')
   ui.close()
-  if (l.kind === 'room') return void router.push(`/rooms/${l.id}`)
-  router.push({ path: `/rooms/${house.roomOf(l.id)?.id}`, query: { in: l.id } })
+  if (place.kind === 'room') return void router.push(`/rooms/${place.id}`)
+  router.push({ path: `/rooms/${house.roomOf(place.id)?.id}`, query: { in: place.id } })
 }
 </script>
 

@@ -2,9 +2,9 @@
 import { ref } from 'vue'
 import { ApSearchField } from '@home/ui'
 
-const q = ref('')
+const query = ref('')
 </script>
 
 <template>
-  <ApSearchField v-model="q" shortcut class="max-w-md" />
+  <ApSearchField v-model="query" shortcut class="max-w-md" />
 </template>

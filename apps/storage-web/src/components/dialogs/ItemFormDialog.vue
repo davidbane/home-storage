@@ -14,7 +14,7 @@ const { show } = useToast()
 const editing = computed(() => (ui.dialog?.kind === 'edit' ? house.item(ui.dialog.itemId) : undefined))
 const open = computed({
   get: () => ui.dialog?.kind === 'add' || (ui.dialog?.kind === 'edit' && Boolean(editing.value)),
-  set: (v) => !v && ui.close(),
+  set: (isOpen) => !isOpen && ui.close(),
 })
 
 // Text inputs bind strings; convert on save.
@@ -22,26 +22,26 @@ const form = reactive({ name: '', quantity: '1', par: '', storage_class: 'daily'
 const errors = reactive({})
 const saving = ref(false)
 
-watch(open, (v) => {
-  if (!v) return
-  Object.keys(errors).forEach((k) => delete errors[k])
-  const i = editing.value
+watch(open, (isOpen) => {
+  if (!isOpen) return
+  Object.keys(errors).forEach((field) => delete errors[field])
+  const item = editing.value
   Object.assign(form, {
-    name: i?.name ?? '',
-    quantity: String(i?.quantity ?? 1),
-    par: i?.par != null ? String(i.par) : '',
-    storage_class: i?.storage_class ?? 'daily',
-    location: i?.location ?? (ui.dialog?.kind === 'add' ? (ui.dialog.location ?? null) : null),
-    brand: i?.brand ?? '',
-    used_for: i?.used_for ?? '',
+    name: item?.name ?? '',
+    quantity: String(item?.quantity ?? 1),
+    par: item?.par != null ? String(item.par) : '',
+    storage_class: item?.storage_class ?? 'daily',
+    location: item?.location ?? (ui.dialog?.kind === 'add' ? (ui.dialog.location ?? null) : null),
+    brand: item?.brand ?? '',
+    used_for: item?.used_for ?? '',
   })
 })
 
-const whole = (v) => /^\d+$/.test(v.trim())
+const whole = (text) => /^\d+$/.test(text.trim())
 
 /** The form as an ItemDraft, or undefined (with `errors` filled in) when it isn't valid. */
 function validate() {
-  Object.keys(errors).forEach((k) => delete errors[k])
+  Object.keys(errors).forEach((field) => delete errors[field])
   if (!form.name.trim()) errors.name = 'Enter a name.'
   if (!whole(form.quantity)) errors.quantity = 'Enter a whole number, 0 or more.'
   if (form.par.trim() && !whole(form.par)) errors.par = 'Enter a whole number, or leave it empty.'

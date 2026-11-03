@@ -2,8 +2,8 @@ import { ref, watch } from 'vue'
 const KEY = 'ap-theme'
 const read = () => {
   try {
-    const v = localStorage.getItem(KEY)
-    return v === 'night' || v === 'parchment' ? v : null
+    const stored = localStorage.getItem(KEY)
+    return stored === 'night' || stored === 'parchment' ? stored : null
   } catch {
     return null
   }
@@ -14,10 +14,10 @@ const theme = ref(read() ?? 'night')
 
 watch(
   theme,
-  (t) => {
-    if (typeof document !== 'undefined') document.documentElement.dataset.theme = t
+  (current) => {
+    if (typeof document !== 'undefined') document.documentElement.dataset.theme = current
     try {
-      localStorage.setItem(KEY, t)
+      localStorage.setItem(KEY, current)
     } catch {
       /* private mode or blocked storage: the theme still applies for this visit */
     }
