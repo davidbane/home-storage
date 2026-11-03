@@ -5,13 +5,9 @@
   "description": "Apothecary Vue 3 components for home apps",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
+    ".": "./src/index.js",
     "./styles.css": "./src/styles.css",
-    "./fonts": "./src/fonts.ts"
-  },
-  "scripts": {
-    "build": "vue-tsc --noEmit -p tsconfig.json",
-    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
+    "./fonts": "./src/fonts.js"
   },
   "peerDependencies": {
     "vue": "^3.5.0",
@@ -25,10 +21,8 @@
     "@tabler/icons-vue": "^3.31.0"
   },
   "devDependencies": {
-    "typescript": "~5.9.2",
     "vite": "^8.0.14",
     "vue": "^3.5.34",
-    "vue-router": "^4.5.1",
-    "vue-tsc": "^3.0.0"
+    "vue-router": "^4.5.1"
   }
 }

@@ -1,6 +1,6 @@
 # home-storage
 
-My home apps, starting with the house storage catalog: a Django REST Framework API and a Vue 3 + TypeScript + Tailwind CSS v4 frontend, styled with the **Apothecary** design system (bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press).
+My home apps, starting with the house storage catalog: a Django REST Framework API and a Vue 3 + JavaScript + Tailwind CSS v4 frontend, styled with the **Apothecary** design system (bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press).
 
 ## Layout
 
@@ -27,7 +27,8 @@ nvm install       # reads .nvmrc; afterwards `nvm use` in this folder
 corepack enable   # once per Node install (Node 25+: npm install -g corepack first)
 yarn install
 yarn dev          # builds tokens, then runs the storage app at http://localhost:5173
-yarn build        # typecheck and build everything
+yarn build        # build everything
+yarn lint         # lint the frontend (yarn lint:fix applies the fixes it can)
 yarn tokens       # rebuild tokens (and docs/design-system/tokens.md) after editing tokens.json
 yarn docs         # live design system docs at http://localhost:5174
 ```
@@ -49,7 +50,7 @@ Settings come from `backend/.env` (or real environment variables): `SECRET_KEY`,
 
 ### Frontend ↔ API
 
-In dev, Vite proxies `/api` to `http://localhost:8000`, so the browser sees one origin: Django's session cookie and CSRF token work with no CORS setup. The axios client (`apps/storage-web/src/api/client.ts`) sends the `csrftoken` cookie back as `X-CSRFToken`.
+In dev, Vite proxies `/api` to `http://localhost:8000`, so the browser sees one origin: Django's session cookie and CSRF token work with no CORS setup. The axios client (`apps/storage-web/src/api/client.js`) sends the `csrftoken` cookie back as `X-CSRFToken`.
 
 The app reads sample data by default. To use the real API, create `apps/storage-web/.env.local` with:
 
@@ -57,7 +58,7 @@ The app reads sample data by default. To use the real API, create `apps/storage-
 VITE_DATA_SOURCE=api
 ```
 
-`src/api/endpoints.ts` types the DRF responses as they are today, and `src/api/adapt.ts` turns residences, areas, spots and items into the app's location tree. State lives in a Pinia store (`src/stores/house.ts`).
+`src/api/endpoints.js` documents the DRF response shapes as they are today, and `src/api/adapt.js` turns residences, areas, spots and items into the app's location tree. State lives in a Pinia store (`src/stores/house.js`).
 
 ## Design system
 
@@ -94,7 +95,7 @@ Spacing stays Tailwind's 4px scale, which matches the system (`p-5` is `space-5`
 - **Sapphire means "act".** One `variant="primary"` button per view. Brass is ornament only; nothing decorative is blue.
 - **Display face for headlines and numbers only.** Item names, paths, quantities and controls are Inter.
 - **Arched things are places.** Only `ApLocationTile` gets the arch.
-- **Status is a fixed vocabulary:** Low, Surplus, Long-term, Stocked (`Status` type). The app decides which one applies (`status()` in `apps/storage-web/src/api/house.ts`); components only display it.
+- **Status is a fixed vocabulary:** Low, Surplus, Long-term, Stocked (`statusLabel` in `@home/ui`). The app decides which one applies (`status()` in `apps/storage-web/src/stores/house.js`); components only display it.
 - **Depth is lit from above:** sunken for inputs, raised for cards and lists, floating for the tab bar and docks.
 - **One URL per state at every width.** `/rooms/hall-closet?in=drawer-b&item=9v-batteries` shows a detail pane on desktop and the item screen on a phone.
 

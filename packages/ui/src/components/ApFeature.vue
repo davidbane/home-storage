@@ -1,8 +1,3 @@
-<script setup lang="ts">
-/** The one bottle-green surface per screen. Text only in on-bottle and brass-on-bottle. */
-withDefaults(defineProps<{ as?: string }>(), { as: 'section' })
-</script>
-
 <template>
   <component
     :is="as"
@@ -11,3 +6,8 @@ withDefaults(defineProps<{ as?: string }>(), { as: 'section' })
     <slot />
   </component>
 </template>
+
+<script setup>
+  /** The one bottle-green surface per screen. Text only in on-bottle and brass-on-bottle. */
+  defineProps({ as: { type: String, default: 'section' } });
+</script>

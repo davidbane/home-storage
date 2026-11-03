@@ -1,9 +1,3 @@
-<script setup lang="ts">
-/** The round sapphire add button at the center of the tab bar. */
-defineProps<{ label: string }>()
-defineEmits<{ click: [MouseEvent] }>()
-</script>
-
 <template>
   <button
     type="button"
@@ -14,3 +8,9 @@ defineEmits<{ click: [MouseEvent] }>()
     <slot />
   </button>
 </template>
+
+<script setup>
+  /** The round sapphire add button at the center of the tab bar. */
+  defineProps({ label: { type: String, required: true } });
+  defineEmits(['click']);
+</script>

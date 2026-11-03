@@ -33,7 +33,7 @@ The round sapphire add button in the center of the tab bar. `label` required; em
 
 ### ApStatusChip
 
-`status`: `'low' | 'surplus' | 'long' | 'ok'`, shown as Low, Surplus, Long-term, Stocked with a dot. `label` overrides the word only when you must. The app decides the status (the storage app's `status()` in `stores/house.ts`); the chip only displays it. In lists, leave Stocked out: show a chip only when it says something.
+`status`: `'low' | 'surplus' | 'long' | 'ok'`, shown as Low, Surplus, Long-term, Stocked with a dot. `label` overrides the word only when you must. The app decides the status (the storage app's `status()` in `stores/house.js`); the chip only displays it. In lists, leave Stocked out: show a chip only when it says something.
 
 ### ApBinTag
 
@@ -142,6 +142,6 @@ See [Layout](layout.md) for how these fit together.
 ## Adding a component
 
 1. Build it in `packages/ui/src/components` from the tokens (`bg-surface-1`, `shadow-raised`, `type-meta`). No raw hex values, and no colors outside the palette.
-2. Export it from `packages/ui/src/index.ts`.
-3. Add an example in `apps/design-docs/src/examples/` and an entry in `apps/design-docs/src/catalog.ts`.
+2. Export it from `packages/ui/src/index.js`.
+3. Add an example in `apps/design-docs/src/examples/` and an entry in `apps/design-docs/src/catalog.js`.
 4. Document it here: what it's for, its props, its rules.

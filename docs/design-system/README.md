@@ -36,7 +36,7 @@ A dark, modern-gothic look for the home apps: bottle green and bone, a thread of
    @import "@home/ui/styles.css";
    ```
 
-3. In `main.ts`, `import '@home/ui/fonts'` once.
+3. In `main.js`, `import '@home/ui/fonts'` once.
 4. Wrap the app in `ApShell` with an `ApSidebar` (desktop) and an `ApTabBar` (phones). Mount `ApToaster` once.
 5. To give the app its own identity, change only `bottle` (and `on-bottle`) and optionally `brass` in a theme override, check contrast in the token reference, and keep sapphire as the action color so every home app behaves the same.
 
