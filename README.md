@@ -28,6 +28,7 @@ corepack enable   # once per Node install (Node 25+: npm install -g corepack fir
 yarn install
 yarn dev          # builds tokens, then runs the storage app at http://localhost:5173
 yarn build        # build everything
+yarn lint         # lint the frontend (yarn lint:fix applies the fixes it can)
 yarn tokens       # rebuild tokens (and docs/design-system/tokens.md) after editing tokens.json
 yarn docs         # live design system docs at http://localhost:5174
 ```

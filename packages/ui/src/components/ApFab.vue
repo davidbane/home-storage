@@ -1,9 +1,3 @@
-<script setup>
-/** The round sapphire add button at the center of the tab bar. */
-defineProps({ label: { type: String, required: true } })
-defineEmits(['click'])
-</script>
-
 <template>
   <button
     type="button"
@@ -14,3 +8,9 @@ defineEmits(['click'])
     <slot />
   </button>
 </template>
+
+<script setup>
+  /** The round sapphire add button at the center of the tab bar. */
+  defineProps({ label: { type: String, required: true } });
+  defineEmits(['click']);
+</script>

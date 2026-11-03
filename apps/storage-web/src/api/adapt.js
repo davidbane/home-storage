@@ -1,15 +1,17 @@
-import { deriveKinds } from '@/models'
+import { deriveKinds } from '@/models';
 
 /**
  * Turns the API's residence / area / spot / item records into the app's single
  * location tree: house → room → furniture → container → slot.
  *
  * Spot kinds come from depth (deriveKinds in models.ts).
+ *
  */
+// TODO: what is models.ts?
 export function adapt(residence, areas, spots, items) {
-  const roomIds = new Set(areas.filter((area) => area.residence === residence.id).map((area) => area.id))
-  const ourSpots = spots.filter((spot) => roomIds.has(spot.storage_area.id))
-  const byId = new Map(ourSpots.map((spot) => [spot.id, spot]))
+  const roomIds = new Set(areas.filter((area) => area.residence === residence.id).map((area) => area.id));
+  const ourSpots = spots.filter((spot) => roomIds.has(spot.storage_area.id));
+  const byId = new Map(ourSpots.map((spot) => [spot.id, spot]));
 
   const locations = deriveKinds([
     { id: residence.id, name: residence.name, kind: 'house', parent: null },
@@ -26,9 +28,9 @@ export function adapt(residence, areas, spots, items) {
         type: spot.storage_type.id,
       }),
     ),
-  ])
+  ]);
 
-  const spotIds = new Set(ourSpots.map((spot) => spot.id))
+  const spotIds = new Set(ourSpots.map((spot) => spot.id));
   return {
     locations,
     items: items
@@ -47,5 +49,5 @@ export function adapt(residence, areas, spots, items) {
           history: [],
         }),
       ),
-  }
+  };
 }

@@ -1,8 +1,3 @@
-<script setup>
-/** The one bottle-green surface per screen. Text only in on-bottle and brass-on-bottle. */
-defineProps({ as: { type: String, default: 'section' } })
-</script>
-
 <template>
   <component
     :is="as"
@@ -11,3 +6,8 @@ defineProps({ as: { type: String, default: 'section' } })
     <slot />
   </component>
 </template>
+
+<script setup>
+  /** The one bottle-green surface per screen. Text only in on-bottle and brass-on-bottle. */
+  defineProps({ as: { type: String, default: 'section' } });
+</script>

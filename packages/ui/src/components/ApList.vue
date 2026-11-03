@@ -1,8 +1,3 @@
-<script setup>
-/** Grouped list on a raised surface. Fill it with ApListRow. */
-defineProps({ label: String })
-</script>
-
 <template>
   <ul
     :aria-label="label"
@@ -11,3 +6,8 @@ defineProps({ label: String })
     <slot />
   </ul>
 </template>
+
+<script setup>
+  /** Grouped list on a raised surface. Fill it with ApListRow. */
+  defineProps({ label: String });
+</script>

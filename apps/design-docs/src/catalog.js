@@ -8,7 +8,7 @@ export const catalog = [
   { slug: 'status-chip', name: 'ApStatusChip', group: 'Status and labels', example: 'StatusChip', summary: 'One of four fixed statuses with a word and a dot: low, surplus, long, ok.', rules: ['The app decides the status; the chip only shows it.', 'In lists, leave Stocked out.'] },
   { slug: 'bin-tag', name: 'ApBinTag', group: 'Status and labels', example: 'BinTag', summary: 'A container\'s printed label: brass hairline, mono code. For bins and containers, not items.' },
   { slug: 'breadcrumb', name: 'ApBreadcrumb', group: 'Status and labels', example: 'Breadcrumb', summary: 'The location path. With `current`, the last crumb is the page you\'re on.' },
-  { slug: 'list', name: 'ApList, ApListRow', group: 'Content', example: 'List', summary: 'A grouped list on a raised surface. Rows take name, sub, status, qty, to and selected; `#trailing` replaces the quantity.', rules: ["Don't put buttons in a row that has `to`: the whole row is a link."] },
+  { slug: 'list', name: 'ApList, ApListRow', group: 'Content', example: 'List', summary: 'A grouped list on a raised surface. Rows take name, sub, status, qty, to and selected; `#trailing` replaces the quantity.', rules: ['Don\'t put buttons in a row that has `to`: the whole row is a link.'] },
   { slug: 'location-tile', name: 'ApLocationTile, ApTileGrid', group: 'Content', example: 'LocationTile', summary: 'A place that holds things, under the arch, led by its count. The grid reflows, or mirrors real furniture with `columns`.', rules: ['Only places get the arch.'] },
   { slug: 'feature', name: 'ApFeature, ApStat', group: 'Content', example: 'Feature', summary: 'The one bottle-green surface per screen, holding headline numbers.', rules: ['Text only in on-bottle and brass-on-bottle.'] },
   { slug: 'panel', name: 'ApPanel', group: 'Content', example: 'Panel', summary: 'A raised surface for grouped controls or a detail pane.' },
@@ -25,12 +25,12 @@ export const catalog = [
   { slug: 'sidebar', name: 'ApSidebar, ApNavItem', group: 'Layout and navigation', example: 'Sidebar', summary: 'Desktop navigation: brand, groups of links with counts, footer.' },
   { slug: 'tab-bar', name: 'ApTabBar, ApTab, ApFab', group: 'Layout and navigation', example: 'TabBar', summary: 'Floating phone navigation: four tabs around the add button.' },
   { slug: 'dock', name: 'ApDock', group: 'Layout and navigation', example: 'Dock', summary: 'Bottom action dock on phones, casting a shadow up over content.' },
-]
+];
 
-export const groups = [...new Set(catalog.map((entry) => entry.group))]
+export const groups = [...new Set(catalog.map((entry) => entry.group))];
 
-const live = import.meta.glob('./examples/*Example.vue', { eager: true })
-const source = import.meta.glob('./examples/*Example.vue', { eager: true, query: '?raw', import: 'default' })
+const live = import.meta.glob('./examples/*Example.vue', { eager: true });
+const source = import.meta.glob('./examples/*Example.vue', { eager: true, query: '?raw', import: 'default' });
 
-export const exampleFor = (entry) => live[`./examples/${entry.example}Example.vue`]?.default
-export const sourceFor = (entry) => source[`./examples/${entry.example}Example.vue`] ?? ''
+export const exampleFor = (entry) => live[`./examples/${entry.example}Example.vue`]?.default;
+export const sourceFor = (entry) => source[`./examples/${entry.example}Example.vue`] ?? '';

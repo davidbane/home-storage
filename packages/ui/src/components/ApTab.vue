@@ -1,17 +1,9 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-
-/** A tab in ApTabBar: icon over a short label. Active tab is a sapphire-tint pill. */
-// `active` defaults to undefined (not false) so the router decides unless you override it.
-const props = defineProps({
-  to: { type: [String, Object], required: true },
-  label: { type: String, required: true },
-  active: { type: Boolean, default: undefined },
-})
-</script>
-
 <template>
-  <RouterLink v-slot="{ href, navigate, isActive }" :to="props.to" custom>
+  <RouterLink
+    v-slot="{ href, navigate, isActive }"
+    :to="props.to"
+    custom
+  >
     <a
       :href="href"
       :aria-current="(props.active ?? isActive) ? 'page' : undefined"
@@ -26,3 +18,15 @@ const props = defineProps({
     </a>
   </RouterLink>
 </template>
+
+<script setup>
+  import { RouterLink } from 'vue-router';
+
+  /** A tab in ApTabBar: icon over a short label. Active tab is a sapphire-tint pill. */
+  // `active` defaults to undefined (not false) so the router decides unless you override it.
+  const props = defineProps({
+    to: { type: [String, Object], required: true },
+    label: { type: String, required: true },
+    active: { type: Boolean, default: undefined },
+  });
+</script>

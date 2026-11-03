@@ -5,7 +5,7 @@ export const storageTypes = [
   { id: 'type-shelf', name: 'Shelf' },
   { id: 'type-bin', name: 'Bin' },
   { id: 'type-closet', name: 'Closet' },
-]
+];
 
 // Sample data until the DRF endpoints exist. Shapes match ../models.js.
 export const locations = [
@@ -45,7 +45,7 @@ export const locations = [
   { id: 'attic-bins', name: 'Storage bins', kind: 'furniture', parent: 'attic', code: 'A-01', type: 'type-shelving' },
   { id: 'bin-4', name: 'Bin 4', kind: 'container', parent: 'attic-bins', code: 'A-01-4', note: 'holiday', type: 'type-bin' },
   { id: 'bin-9', name: 'Bin 9', kind: 'container', parent: 'attic-bins', code: 'A-01-9', note: 'keepsakes', type: 'type-bin' },
-]
+];
 
 const item = (fields) => ({
   id: fields.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
@@ -53,7 +53,7 @@ const item = (fields) => ({
   storage_class: 'daily',
   history: [],
   ...fields,
-})
+});
 
 export const items = [
   item({
@@ -87,4 +87,4 @@ export const items = [
   item({ name: 'Spare sheets', quantity: 3, location: 'closet-top' }),
   item({ name: 'Halloween decor', quantity: 1, location: 'bin-4', storage_class: 'long_term' }),
   item({ name: 'Yearbooks', quantity: 6, location: 'bin-9', storage_class: 'long_term' }),
-]
+];

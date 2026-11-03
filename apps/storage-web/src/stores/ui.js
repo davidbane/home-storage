@@ -1,5 +1,5 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
 
 /**
  * Which app-level dialog is open. Views ask for one; App.vue renders it.
@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
  * room-add, room-edit, spot-add, spot-edit, place-remove.
  */
 export const useUiStore = defineStore('ui', () => {
-  const dialog = ref(null)
+  const dialog = ref(null);
   return {
     dialog,
     openAdd: (location) => (dialog.value = { kind: 'add', location }),
@@ -21,5 +21,5 @@ export const useUiStore = defineStore('ui', () => {
     openEditSpot: (id) => (dialog.value = { kind: 'spot-edit', id }),
     openRemovePlace: (id) => (dialog.value = { kind: 'place-remove', id }),
     close: () => (dialog.value = null),
-  }
-})
+  };
+});

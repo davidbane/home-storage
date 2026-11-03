@@ -1,15 +1,3 @@
-<script setup>
-import ApLink from './ApLink.vue'
-
-/** Round icon-only button. `label` is required: it's the accessible name. */
-const props = defineProps({
-  label: { type: String, required: true },
-  to: [String, Object],
-  href: String,
-  size: { type: String, default: 'md', validator: (value) => ['md', 'lg'].includes(value) },
-})
-</script>
-
 <template>
   <ApLink
     :to="props.to"
@@ -27,3 +15,15 @@ const props = defineProps({
     <slot />
   </ApLink>
 </template>
+
+<script setup>
+  import ApLink from './ApLink.vue';
+
+  /** Round icon-only button. `label` is required: it's the accessible name. */
+  const props = defineProps({
+    label: { type: String, required: true },
+    to: [String, Object],
+    href: String,
+    size: { type: String, default: 'md', validator: (value) => ['md', 'lg'].includes(value) },
+  });
+</script>

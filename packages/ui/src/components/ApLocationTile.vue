@@ -1,20 +1,3 @@
-<script setup>
-import ApLink from './ApLink.vue'
-
-/**
- * A place that holds things, under the lancet arch, led by its item count.
- * Arched things are places: nothing else in the system uses this shape.
- */
-const props = defineProps({
-  name: { type: String, required: true },
-  count: { type: Number, required: true },
-  meta: String,
-  metaTone: { type: String, validator: (value) => ['muted', 'alert'].includes(value) },
-  to: [String, Object],
-  selected: Boolean,
-})
-</script>
-
 <template>
   <ApLink
     :to="props.to"
@@ -31,7 +14,23 @@ const props = defineProps({
     <span
       v-if="props.meta"
       :class="['type-caption font-normal', props.selected ? 'text-sapphire-ink' : props.metaTone === 'alert' ? 'text-oxblood-ink' : 'text-ink-muted']"
-      >{{ props.meta }}</span
-    >
+    >{{ props.meta }}</span>
   </ApLink>
 </template>
+
+<script setup>
+  import ApLink from './ApLink.vue';
+
+  /**
+   * A place that holds things, under the lancet arch, led by its item count.
+   * Arched things are places: nothing else in the system uses this shape.
+   */
+  const props = defineProps({
+    name: { type: String, required: true },
+    count: { type: Number, required: true },
+    meta: String,
+    metaTone: { type: String, validator: (value) => ['muted', 'alert'].includes(value) },
+    to: [String, Object],
+    selected: Boolean,
+  });
+</script>

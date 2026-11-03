@@ -9,7 +9,7 @@ export const statusLabel = {
   surplus: 'Surplus',
   long: 'Long-term',
   ok: 'Stocked',
-}
+};
 
 /** @typedef {'night' | 'parchment'} Theme */
 

@@ -1,10 +1,3 @@
-<script setup>
-import { ApContainer, ApPageHead, ApSection } from '@home/ui'
-import { tokens } from '@/tokens'
-
-const fontVar = (family) => `var(--ap-font-${family})`
-</script>
-
 <template>
   <ApContainer>
     <ApPageHead title="Type">
@@ -17,13 +10,24 @@ const fontVar = (family) => `var(--ap-font-${family})`
     </ApPageHead>
 
     <div class="flex flex-col gap-10">
-      <ApSection v-for="group in tokens.type.groups" :key="group.name" :title="group.name">
+      <ApSection
+        v-for="group in tokens.type.groups"
+        :key="group.name"
+        :title="group.name"
+      >
         <div class="rounded-lg bg-surface-1 shadow-raised">
-          <div v-for="style in group.styles" :key="style.name" class="grid gap-2 p-4 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-6 md:p-5 [&+&]:border-t [&+&]:border-line">
+          <div
+            v-for="style in group.styles"
+            :key="style.name"
+            class="grid gap-2 p-4 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-6 md:p-5 [&+&]:border-t [&+&]:border-line"
+          >
             <div class="flex flex-col gap-0.5">
               <code class="font-mono text-[13px]">type-{{ style.name }}</code>
               <span class="type-meta text-ink-muted">{{ style.fontSize }} / {{ style.lineHeight }} · {{ style.fontWeight }}{{ style.letterSpacing ? ` · ${style.letterSpacing}` : '' }}</span>
-              <span v-if="style.usage" class="type-meta text-ink-muted">{{ style.usage }}</span>
+              <span
+                v-if="style.usage"
+                class="type-meta text-ink-muted"
+              >{{ style.usage }}</span>
             </div>
             <div
               class="min-w-0 overflow-hidden text-ellipsis"
@@ -50,3 +54,10 @@ const fontVar = (family) => `var(--ap-font-${family})`
     </div>
   </ApContainer>
 </template>
+
+<script setup>
+  import { ApContainer, ApPageHead, ApSection } from '@home/ui';
+  import { tokens } from '@/tokens';
+
+  const fontVar = (family) => `var(--ap-font-${family})`;
+</script>

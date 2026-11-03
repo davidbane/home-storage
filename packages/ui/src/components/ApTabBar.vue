@@ -1,8 +1,3 @@
-<script setup>
-/** Floating phone navigation: four ApTab around an ApFab. Hidden at 960px and up. */
-defineProps({ label: String })
-</script>
-
 <template>
   <nav
     :aria-label="label ?? 'Main'"
@@ -11,3 +6,8 @@ defineProps({ label: String })
     <slot />
   </nav>
 </template>
+
+<script setup>
+  /** Floating phone navigation: four ApTab around an ApFab. Hidden at 960px and up. */
+  defineProps({ label: String });
+</script>

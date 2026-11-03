@@ -1,8 +1,3 @@
-<script setup>
-/** Desktop navigation. Slots: brand, default (ApNavGroup), footer. Hidden under 960px by ApShell. */
-defineProps({ label: String })
-</script>
-
 <template>
   <nav
     :aria-label="label ?? 'Main'"
@@ -10,6 +5,16 @@ defineProps({ label: String })
   >
     <slot name="brand" />
     <slot />
-    <div v-if="$slots.footer" class="mt-auto"><slot name="footer" /></div>
+    <div
+      v-if="$slots.footer"
+      class="mt-auto"
+    >
+      <slot name="footer" />
+    </div>
   </nav>
 </template>
+
+<script setup>
+  /** Desktop navigation. Slots: brand, default (ApNavGroup), footer. Hidden under 960px by ApShell. */
+  defineProps({ label: String });
+</script>

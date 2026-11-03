@@ -1,5 +1,6 @@
-import axios from 'axios'
+import axios from 'axios';
 
+// TODO: reference needs cleaned up
 /**
  * Shared axios instance for the DRF API.
  *
@@ -14,4 +15,4 @@ export const http = axios.create({
   xsrfCookieName: 'csrftoken',
   xsrfHeaderName: 'X-CSRFToken',
   headers: { Accept: 'application/json' },
-})
+});

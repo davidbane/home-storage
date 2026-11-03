@@ -1,7 +1,7 @@
-import { http } from './client'
+import { http } from './client';
 
 // Shapes as backend/homeapi/serializers.py returns them today.
-//WTF is this?
+// WTF is this?
 /**
  * @typedef {object} ApiStorageType
  * @property {string} id
@@ -81,7 +81,7 @@ import { http } from './client'
  * @property {string} description
  */
 
-const get = async (url) => (await http.get(url)).data
+const get = async (url) => (await http.get(url)).data;
 
 export const api = {
   residences: () => get('/residences/'),
@@ -93,22 +93,22 @@ export const api = {
   /** PATCH sends only what changed. A count-only PATCH works today; storage_spot needs the serializer fix. */
   updateItem: async (id, body) => (await http.patch(`/storage-items/${id}/`, body)).data,
   deleteItem: async (id) => {
-    await http.delete(`/storage-items/${id}/`)
+    await http.delete(`/storage-items/${id}/`);
   },
   createArea: async (body) => (await http.post('/storage-areas/', body)).data,
   updateArea: async (id, body) => (await http.patch(`/storage-areas/${id}/`, body)).data,
   deleteArea: async (id) => {
-    await http.delete(`/storage-areas/${id}/`)
+    await http.delete(`/storage-areas/${id}/`);
   },
   createSpot: async (body) => (await http.post('/storage-spots/', body)).data,
   updateSpot: async (id, body) => (await http.patch(`/storage-spots/${id}/`, body)).data,
   deleteSpot: async (id) => {
-    await http.delete(`/storage-spots/${id}/`)
+    await http.delete(`/storage-spots/${id}/`);
   },
   createType: async (name) => (await http.post('/storage-types/', { name })).data,
   updateType: async (id, name) => (await http.patch(`/storage-types/${id}/`, { name })).data,
   /** The API protects types in use (on_delete=PROTECT); the app checks first. */
   deleteType: async (id) => {
-    await http.delete(`/storage-types/${id}/`)
+    await http.delete(`/storage-types/${id}/`);
   },
-}
+};
