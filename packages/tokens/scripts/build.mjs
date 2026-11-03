@@ -21,15 +21,15 @@ const ref = (value) => {
   const alias = /^\{([A-Za-z0-9_.-]+)\}$/.exec(value)
   return alias ? `var(--${PREFIX}-${alias[1]})` : value.toLowerCase().startsWith('#') ? value.toLowerCase() : value
 }
-const valueFor = (tok, theme) =>
-  typeof tok.value === 'object' ? ref(tok.value[theme] ?? tok.value[first]) : ref(tok.value)
+const valueFor = (token, theme) =>
+  typeof token.value === 'object' ? ref(token.value[theme] ?? token.value[first]) : ref(token.value)
 
 // ---------- tokens.css ----------
 const themed = [...tokens.color.tokens, ...(tokens.shadow?.tokens ?? [])]
 const blocks = themes.map((theme, index) => {
-  const sel = index === 0 ? `:root,\n[data-theme="${theme}"]` : `[data-theme="${theme}"]`
+  const selector = index === 0 ? `:root,\n[data-theme="${theme}"]` : `[data-theme="${theme}"]`
   const lines = themed.map((token) => `  --${PREFIX}-${token.name}: ${valueFor(token, theme)};`)
-  return `${sel} {\n  color-scheme: ${theme === 'parchment' ? 'light' : 'dark'};\n${lines.join('\n')}\n}`
+  return `${selector} {\n  color-scheme: ${theme === 'parchment' ? 'light' : 'dark'};\n${lines.join('\n')}\n}`
 })
 
 const flat = [
@@ -37,13 +37,13 @@ const flat = [
   ...(tokens.radius?.tokens ?? []),
   ...(tokens.layout?.tokens ?? []),
 ]
-const fams = Object.entries(tokens.type.families).map(([family, stack]) => `  --${PREFIX}-font-${family}: ${stack};`)
-const staticBlock = `:root {\n${flat.map((token) => `  --${PREFIX}-${token.name}: ${token.value};`).join('\n')}\n${fams.join('\n')}\n}`
+const fontFamilies = Object.entries(tokens.type.families).map(([family, stack]) => `  --${PREFIX}-font-${family}: ${stack};`)
+const staticBlock = `:root {\n${flat.map((token) => `  --${PREFIX}-${token.name}: ${token.value};`).join('\n')}\n${fontFamilies.join('\n')}\n}`
 
 writeFileSync(resolve(out, 'tokens.css'), `${header}\n${blocks.join('\n\n')}\n\n${staticBlock}\n`)
 
 // ---------- theme.css (Tailwind v4) ----------
-const px = (value) => (/^\d+(\.\d+)?px$/.test(value) ? `${parseFloat(value) / 16}rem` : value)
+const toRem = (value) => (/^\d+(\.\d+)?px$/.test(value) ? `${parseFloat(value) / 16}rem` : value)
 const theme = []
 theme.push('  /* Only the system palette: no stray Tailwind colors. */')
 theme.push('  --color-*: initial;')
@@ -59,9 +59,9 @@ theme.push('\n  --shadow-*: initial;')
 for (const token of tokens.shadow?.tokens ?? []) theme.push(`  --shadow-${token.name.replace(/^shadow-/, '')}: var(--${PREFIX}-${token.name});`)
 
 // Breakpoints have to be literal values: media queries can't read custom properties.
-const bp = Object.fromEntries((tokens.layout?.tokens ?? []).map((token) => [token.name, token.value]))
+const breakpoints = Object.fromEntries((tokens.layout?.tokens ?? []).map((token) => [token.name, token.value]))
 theme.push('\n  --breakpoint-*: initial;')
-for (const [size, name] of [['sm', 'bp-sm'], ['md', 'bp-md'], ['lg', 'bp-lg']]) if (bp[name]) theme.push(`  --breakpoint-${size}: ${px(bp[name])};`)
+for (const [size, name] of [['sm', 'bp-sm'], ['md', 'bp-md'], ['lg', 'bp-lg']]) if (breakpoints[name]) theme.push(`  --breakpoint-${size}: ${toRem(breakpoints[name])};`)
 
 theme.push('\n  --container-page: var(--ap-container-max);')
 theme.push('  --spacing-sidebar: var(--ap-sidebar-width);')
@@ -71,15 +71,15 @@ theme.push('  --spacing-pane: var(--ap-pane-width);')
 const utilities = []
 for (const group of tokens.type.groups) {
   for (const style of group.styles) {
-    const fam = style.family ?? group.family
-    const decl = [
-      `  font-family: var(--${PREFIX}-font-${fam});`,
-      `  font-size: ${px(style.fontSize)};`,
+    const family = style.family ?? group.family
+    const declarations = [
+      `  font-family: var(--${PREFIX}-font-${family});`,
+      `  font-size: ${toRem(style.fontSize)};`,
       `  line-height: ${style.lineHeight};`,
       `  font-weight: ${style.fontWeight};`,
     ]
-    if (style.letterSpacing) decl.push(`  letter-spacing: ${style.letterSpacing};`)
-    utilities.push(`/* ${style.usage} */\n@utility type-${style.name} {\n${decl.join('\n')}\n}`)
+    if (style.letterSpacing) declarations.push(`  letter-spacing: ${style.letterSpacing};`)
+    utilities.push(`/* ${style.usage} */\n@utility type-${style.name} {\n${declarations.join('\n')}\n}`)
   }
 }
 

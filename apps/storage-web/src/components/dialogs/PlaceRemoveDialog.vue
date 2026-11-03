@@ -30,8 +30,8 @@ async function remove() {
   if (!target) return
   const parent = target.parent
   const wasRoom = target.kind === 'room'
-  const ok = await house.removePlace(target.id)
-  if (!ok) return void (error.value = house.saveError ?? "Couldn't remove it.")
+  const removed = await house.removePlace(target.id)
+  if (!removed) return void (error.value = house.saveError ?? "Couldn't remove it.")
   ui.close()
   if (wasRoom && route.params.roomId === target.id) router.replace('/')
   else if (route.query.in === target.id) router.replace({ query: { ...route.query, in: parent && house.location(parent)?.kind !== 'room' ? parent : undefined } })

@@ -29,11 +29,11 @@ function luminance(hexColor) {
   return 0.2126 * red + 0.7152 * green + 0.0722 * blue
 }
 const ratio = (first, second) => {
-  const [hi, lo] = [luminance(first), luminance(second)].sort((left, right) => right - left)
-  return (hi + 0.05) / (lo + 0.05)
+  const [lighter, darker] = [luminance(first), luminance(second)].sort((left, right) => right - left)
+  return (lighter + 0.05) / (darker + 0.05)
 }
 
-const esc = (text = '') => String(text).replace(/\|/g, '\\|').replace(/\n/g, ' ')
+const escapeCell = (text = '') => String(text).replace(/\|/g, '\\|').replace(/\n/g, ' ')
 const lines = []
 const push = (...entries) => lines.push(...entries)
 
@@ -49,11 +49,11 @@ push(
 // ---- color ----
 push(`## Color`, '', `| Token | ${themes.map((theme) => theme.name).join(' | ')} | Usage |`, `|---|${themes.map(() => '---|').join('')}---|`)
 for (const token of tokens.color.tokens) {
-  const vals = themes.map((th) => {
-    const raw = typeof token.value === 'object' ? (token.value[th.id] ?? token.value[first]) : token.value
-    return /^\{/.test(raw) ? `→ \`${raw.slice(1, -1)}\`` : `\`${hex(token.name, th.id)}\``
+  const values = themes.map((theme) => {
+    const raw = typeof token.value === 'object' ? (token.value[theme.id] ?? token.value[first]) : token.value
+    return /^\{/.test(raw) ? `→ \`${raw.slice(1, -1)}\`` : `\`${hex(token.name, theme.id)}\``
   })
-  push(`| \`${token.name}\` | ${vals.join(' | ')} | ${esc(token.usage)} |`)
+  push(`| \`${token.name}\` | ${values.join(' | ')} | ${escapeCell(token.usage)} |`)
 }
 
 // ---- contrast ----
@@ -72,11 +72,11 @@ const pairs = [
 
 const cell = (contrastRatio) => `${contrastRatio.toFixed(1)}${contrastRatio < 4.5 ? ' ⚠' : ''}`
 push('', `## Contrast`, '', `WCAG 2 ratios, computed from the values above. Body text needs **4.5:1**; ⚠ marks anything under it.`, '')
-for (const th of themes) {
-  push(`### ${th.name}`, '', `| Text on | ${surfaces.map((surface) => `\`${surface}\``).join(' | ')} |`, `|---|${surfaces.map(() => '---|').join('')}`)
-  for (const fg of textTokens) push(`| \`${fg}\` | ${surfaces.map((surface) => cell(ratio(hex(fg, th.id), hex(surface, th.id)))).join(' | ')} |`)
+for (const theme of themes) {
+  push(`### ${theme.name}`, '', `| Text on | ${surfaces.map((surface) => `\`${surface}\``).join(' | ')} |`, `|---|${surfaces.map(() => '---|').join('')}`)
+  for (const foreground of textTokens) push(`| \`${foreground}\` | ${surfaces.map((surface) => cell(ratio(hex(foreground, theme.id), hex(surface, theme.id)))).join(' | ')} |`)
   push('', `| Pair | Ratio |`, `|---|---|`)
-  for (const [fg, bg] of pairs) push(`| \`${fg}\` on \`${bg}\` | ${cell(ratio(hex(fg, th.id), hex(bg, th.id)))} |`)
+  for (const [foreground, background] of pairs) push(`| \`${foreground}\` on \`${background}\` | ${cell(ratio(hex(foreground, theme.id), hex(background, theme.id)))} |`)
   push('')
 }
 
@@ -86,21 +86,21 @@ for (const [family, stack] of Object.entries(tokens.type.families)) push(`- \`${
 push('', `| Style | Family | Size / line | Weight | Usage |`, `|---|---|---|---|---|`)
 for (const group of tokens.type.groups)
   for (const style of group.styles)
-    push(`| \`type-${style.name}\` | ${style.family ?? group.family} | ${style.fontSize} / ${style.lineHeight}${style.letterSpacing ? `, ${style.letterSpacing}` : ''} | ${style.fontWeight} | ${esc(style.usage)} |`)
+    push(`| \`type-${style.name}\` | ${style.family ?? group.family} | ${style.fontSize} / ${style.lineHeight}${style.letterSpacing ? `, ${style.letterSpacing}` : ''} | ${style.fontWeight} | ${escapeCell(style.usage)} |`)
 
 // ---- other families ----
 const simple = (title, family, prefix) => {
   if (!tokens[family]) return
   push('', `## ${title}`, '')
-  if (tokens[family].note) push(esc(tokens[family].note), '')
+  if (tokens[family].note) push(escapeCell(tokens[family].note), '')
   const themed = tokens[family].tokens.some((token) => typeof token.value === 'object')
   if (themed) {
     push(`| Token | ${themes.map((theme) => theme.name).join(' | ')} | Usage |`, `|---|${themes.map(() => '---|').join('')}---|`)
     for (const token of tokens[family].tokens)
-      push(`| \`${prefix(token.name)}\` | ${themes.map((th) => `\`${esc(typeof token.value === 'object' ? (token.value[th.id] ?? token.value[first]) : token.value)}\``).join(' | ')} | ${esc(token.usage)} |`)
+      push(`| \`${prefix(token.name)}\` | ${themes.map((theme) => `\`${escapeCell(typeof token.value === 'object' ? (token.value[theme.id] ?? token.value[first]) : token.value)}\``).join(' | ')} | ${escapeCell(token.usage)} |`)
   } else {
     push(`| Token | Value | Usage |`, `|---|---|---|`)
-    for (const token of tokens[family].tokens) push(`| \`${prefix(token.name)}\` | \`${token.value}\` | ${esc(token.usage)} |`)
+    for (const token of tokens[family].tokens) push(`| \`${prefix(token.name)}\` | \`${token.value}\` | ${escapeCell(token.usage)} |`)
   }
 }
 simple('Spacing', 'spacing', (name) => name)

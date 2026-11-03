@@ -11,13 +11,13 @@ const open = defineModel('open', { type: Boolean, required: true })
 const props = defineProps({ title: { type: String, required: true }, description: String })
 const emit = defineEmits(['closed'])
 
-const el = ref()
+const dialogElement = ref()
 const titleId = useId()
 const descId = useId()
 
 async function sync(shouldOpen) {
   await nextTick()
-  const dialog = el.value
+  const dialog = dialogElement.value
   if (!dialog) return
   if (shouldOpen && !dialog.open) dialog.showModal()
   if (!shouldOpen && dialog.open) dialog.close()
@@ -33,13 +33,13 @@ function onClose() {
 }
 // A click whose target is the <dialog> itself landed on the backdrop.
 function onClick(event) {
-  if (event.target === el.value) open.value = false
+  if (event.target === dialogElement.value) open.value = false
 }
 </script>
 
 <template>
   <dialog
-    ref="el"
+    ref="dialogElement"
     :aria-labelledby="titleId"
     :aria-describedby="props.description ? descId : undefined"
     class="m-auto mb-0 w-full max-w-none rounded-t-lg border-0 bg-surface-1 p-0 text-ink shadow-sheet backdrop:bg-[#0000009e] md:mb-auto md:w-[min(32rem,calc(100vw-2rem))] md:rounded-lg"

@@ -19,9 +19,9 @@ function dismiss(id) {
  * Show a short confirmation. Pair with <ApToaster /> once, near the app root.
  * `opts` takes `action`, `tone` and `duration` (ms).
  */
-function show(message, opts = {}) {
+function show(message, options = {}) {
   const id = next++
-  const { duration = opts.action ? 6000 : 3500, ...rest } = opts
+  const { duration = options.action ? 6000 : 3500, ...rest } = options
   toasts.value = [...toasts.value.slice(-2), { id, message, ...rest }]
   setTimeout(() => dismiss(id), duration)
   return id

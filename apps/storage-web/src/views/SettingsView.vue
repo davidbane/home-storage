@@ -35,8 +35,8 @@ async function rename(id) {
 
 async function remove(id, name) {
   rowError.value = null
-  const ok = await house.removeType(id)
-  if (!ok) return void (rowError.value = { id, message: house.saveError ?? "Couldn't remove it." })
+  const removed = await house.removeType(id)
+  if (!removed) return void (rowError.value = { id, message: house.saveError ?? "Couldn't remove it." })
   show(`Removed ${name}`)
 }
 </script>

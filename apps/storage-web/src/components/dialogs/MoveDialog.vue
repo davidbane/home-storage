@@ -11,14 +11,14 @@ const ui = useUiStore()
 const router = useRouter()
 const { show } = useToast()
 
-const it = computed(() => (ui.dialog?.kind === 'move' ? house.item(ui.dialog.itemId) : undefined))
-const open = computed({ get: () => Boolean(it.value), set: (isOpen) => !isOpen && ui.close() })
+const currentItem = computed(() => (ui.dialog?.kind === 'move' ? house.item(ui.dialog.itemId) : undefined))
+const open = computed({ get: () => Boolean(currentItem.value), set: (isOpen) => !isOpen && ui.close() })
 const to = ref(null)
 const error = ref('')
 watch(open, (isOpen) => isOpen && ((to.value = null), (error.value = '')))
 
 async function move() {
-  const item = it.value
+  const item = currentItem.value
   if (!item) return
   if (!to.value) return void (error.value = 'Choose where it goes.')
   const from = item.location
@@ -32,9 +32,9 @@ async function move() {
 </script>
 
 <template>
-  <ApDialog v-if="it" v-model:open="open" :title="`Move ${it.name}`" :description="`Now in ${house.pathText(it.location)}`">
+  <ApDialog v-if="currentItem" v-model:open="open" :title="`Move ${currentItem.name}`" :description="`Now in ${house.pathText(currentItem.location)}`">
     <form id="move-form" class="pb-2" novalidate @submit.prevent="move">
-      <PlaceSelect v-model="to" label="Move to" :error="error" :exclude="it.location" />
+      <PlaceSelect v-model="to" label="Move to" :error="error" :exclude="currentItem.location" />
     </form>
     <template #footer>
       <ApButton variant="ghost" @click="ui.close()">Cancel</ApButton>

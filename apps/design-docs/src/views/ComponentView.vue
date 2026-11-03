@@ -10,7 +10,7 @@ import { catalog } from '@/catalog'
 const route = useRoute()
 const entry = computed(() => catalog.find((candidate) => candidate.slug === route.params.slug))
 const index = computed(() => (entry.value ? catalog.indexOf(entry.value) : -1))
-const prev = computed(() => catalog[index.value - 1])
+const previous = computed(() => catalog[index.value - 1])
 const next = computed(() => catalog[index.value + 1])
 </script>
 
@@ -40,7 +40,7 @@ const next = computed(() => catalog[index.value + 1])
       <p class="m-0 type-meta text-ink-muted">Props and full guidance: <code class="font-mono">docs/design-system/components.md</code></p>
 
       <nav aria-label="More components" class="flex flex-wrap justify-between gap-3 border-t border-line pt-6">
-        <ApButton v-if="prev" variant="ghost" :to="`/components/${prev.slug}`">← {{ prev.name }}</ApButton>
+        <ApButton v-if="previous" variant="ghost" :to="`/components/${previous.slug}`">← {{ previous.name }}</ApButton>
         <span v-else></span>
         <ApButton v-if="next" variant="ghost" :to="`/components/${next.slug}`">{{ next.name }} →</ApButton>
       </nav>

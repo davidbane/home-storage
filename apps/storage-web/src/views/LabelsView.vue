@@ -34,14 +34,14 @@ watch(
 )
 
 const isOn = (id) => selected.value.has(id)
-function set(id, on) {
+function set(id, isSelected) {
   const next = new Set(selected.value)
-  on ? next.add(id) : next.delete(id)
+  isSelected ? next.add(id) : next.delete(id)
   selected.value = next
 }
-function setRoom(ids, on) {
+function setRoom(ids, isSelected) {
   const next = new Set(selected.value)
-  ids.forEach((id) => (on ? next.add(id) : next.delete(id)))
+  ids.forEach((id) => (isSelected ? next.add(id) : next.delete(id)))
   selected.value = next
 }
 const sheet = computed(() => house.labelled.filter((place) => selected.value.has(place.id)))

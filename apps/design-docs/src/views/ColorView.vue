@@ -28,7 +28,7 @@ const pairs = [
   ['on-bottle', 'bottle'],
   ['brass-on-bottle', 'bottle'],
 ]
-const ratio = (fg, bg) => contrast(hex(fg, theme.value), hex(bg, theme.value))
+const ratio = (foreground, background) => contrast(hex(foreground, theme.value), hex(background, theme.value))
 const themeName = computed(() => tokens.color.themes.find((candidate) => candidate.id === theme.value)?.name ?? theme.value)
 </script>
 
@@ -67,11 +67,11 @@ const themeName = computed(() => tokens.color.themes.find((candidate) => candida
               </tr>
             </thead>
             <tbody>
-              <tr v-for="fg in textTokens" :key="fg" class="[&+&]:border-t [&+&]:border-line">
-                <th scope="row" class="p-3 font-normal"><span :style="{ color: `var(--ap-${fg})` }" class="font-mono text-[13px]">{{ fg }}</span></th>
+              <tr v-for="foreground in textTokens" :key="foreground" class="[&+&]:border-t [&+&]:border-line">
+                <th scope="row" class="p-3 font-normal"><span :style="{ color: `var(--ap-${foreground})` }" class="font-mono text-[13px]">{{ foreground }}</span></th>
                 <td v-for="surface in surfaces" :key="surface" class="p-3" :style="{ background: `var(--ap-${surface})` }">
-                  <span :style="{ color: `var(--ap-${fg})` }">{{ ratio(fg, surface).toFixed(1) }}</span>
-                  <span v-if="ratio(fg, surface) < 4.5" class="ml-1 text-oxblood-ink">below 4.5</span>
+                  <span :style="{ color: `var(--ap-${foreground})` }">{{ ratio(foreground, surface).toFixed(1) }}</span>
+                  <span v-if="ratio(foreground, surface) < 4.5" class="ml-1 text-oxblood-ink">below 4.5</span>
                 </td>
               </tr>
             </tbody>
@@ -79,13 +79,13 @@ const themeName = computed(() => tokens.color.themes.find((candidate) => candida
         </div>
         <div class="grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-3">
           <div
-            v-for="[fg, bg] in pairs"
-            :key="fg + bg"
+            v-for="[foreground, background] in pairs"
+            :key="foreground + background"
             class="flex items-center justify-between rounded-md px-4 py-3 text-sm"
-            :style="{ background: `var(--ap-${bg})`, color: `var(--ap-${fg})` }"
+            :style="{ background: `var(--ap-${background})`, color: `var(--ap-${foreground})` }"
           >
-            <span class="font-mono text-[12px]">{{ fg }} / {{ bg }}</span>
-            <span class="font-medium">{{ ratio(fg, bg).toFixed(1) }}</span>
+            <span class="font-mono text-[12px]">{{ foreground }} / {{ background }}</span>
+            <span class="font-medium">{{ ratio(foreground, background).toFixed(1) }}</span>
           </div>
         </div>
       </ApSection>

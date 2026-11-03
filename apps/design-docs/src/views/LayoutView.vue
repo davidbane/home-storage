@@ -2,10 +2,10 @@
 import { computed } from 'vue'
 import { ApContainer, ApPageHead, ApSection, useMediaQuery } from '@home/ui'
 
-const sm = useMediaQuery('(min-width: 37.5rem)')
-const md = useMediaQuery('(min-width: 60rem)')
-const lg = useMediaQuery('(min-width: 80rem)')
-const now = computed(() => (lg.value ? 'lg' : md.value ? 'md' : sm.value ? 'sm' : 'base'))
+const smallUp = useMediaQuery('(min-width: 37.5rem)')
+const mediumUp = useMediaQuery('(min-width: 60rem)')
+const largeUp = useMediaQuery('(min-width: 80rem)')
+const now = computed(() => (largeUp.value ? 'lg' : mediumUp.value ? 'md' : smallUp.value ? 'sm' : 'base'))
 
 const rows = [
   { bp: 'base', width: 'under 600px', nav: 'Floating tab bar', layout: 'One column, 20px gutters, actions in a bottom dock', title: '44px' },
