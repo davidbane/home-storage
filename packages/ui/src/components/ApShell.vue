@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 /**
  * App frame. Desktop (≥960px): sticky sidebar + main. Phone and tablet: main only,
  * with the tab bar or an action dock floating over the bottom.

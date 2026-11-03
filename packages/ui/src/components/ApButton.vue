@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+<script setup>
 import ApLink from './ApLink.vue'
 
 /**
@@ -7,16 +6,13 @@ import ApLink from './ApLink.vue'
  * `tonal` for secondary actions, `ghost` for low emphasis, `danger` for removal
  * (always behind a confirmation that names the item and its location).
  */
-const props = withDefaults(
-  defineProps<{
-    variant?: 'primary' | 'tonal' | 'ghost' | 'danger'
-    to?: RouteLocationRaw
-    href?: string
-    type?: 'button' | 'submit' | 'reset'
-    block?: boolean
-  }>(),
-  { variant: 'tonal', type: 'button', block: false },
-)
+const props = defineProps({
+  variant: { type: String, default: 'tonal', validator: (v) => ['primary', 'tonal', 'ghost', 'danger'].includes(v) },
+  to: [String, Object],
+  href: String,
+  type: { type: String, default: 'button', validator: (v) => ['button', 'submit', 'reset'].includes(v) },
+  block: Boolean,
+})
 
 const variants = {
   primary:
@@ -25,7 +21,7 @@ const variants = {
     'bg-surface-2 text-ink shadow-[inset_0_1px_0_#ffffff12,0_1px_2px_#0000004d] hover:bg-line active:translate-y-px',
   ghost: 'bg-transparent text-ink-muted hover:bg-surface-2 hover:text-ink',
   danger: 'bg-oxblood text-on-sapphire shadow-[inset_0_1px_0_#ffffff26,0_6px_18px_-8px_#8e2f2a] active:translate-y-px',
-} as const
+}
 </script>
 
 <template>

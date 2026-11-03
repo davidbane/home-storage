@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { ApPanel } from '@home/ui'
 import CodeBlock from './CodeBlock.vue'
-import { exampleFor, sourceFor, type Entry } from '@/catalog'
+import { exampleFor, sourceFor } from '@/catalog'
 
 /** A live example with its source underneath; both come from the same file. */
-const props = defineProps<{ entry: Entry }>()
+const props = defineProps({ entry: { type: Object, required: true } })
 const Example = computed(() => exampleFor(props.entry))
 const code = computed(() => sourceFor(props.entry).trim())
 </script>

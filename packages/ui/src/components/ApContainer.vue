@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 /** Page content width: phone gutter 20px, desktop 32px, wide 48px, capped at container-max. */
 </script>
 

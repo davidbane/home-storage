@@ -1,16 +1,8 @@
-import type { Component } from 'vue'
-
-/** One entry per documented component. `example` is the file name in ./examples without "Example.vue". */
-export interface Entry {
-  slug: string
-  name: string
-  group: 'Actions' | 'Status and labels' | 'Content' | 'Forms' | 'Overlays and feedback' | 'Layout and navigation'
-  summary: string
-  example: string
-  rules?: string[]
-}
-
-export const catalog: Entry[] = [
+/**
+ * One entry per documented component. `example` is the file name in ./examples without "Example.vue".
+ * `group` is one of: Actions, Status and labels, Content, Forms, Overlays and feedback, Layout and navigation.
+ */
+export const catalog = [
   { slug: 'button', name: 'ApButton', group: 'Actions', example: 'Button', summary: 'The standard button, or a link when given `to` or `href`. Variants: primary, tonal (default), ghost, danger.', rules: ['One primary per view.', 'Danger only for removal, behind a confirmation that names what goes.', 'Labels are verbs in sentence case.'] },
   { slug: 'icon-button', name: 'ApIconButton', group: 'Actions', example: 'IconButton', summary: 'Round icon-only button, 40px or 48px (`size="lg"`). `label` is required: it\'s the accessible name and tooltip.' },
   { slug: 'status-chip', name: 'ApStatusChip', group: 'Status and labels', example: 'StatusChip', summary: 'One of four fixed statuses with a word and a dot: low, surplus, long, ok.', rules: ['The app decides the status; the chip only shows it.', 'In lists, leave Stocked out.'] },
@@ -37,8 +29,8 @@ export const catalog: Entry[] = [
 
 export const groups = [...new Set(catalog.map((e) => e.group))]
 
-const live = import.meta.glob<{ default: Component }>('./examples/*Example.vue', { eager: true })
-const source = import.meta.glob<string>('./examples/*Example.vue', { eager: true, query: '?raw', import: 'default' })
+const live = import.meta.glob('./examples/*Example.vue', { eager: true })
+const source = import.meta.glob('./examples/*Example.vue', { eager: true, query: '?raw', import: 'default' })
 
-export const exampleFor = (e: Entry) => live[`./examples/${e.example}Example.vue`]?.default
-export const sourceFor = (e: Entry) => source[`./examples/${e.example}Example.vue`] ?? ''
+export const exampleFor = (e) => live[`./examples/${e.example}Example.vue`]?.default
+export const sourceFor = (e) => source[`./examples/${e.example}Example.vue`] ?? ''

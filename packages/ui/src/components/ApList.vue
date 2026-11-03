@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** Grouped list on a raised surface. Fill it with ApListRow. */
-defineProps<{ label?: string }>()
+defineProps({ label: String })
 </script>
 
 <template>

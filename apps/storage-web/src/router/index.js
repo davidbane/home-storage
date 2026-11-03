@@ -7,6 +7,7 @@ export const router = createRouter({
     { path: '/', name: 'home', component: HomeView },
     // One URL per state at every width: ?in= picks a container, ?item= opens an item.
     // Desktop shows the item in a pane beside the list; phones show it as its own screen.
+    // meta.dock: the view renders its own bottom action dock on phones, so the tab bar is hidden.
     { path: '/rooms/:roomId', name: 'room', component: () => import('@/views/RoomView.vue'), meta: { dock: true } },
     { path: '/low', name: 'low', component: () => import('@/views/LowStockView.vue') },
     { path: '/lists', name: 'lists', component: () => import('@/views/ListsView.vue') },
@@ -17,10 +18,3 @@ export const router = createRouter({
   ],
   scrollBehavior: (to, from, saved) => saved ?? (to.path !== from.path ? { top: 0 } : undefined),
 })
-
-declare module 'vue-router' {
-  interface RouteMeta {
-    /** The view renders its own bottom action dock on phones, so the tab bar is hidden. */
-    dock?: boolean
-  }
-}

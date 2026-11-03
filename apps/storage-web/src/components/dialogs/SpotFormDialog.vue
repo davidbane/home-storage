@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, reactive, watch } from 'vue'
 import { ApButton, ApDialog, ApSelect, ApTextField, useToast } from '@home/ui'
 import { useHouseStore } from '@/stores/house'
@@ -19,8 +19,8 @@ const open = computed({
   set: (v) => !v && ui.close(),
 })
 
-const form = reactive({ name: '', parent: null as string | null, type: null as string | null, newType: '', code: '', note: '' })
-const errors = reactive<Record<string, string>>({})
+const form = reactive({ name: '', parent: null, type: null, newType: '', code: '', note: '' })
+const errors = reactive({})
 
 watch(open, (v) => {
   if (!v) return
@@ -38,13 +38,13 @@ watch(open, (v) => {
 
 /** Where this spot can go: each room, then the spots in it (indented by depth). */
 const parentGroups = computed(() => {
-  const blocked = editing.value ? house.descendants(editing.value.id) : new Set<string>()
+  const blocked = editing.value ? house.descendants(editing.value.id) : new Set()
   return house.rooms.map((room) => ({
     room,
     options: [
       { id: room.id, label: `Directly in ${room.name}` },
       ...house.places
-        .find((g) => g.room.id === room.id)!
+        .find((g) => g.room.id === room.id)
         .options.filter((o) => !blocked.has(o.id))
         .map((o) => ({ id: o.id, label: `In ${o.label}` })),
     ],
@@ -65,13 +65,13 @@ async function save() {
   if (form.type === NEW_TYPE && !form.newType.trim()) errors.newType = 'Name the new type.'
   if (Object.keys(errors).length) return
 
-  let type = form.type!
+  let type = form.type
   if (type === NEW_TYPE) {
     const created = await house.addType(form.newType)
     if (!created) return void (errors.newType = `Couldn't add that type: ${house.saveError}`)
     type = created.id
   }
-  const draft = { name: form.name.trim(), parent: form.parent!, type, code: form.code.trim() || undefined, note: form.note.trim() || undefined }
+  const draft = { name: form.name.trim(), parent: form.parent, type, code: form.code.trim() || undefined, note: form.note.trim() || undefined }
   const spot = editing.value
   if (spot) {
     await house.updateSpot(spot.id, draft)

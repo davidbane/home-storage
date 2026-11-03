@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** A labelled group of ApNavItem in the sidebar. */
-defineProps<{ label?: string }>()
+defineProps({ label: String })
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { reactive, ref } from 'vue'
 import { IconMoon, IconSun, IconTrash } from '@tabler/icons-vue'
 import { ApButton, ApContainer, ApIconButton, ApPageHead, ApSection, ApTextField, useTheme, useToast } from '@home/ui'
@@ -11,8 +11,9 @@ const { show } = useToast()
 const newType = ref('')
 const addError = ref('')
 // Per-row draft names while renaming; saved on blur or Enter.
-const drafts = reactive<Record<string, string>>({})
-const rowError = ref<{ id: string; message: string } | null>(null)
+const drafts = reactive({})
+/** { id, message } for the row whose remove failed. */
+const rowError = ref(null)
 
 async function add() {
   addError.value = ''
@@ -25,14 +26,14 @@ async function add() {
   show(`Added ${t.name}`)
 }
 
-async function rename(id: string) {
+async function rename(id) {
   const name = drafts[id]
   delete drafts[id]
   if (name === undefined) return
   await house.renameType(id, name)
 }
 
-async function remove(id: string, name: string) {
+async function remove(id, name) {
   rowError.value = null
   const ok = await house.removeType(id)
   if (!ok) return void (rowError.value = { id, message: house.saveError ?? "Couldn't remove it." })
@@ -54,9 +55,9 @@ async function remove(id: string, name: string) {
                 :aria-label="`Rename ${t.name}`"
                 maxlength="30"
                 class="h-11 min-w-0 flex-1 rounded-md border border-transparent bg-transparent px-2 text-[15px] text-ink outline-none hover:border-line focus:border-sapphire-ink focus:bg-surface-0"
-                @input="drafts[t.id] = ($event.target as HTMLInputElement).value"
+                @input="drafts[t.id] = $event.target.value"
                 @blur="rename(t.id)"
-                @keydown.enter.prevent="($event.target as HTMLInputElement).blur()"
+                @keydown.enter.prevent="$event.target.blur()"
               />
               <span class="type-meta whitespace-nowrap text-ink-muted">{{ house.typeUsage(t.id) || 'unused' }}{{ house.typeUsage(t.id) ? (house.typeUsage(t.id) === 1 ? ' place' : ' places') : '' }}</span>
               <ApIconButton :label="`Remove ${t.name}`" @click="remove(t.id, t.name)"><IconTrash :size="18" stroke="1.5" aria-hidden="true" /></ApIconButton>

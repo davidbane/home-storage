@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 
 /** Renders `code` spans in a plain string. Nothing else: catalog text is trusted, short prose. */
-const props = defineProps<{ text: string }>()
+const props = defineProps({ text: { type: String, required: true } })
 const parts = computed(() => props.text.split('`').map((t, i) => ({ t, code: i % 2 === 1 })))
 </script>
 

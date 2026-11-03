@@ -1,17 +1,16 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { IconCheck, IconPlus, IconX } from '@tabler/icons-vue'
 import { ApButton, ApContainer, ApIconButton, ApList, ApListRow, ApPageHead, ApSection, useToast } from '@home/ui'
 import { status, useHouseStore } from '@/stores/house'
-import type { Item } from '@/models'
 
 const house = useHouseStore()
 const { show } = useToast()
 
 const suggestions = computed(() => house.lowItems.filter((i) => !house.onList(i.id)))
-const need = (i: Item) => (i.par !== null ? `${i.quantity} of ${i.par}` : `×${i.quantity}`)
+const need = (i) => (i.par !== null ? `${i.quantity} of ${i.par}` : `×${i.quantity}`)
 
-async function bought(i: Item) {
+async function bought(i) {
   const undo = await house.markBought(i.id)
   if (undo) show(`Restocked ${i.name} to ${i.quantity}`, { action: { label: 'Undo', run: () => void undo() } })
 }

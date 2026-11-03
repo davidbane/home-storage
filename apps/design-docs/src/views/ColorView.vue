@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { ApContainer, ApPageHead, ApSection, useTheme } from '@home/ui'
 import { contrast, hex, tokens } from '@/tokens'
@@ -28,7 +28,7 @@ const pairs = [
   ['on-bottle', 'bottle'],
   ['brass-on-bottle', 'bottle'],
 ]
-const ratio = (fg: string, bg: string) => contrast(hex(fg, theme.value), hex(bg, theme.value))
+const ratio = (fg, bg) => contrast(hex(fg, theme.value), hex(bg, theme.value))
 const themeName = computed(() => tokens.color.themes.find((t) => t.id === theme.value)?.name ?? theme.value)
 </script>
 

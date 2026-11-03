@@ -1,9 +1,8 @@
-<script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+<script setup>
 import ApLink from './ApLink.vue'
 
 /** App name beside the arched bottle mark. */
-defineProps<{ name: string; to?: RouteLocationRaw }>()
+defineProps({ name: { type: String, required: true }, to: [String, Object] })
 </script>
 
 <template>

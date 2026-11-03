@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import { IconCheck } from '@tabler/icons-vue'
 
 /** Checkbox with its label. The native input stays in place for keyboard and screen readers. */
-const model = defineModel<boolean>({ default: false })
-defineProps<{ label?: string }>()
+const model = defineModel({ type: Boolean, default: false })
+defineProps({ label: String })
 </script>
 
 <template>

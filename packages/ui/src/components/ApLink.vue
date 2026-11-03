@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 // Internal: renders a RouterLink, an <a>, or a fallback element, so components
 // can take `to`, `href`, or neither without repeating the branching.
-import { RouterLink, type RouteLocationRaw } from 'vue-router'
+import { RouterLink } from 'vue-router'
 
-withDefaults(defineProps<{ to?: RouteLocationRaw; href?: string; as?: string }>(), { as: 'div' })
+defineProps({ to: [String, Object], href: String, as: { type: String, default: 'div' } })
 </script>
 
 <template>

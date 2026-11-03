@@ -1,13 +1,15 @@
-<script setup lang="ts">
+<script setup>
 import { IconMinus, IconPlus } from '@tabler/icons-vue'
 
 /** Adjust a count in place. Raised buttons in a sunken track; the count is a display numeral. */
-const model = defineModel<number>({ required: true })
-const props = withDefaults(
-  defineProps<{ min?: number; max?: number; decrementLabel?: string; incrementLabel?: string }>(),
-  { min: 0, max: Infinity, decrementLabel: 'Use one', incrementLabel: 'Add one' },
-)
-const set = (n: number) => (model.value = Math.min(props.max, Math.max(props.min, n)))
+const model = defineModel({ type: Number, required: true })
+const props = defineProps({
+  min: { type: Number, default: 0 },
+  max: { type: Number, default: Infinity },
+  decrementLabel: { type: String, default: 'Use one' },
+  incrementLabel: { type: String, default: 'Add one' },
+})
+const set = (n) => (model.value = Math.min(props.max, Math.max(props.min, n)))
 const btn =
   'inline-flex size-10 cursor-pointer items-center justify-center rounded-pill border-0 bg-surface-1 sheen text-ink shadow-raised transition duration-150 hover:bg-line active:translate-y-px disabled:cursor-default disabled:opacity-50'
 </script>

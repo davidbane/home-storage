@@ -5,7 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
   resolve: {
-    // URL pathname instead of node:url's fileURLToPath, so the app's tsconfig needs no Node types.
     alias: { '@': decodeURIComponent(new URL('./src', import.meta.url).pathname) },
   },
   server: {

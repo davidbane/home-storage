@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** A raised surface for grouped controls and detail panes. */
-withDefaults(defineProps<{ as?: string; padded?: boolean }>(), { as: 'section', padded: true })
+defineProps({ as: { type: String, default: 'section' }, padded: { type: Boolean, default: true } })
 </script>
 
 <template>

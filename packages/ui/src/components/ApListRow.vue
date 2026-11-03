@@ -1,21 +1,19 @@
-<script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+<script setup>
 import ApLink from './ApLink.vue'
 import ApStatusChip from './ApStatusChip.vue'
-import type { Status } from '../types'
 
 /**
  * One item in a list: name, a detail line, status and quantity.
  * `ok` status stays quiet in lists; only Low, Surplus and Long-term show a chip.
  */
-const props = defineProps<{
-  name: string
-  sub?: string
-  status?: Status
-  qty?: number | string
-  to?: RouteLocationRaw
-  selected?: boolean
-}>()
+const props = defineProps({
+  name: { type: String, required: true },
+  sub: String,
+  status: { type: String, validator: (v) => ['low', 'surplus', 'long', 'ok'].includes(v) },
+  qty: [Number, String],
+  to: [String, Object],
+  selected: Boolean,
+})
 </script>
 
 <template>

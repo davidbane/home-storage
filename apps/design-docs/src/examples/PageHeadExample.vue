@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { IconArrowLeft, IconPlus } from '@tabler/icons-vue'
 import { ApBinTag, ApBreadcrumb, ApButton, ApIconButton, ApPageHead } from '@home/ui'
 </script>

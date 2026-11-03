@@ -1,12 +1,13 @@
-<script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+<script setup>
 import ApLink from './ApLink.vue'
 
 /** Round icon-only button. `label` is required: it's the accessible name. */
-const props = withDefaults(
-  defineProps<{ label: string; to?: RouteLocationRaw; href?: string; size?: 'md' | 'lg' }>(),
-  { size: 'md' },
-)
+const props = defineProps({
+  label: { type: String, required: true },
+  to: [String, Object],
+  href: String,
+  size: { type: String, default: 'md', validator: (v) => ['md', 'lg'].includes(v) },
+})
 </script>
 
 <template>

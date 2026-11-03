@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ApButton, ApDialog, useToast } from '@home/ui'
@@ -13,7 +13,7 @@ const { show } = useToast()
 
 const it = computed(() => (ui.dialog?.kind === 'move' ? house.item(ui.dialog.itemId) : undefined))
 const open = computed({ get: () => Boolean(it.value), set: (v) => !v && ui.close() })
-const to = ref<string | null>(null)
+const to = ref(null)
 const error = ref('')
 watch(open, (v) => v && ((to.value = null), (error.value = '')))
 

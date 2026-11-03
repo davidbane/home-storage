@@ -1,23 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { useId } from 'vue'
 
 /** Labelled text or number input in a sunken well. Shows `error` under the field when set. */
-const model = defineModel<string | number | null>()
-const props = withDefaults(
-  defineProps<{
-    label: string
-    type?: 'text' | 'number' | 'search'
-    placeholder?: string
-    hint?: string
-    error?: string
-    required?: boolean
-    maxlength?: number
-    min?: number
-    inputmode?: 'text' | 'numeric' | 'decimal'
-    autofocus?: boolean
-  }>(),
-  { type: 'text' },
-)
+const model = defineModel({ type: [String, Number] })
+const props = defineProps({
+  label: { type: String, required: true },
+  type: { type: String, default: 'text', validator: (v) => ['text', 'number', 'search'].includes(v) },
+  placeholder: String,
+  hint: String,
+  error: String,
+  required: Boolean,
+  maxlength: Number,
+  min: Number,
+  inputmode: { type: String, validator: (v) => ['text', 'numeric', 'decimal'].includes(v) },
+  autofocus: Boolean,
+})
 const id = useId()
 </script>
 

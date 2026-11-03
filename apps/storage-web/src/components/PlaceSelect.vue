@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import { ApSelect } from '@home/ui'
 import { useHouseStore } from '@/stores/house'
 
 /** Location picker: every place in the house, grouped by room. */
-const model = defineModel<string | null>()
-defineProps<{ label: string; error?: string; exclude?: string }>()
+const model = defineModel({ type: String })
+defineProps({ label: { type: String, required: true }, error: String, exclude: String })
 const house = useHouseStore()
 </script>
 

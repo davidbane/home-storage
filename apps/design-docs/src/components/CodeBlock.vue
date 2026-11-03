@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { IconCopy } from '@tabler/icons-vue'
 import { useToast } from '@home/ui'
 
-const props = defineProps<{ code: string; label?: string }>()
+const props = defineProps({ code: { type: String, required: true }, label: String })
 const { show } = useToast()
 
 async function copy() {

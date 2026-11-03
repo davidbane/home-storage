@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useRoute } from 'vue-router'
 import { IconHome, IconAlertTriangle, IconList, IconPlus, IconQrcode, IconSettings } from '@tabler/icons-vue'
 import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@home/ui'
@@ -8,7 +8,7 @@ import { useUiStore } from '@/stores/ui'
 const house = useHouseStore()
 const ui = useUiStore()
 const route = useRoute()
-const icon = { size: 20, stroke: '1.5', 'aria-hidden': 'true' } as const
+const icon = { size: 20, stroke: '1.5', 'aria-hidden': 'true' }
 </script>
 
 <template>

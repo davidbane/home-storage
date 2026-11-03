@@ -1,19 +1,18 @@
-<script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+<script setup>
 import ApLink from './ApLink.vue'
 
 /**
  * A place that holds things, under the lancet arch, led by its item count.
  * Arched things are places: nothing else in the system uses this shape.
  */
-const props = defineProps<{
-  name: string
-  count: number
-  meta?: string
-  metaTone?: 'muted' | 'alert'
-  to?: RouteLocationRaw
-  selected?: boolean
-}>()
+const props = defineProps({
+  name: { type: String, required: true },
+  count: { type: Number, required: true },
+  meta: String,
+  metaTone: { type: String, validator: (v) => ['muted', 'alert'].includes(v) },
+  to: [String, Object],
+  selected: Boolean,
+})
 </script>
 
 <template>

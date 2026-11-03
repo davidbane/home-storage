@@ -1,9 +1,13 @@
-<script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+<script setup>
 import { RouterLink } from 'vue-router'
 
 /** A titled section with an optional link at the right ("See all"). */
-defineProps<{ title: string; linkLabel?: string; linkTo?: RouteLocationRaw; as?: 'h2' | 'h3' }>()
+defineProps({
+  title: { type: String, required: true },
+  linkLabel: String,
+  linkTo: [String, Object],
+  as: { type: String, validator: (v) => ['h2', 'h3'].includes(v) },
+})
 </script>
 
 <template>

@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import { ApSelect } from '@home/ui'
 
-const kept = ref<string | null>('daily')
+const kept = ref('daily')
 </script>
 
 <template>

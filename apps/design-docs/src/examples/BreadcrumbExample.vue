@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ApBreadcrumb } from '@home/ui'
 
 const path = [

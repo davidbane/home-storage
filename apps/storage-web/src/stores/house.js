@@ -1,8 +1,7 @@
 import { computed, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
-import type { Crumb, Status } from '@home/ui'
-import { deriveKinds, type Item, type ItemDraft, type Location, type RoomDraft, type SpotDraft, type StorageType } from '@/models'
-import { api, type ApiItemWrite } from '@/api/endpoints'
+import { deriveKinds } from '@/models'
+import { api } from '@/api/endpoints'
 import { adapt } from '@/api/adapt'
 import { items as mockItems, locations as mockLocations, storageTypes as mockTypes } from '@/api/mock'
 
@@ -10,7 +9,7 @@ import { items as mockItems, locations as mockLocations, storageTypes as mockTyp
 const useApi = import.meta.env.VITE_DATA_SOURCE === 'api'
 
 const LIST_KEY = 'home-storage:shopping'
-function readList(): string[] {
+function readList() {
   try {
     const v = JSON.parse(localStorage.getItem(LIST_KEY) ?? '[]')
     return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []
@@ -19,10 +18,10 @@ function readList(): string[] {
   }
 }
 
-const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item'
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item'
 
 /** The fields the API knows today. Par, storage class and history stay client-side until it has them. */
-const toApi = (d: ItemDraft): ApiItemWrite => ({
+const toApi = (d) => ({
   name: d.name,
   brand: d.brand ?? '',
   count: d.quantity,
@@ -35,7 +34,7 @@ const toApi = (d: ItemDraft): ApiItemWrite => ({
  * long-term storage class → Long-term; under par → Low;
  * surplus storage class or at least double par → Surplus; else Stocked.
  */
-export function status(i: Item): Status {
+export function status(i) {
   if (i.storage_class === 'long_term') return 'long'
   if (i.par !== null && i.quantity < i.par) return 'low'
   if (i.storage_class === 'surplus' || (i.par !== null && i.quantity >= i.par * 2)) return 'surplus'
@@ -43,13 +42,13 @@ export function status(i: Item): Status {
 }
 
 export const useHouseStore = defineStore('house', () => {
-  const locations = ref<Location[]>([])
-  const items = ref<Item[]>([])
-  const types = ref<StorageType[]>([])
+  const locations = ref([])
+  const items = ref([])
+  const types = ref([])
   const loading = ref(false)
-  const error = ref<string | null>(null)
+  const error = ref(null)
   /** Last failed save, kept apart from `error` so a failed PATCH doesn't blank the page. */
-  const saveError = ref<string | null>(null)
+  const saveError = ref(null)
 
   async function load() {
     loading.value = true
@@ -84,39 +83,39 @@ export const useHouseStore = defineStore('house', () => {
   // ---- tree lookups ----
   const byId = computed(() => new Map(locations.value.map((l) => [l.id, l])))
   const childMap = computed(() => {
-    const m = new Map<string, Location[]>()
+    const m = new Map()
     for (const l of locations.value) if (l.parent) m.set(l.parent, [...(m.get(l.parent) ?? []), l])
     return m
   })
   const house = computed(() => locations.value.find((l) => l.kind === 'house'))
-  const location = (id: string) => byId.value.get(id)
-  const children = (id: string) => childMap.value.get(id) ?? []
+  const location = (id) => byId.value.get(id)
+  const children = (id) => childMap.value.get(id) ?? []
   const rooms = computed(() => (house.value ? children(house.value.id) : []))
-  const item = (id: string) => items.value.find((i) => i.id === id)
+  const item = (id) => items.value.find((i) => i.id === id)
 
-  function subtree(id: string): Set<string> {
+  function subtree(id) {
     const out = new Set([id])
     for (const c of children(id)) for (const d of subtree(c.id)) out.add(d)
     return out
   }
-  const itemsIn = (id: string, deep = true) => {
+  const itemsIn = (id, deep = true) => {
     const ids = deep ? subtree(id) : new Set([id])
     return items.value.filter((i) => ids.has(i.location))
   }
 
   /** From the room down, excluding the house. */
-  function ancestry(id: string): Location[] {
-    const out: Location[] = []
+  function ancestry(id) {
+    const out = []
     for (let l = location(id); l && l.kind !== 'house'; l = l.parent ? location(l.parent) : undefined) out.unshift(l)
     return out
   }
-  const roomOf = (id: string) => ancestry(id)[0]
+  const roomOf = (id) => ancestry(id)[0]
 
   /** Breadcrumbs that link each level into its room view. */
-  function crumbs(id: string, withHouse = true): Crumb[] {
+  function crumbs(id, withHouse = true) {
     const path = ancestry(id)
     const room = path[0]
-    const list: Crumb[] = path.map((l) => ({
+    const list = path.map((l) => ({
       label: l.name,
       to: l.kind === 'room' ? `/rooms/${l.id}` : room ? { path: `/rooms/${room.id}`, query: l.kind === 'container' ? { in: l.id } : {} } : undefined,
     }))
@@ -124,19 +123,19 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   /** "Hall closet / Drawer B": skips furniture that only groups containers. */
-  const pathText = (id: string) =>
+  const pathText = (id) =>
     ancestry(id)
       .filter((l) => l.kind !== 'furniture' || children(l.id).length === 0)
       .map((l) => l.name)
       .join(' / ')
 
   // ---- status ----
-  const byStatus = (s: Status) => computed(() => items.value.filter((i) => status(i) === s))
+  const byStatus = (s) => computed(() => items.value.filter((i) => status(i) === s))
   const lowItems = byStatus('low')
   const surplusItems = byStatus('surplus')
   const longTermItems = byStatus('long')
 
-  function countsFor(id: string) {
+  function countsFor(id) {
     const list = itemsIn(id)
     return {
       total: list.length,
@@ -151,7 +150,7 @@ export const useHouseStore = defineStore('house', () => {
       room,
       options: [...subtree(room.id)]
         .filter((id) => id !== room.id)
-        .map((id) => location(id)!)
+        .map((id) => location(id))
         .map((l) => ({ id: l.id, label: ancestry(l.id).slice(1).map((a) => a.name).join(' / ') }))
         .sort((a, b) => a.label.localeCompare(b.label)),
     })),
@@ -161,7 +160,7 @@ export const useHouseStore = defineStore('house', () => {
   const labelled = computed(() => locations.value.filter((l) => l.code || l.kind === 'container' || l.kind === 'slot'))
 
   /** A location by its printed code (case-insensitive), falling back to an exact name. */
-  function findByCode(q: string) {
+  function findByCode(q) {
     const term = q.trim().toLowerCase()
     if (!term) return undefined
     return (
@@ -171,10 +170,10 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   // ---- actions ----
-  const fail = (e: unknown) => (saveError.value = e instanceof Error ? e.message : String(e))
+  const fail = (e) => (saveError.value = e instanceof Error ? e.message : String(e))
   const today = () => new Date().toISOString().slice(0, 10)
 
-  async function setQuantity(id: string, quantity: number) {
+  async function setQuantity(id, quantity) {
     const i = item(id)
     if (!i) return
     const previous = i.quantity
@@ -189,8 +188,8 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
-  async function addItem(draft: ItemDraft): Promise<Item | undefined> {
-    const local: Item = {
+  async function addItem(draft) {
+    const local = {
       id: `${slug(draft.name)}-${Math.random().toString(36).slice(2, 7)}`,
       history: [{ date: today(), text: `Added ${draft.quantity}` }],
       ...draft,
@@ -210,7 +209,7 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
-  async function updateItem(id: string, draft: ItemDraft) {
+  async function updateItem(id, draft) {
     const i = item(id)
     if (!i) return
     const before = { ...i }
@@ -227,12 +226,12 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
-  function recordMove(i: Item, from: string) {
+  function recordMove(i, from) {
     i.moved_from = pathText(from)
     i.history = [{ date: today(), text: `Moved to ${pathText(i.location)}` }, ...i.history]
   }
 
-  async function moveItem(id: string, to: string) {
+  async function moveItem(id, to) {
     const i = item(id)
     if (!i || i.location === to) return
     const before = { location: i.location, moved_from: i.moved_from, history: i.history }
@@ -249,7 +248,7 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   /** Removes an item and returns a function that puts it back (for Undo). */
-  async function removeItem(id: string): Promise<(() => Promise<void>) | undefined> {
+  async function removeItem(id) {
     const i = item(id)
     if (!i) return
     const index = items.value.indexOf(i)
@@ -280,18 +279,18 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   // ---- rooms, storage spots and storage types ----
-  const newId = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 9)}`
-  const typeName = (id?: string) => types.value.find((t) => t.id === id)?.name
-  const typeUsage = (id: string) => locations.value.filter((l) => l.type === id).length
+  const newId = (prefix) => `${prefix}-${Math.random().toString(36).slice(2, 9)}`
+  const typeName = (id) => types.value.find((t) => t.id === id)?.name
+  const typeUsage = (id) => locations.value.filter((l) => l.type === id).length
   /** Ids at or below `id`, for keeping a spot from being moved inside itself. */
-  const descendants = (id: string) => subtree(id)
+  const descendants = (id) => subtree(id)
   /** What removing a place would take with it. */
-  const contentsOf = (id: string) => ({ items: itemsIn(id).length, places: subtree(id).size - 1 })
+  const contentsOf = (id) => ({ items: itemsIn(id).length, places: subtree(id).size - 1 })
 
-  async function addRoom(d: RoomDraft): Promise<Location | undefined> {
+  async function addRoom(d) {
     const h = house.value
     if (!h) return
-    const room: Location = { id: newId('room'), name: d.name, kind: 'room', parent: h.id, note: d.note }
+    const room = { id: newId('room'), name: d.name, kind: 'room', parent: h.id, note: d.note }
     if (useApi) {
       try {
         room.id = (await api.createArea({ name: d.name, description: d.note ?? '', residence: h.id })).id
@@ -304,7 +303,7 @@ export const useHouseStore = defineStore('house', () => {
     return room
   }
 
-  async function updateRoom(id: string, d: RoomDraft) {
+  async function updateRoom(id, d) {
     const room = location(id)
     if (!room) return
     const before = { name: room.name, note: room.note }
@@ -320,14 +319,14 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   /** The API's view of a spot's parent: null when it sits directly in a room. */
-  function spotApiFields(d: SpotDraft) {
+  function spotApiFields(d) {
     const parent = location(d.parent)
     const room = parent?.kind === 'room' ? parent : roomOf(d.parent)
     return { parent: parent?.kind === 'room' ? null : d.parent, storage_area: room?.id ?? d.parent }
   }
 
-  async function addSpot(d: SpotDraft): Promise<Location | undefined> {
-    const spot: Location = { id: newId('spot'), name: d.name, kind: 'container', parent: d.parent, type: d.type, code: d.code, note: d.note }
+  async function addSpot(d) {
+    const spot = { id: newId('spot'), name: d.name, kind: 'container', parent: d.parent, type: d.type, code: d.code, note: d.note }
     if (useApi) {
       try {
         spot.id = (await api.createSpot({ name: d.name, storage_type: d.type, description: d.note ?? '', ...spotApiFields(d) })).id
@@ -340,7 +339,7 @@ export const useHouseStore = defineStore('house', () => {
     return spot
   }
 
-  async function updateSpot(id: string, d: SpotDraft) {
+  async function updateSpot(id, d) {
     const spot = location(id)
     if (!spot || descendants(id).has(d.parent)) return
     const before = { name: spot.name, parent: spot.parent, type: spot.type, code: spot.code, note: spot.note }
@@ -361,7 +360,7 @@ export const useHouseStore = defineStore('house', () => {
    * Removes a room or spot and everything inside it. Refused while items are inside:
    * the API would leave them with no spot, and they'd drop out of the app.
    */
-  async function removePlace(id: string): Promise<boolean> {
+  async function removePlace(id) {
     const place = location(id)
     if (!place || place.kind === 'house') return false
     const held = contentsOf(id).items
@@ -383,12 +382,12 @@ export const useHouseStore = defineStore('house', () => {
     return true
   }
 
-  async function addType(name: string): Promise<StorageType | undefined> {
+  async function addType(name) {
     const clean = name.trim()
     if (!clean) return
     const existing = types.value.find((t) => t.name.toLowerCase() === clean.toLowerCase())
     if (existing) return existing
-    const type: StorageType = { id: newId('type'), name: clean }
+    const type = { id: newId('type'), name: clean }
     if (useApi) {
       try {
         type.id = (await api.createType(clean)).id
@@ -401,7 +400,7 @@ export const useHouseStore = defineStore('house', () => {
     return type
   }
 
-  async function renameType(id: string, name: string) {
+  async function renameType(id, name) {
     const t = types.value.find((x) => x.id === id)
     const clean = name.trim()
     if (!t || !clean || clean === t.name) return
@@ -417,7 +416,7 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
-  async function removeType(id: string): Promise<boolean> {
+  async function removeType(id) {
     const used = typeUsage(id)
     if (used) {
       saveError.value = `${used} ${used === 1 ? 'place uses' : 'places use'} this type. Change them first.`
@@ -437,7 +436,7 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   // ---- shopping list (kept in this browser until the API has lists) ----
-  const shopping = ref<string[]>(readList())
+  const shopping = ref(readList())
   watch(shopping, (ids) => {
     try {
       localStorage.setItem(LIST_KEY, JSON.stringify(ids))
@@ -445,13 +444,13 @@ export const useHouseStore = defineStore('house', () => {
       /* storage blocked: the list lasts for this visit */
     }
   })
-  const shoppingItems = computed(() => shopping.value.map((id) => item(id)).filter((i): i is Item => Boolean(i)))
-  const onList = (id: string) => shopping.value.includes(id)
-  function toggleList(id: string) {
+  const shoppingItems = computed(() => shopping.value.map((id) => item(id)).filter(Boolean))
+  const onList = (id) => shopping.value.includes(id)
+  function toggleList(id) {
     shopping.value = onList(id) ? shopping.value.filter((x) => x !== id) : [...shopping.value, id]
   }
   /** Marks a listed item bought: restocks it to par (or by one with no par) and takes it off the list. */
-  async function markBought(id: string) {
+  async function markBought(id) {
     const i = item(id)
     if (!i) return
     const before = i.quantity
@@ -466,7 +465,7 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
-  function search(q: string) {
+  function search(q) {
     const term = q.trim().toLowerCase()
     if (!term) return []
     return items.value.filter((i) => `${i.name} ${pathText(i.location)} ${i.used_for ?? ''}`.toLowerCase().includes(term))

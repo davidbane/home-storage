@@ -1,11 +1,14 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
-import { statusLabel, type Status } from '../types'
+import { statusLabel } from '../types'
 
 /** One of the four fixed statuses. The word is always shown; color is never the only signal. */
-const props = defineProps<{ status: Status; label?: string }>()
+const props = defineProps({
+  status: { type: String, required: true, validator: (v) => v in statusLabel },
+  label: String,
+})
 
-const tone: Record<Status, string> = {
+const tone = {
   low: 'bg-oxblood-tint text-oxblood-ink',
   surplus: 'bg-sapphire-tint text-sapphire-ink',
   long: 'bg-brass-tint text-brass',

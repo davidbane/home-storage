@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { IconCheck, IconPencil, IconTrash, IconX } from '@tabler/icons-vue'
 import { ApBreadcrumb, ApButton, ApIconButton, ApPanel, ApStatusChip, ApStepper } from '@home/ui'
@@ -11,13 +11,16 @@ const ui = useUiStore()
  * One item's detail. `pane` is the desktop side panel; `body` is the content
  * of the phone item screen (its header and actions come from the room view).
  */
-const props = defineProps<{ itemId: string; variant: 'pane' | 'body' }>()
-defineEmits<{ close: [] }>()
+const props = defineProps({
+  itemId: { type: String, required: true },
+  variant: { type: String, required: true, validator: (v) => ['pane', 'body'].includes(v) },
+})
+defineEmits(['close'])
 
 const it = computed(() => house.item(props.itemId))
 const qty = computed({
   get: () => it.value?.quantity ?? 0,
-  set: (v: number) => house.setQuantity(props.itemId, v),
+  set: (v) => house.setQuantity(props.itemId, v),
 })
 const st = computed(() => (it.value ? status(it.value) : 'ok'))
 const parLine = computed(() => {
@@ -26,8 +29,8 @@ const parLine = computed(() => {
   const d = i.quantity - i.par
   return d < 0 ? `${-d} under par of ${i.par}` : d === 0 ? `At par of ${i.par}` : `${d} over par of ${i.par}`
 })
-const storageLabel = { daily: 'Daily use', surplus: 'Surplus store', long_term: 'Long-term' } as const
-const fmt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+const storageLabel = { daily: 'Daily use', surplus: 'Surplus store', long_term: 'Long-term' }
+const fmt = (d) => new Date(`${d}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
 const details = computed(() => {
   const i = it.value
   if (!i) return []
@@ -38,7 +41,7 @@ const details = computed(() => {
     ['Storage', storageLabel[i.storage_class]],
     ['Bin', house.location(i.location)?.code],
     ['Moved from', i.moved_from],
-  ].filter((r): r is [string, string] => Boolean(r[1]))
+  ].filter((r) => Boolean(r[1]))
 })
 </script>
 

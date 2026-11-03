@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script setup>
 /** The round sapphire add button at the center of the tab bar. */
-defineProps<{ label: string }>()
-defineEmits<{ click: [MouseEvent] }>()
+defineProps({ label: { type: String, required: true } })
+defineEmits(['click'])
 </script>
 
 <template>

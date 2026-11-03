@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useToast } from '../composables/useToast'
 
 /** Renders toasts from useToast(). Sits above the tab bar on phones, bottom-right on desktop. */

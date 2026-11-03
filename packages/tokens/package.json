@@ -15,7 +15,6 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "typecheck": "node -e \"\"",
     "docs": "node scripts/docs.mjs"
   }
 }

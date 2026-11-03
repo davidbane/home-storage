@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { ApContainer, ApPageHead, ApSection, useMediaQuery } from '@home/ui'
 

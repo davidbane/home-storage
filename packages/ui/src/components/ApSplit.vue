@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 /**
  * List beside a detail pane at 960px and up; the pane is hidden below that.
  * On phones, show the same detail as its own screen instead (see the storage app's room view).
  */
-const props = withDefaults(defineProps<{ sticky?: boolean }>(), { sticky: true })
+const props = defineProps({ sticky: { type: Boolean, default: true } })
 </script>
 
 <template>

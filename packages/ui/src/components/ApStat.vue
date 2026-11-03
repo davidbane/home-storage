@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** A headline number for ApFeature: display numeral over a brass caption. */
-defineProps<{ value: number | string; label: string }>()
+defineProps({ value: { type: [Number, String], required: true }, label: { type: String, required: true } })
 </script>
 
 <template>

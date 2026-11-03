@@ -1,9 +1,15 @@
-<script setup lang="ts">
-import { RouterLink, type RouteLocationRaw } from 'vue-router'
+<script setup>
+import { RouterLink } from 'vue-router'
 
 /** Sidebar link. `count` shows at the right; `alert` turns it oxblood (e.g. low stock). */
 // `active` defaults to undefined (not false) so the router decides unless you override it.
-const props = withDefaults(defineProps<{ to: RouteLocationRaw; label: string; count?: number; alert?: boolean; active?: boolean }>(), { active: undefined })
+const props = defineProps({
+  to: { type: [String, Object], required: true },
+  label: { type: String, required: true },
+  count: Number,
+  alert: Boolean,
+  active: { type: Boolean, default: undefined },
+})
 </script>
 
 <template>

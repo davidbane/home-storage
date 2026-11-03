@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ApButton, useToast } from '@home/ui'
 
 const { show } = useToast()

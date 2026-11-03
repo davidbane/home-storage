@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { IconAlertTriangle, IconHome } from '@tabler/icons-vue'
 import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@home/ui'
 </script>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { IconArrowLeft, IconBoxMultiple, IconCheck, IconPencil, IconPlus, IconPrinter, IconTrash } from '@tabler/icons-vue'
@@ -30,7 +30,7 @@ const selected = computed(() => (selectedId.value ? house.location(selectedId.va
 // Deep, so items in slots inside the selected container show too.
 const contents = computed(() => (selectedId.value ? house.itemsIn(selectedId.value) : []))
 /** Detail line for a row: the slot it's in when deeper than the selected container, else par or note. */
-const rowSub = (i: { location: string; par: number | null; used_for?: string }) => {
+const rowSub = (i) => {
   if (i.location !== selectedId.value) {
     const path = house.ancestry(i.location)
     const from = path.findIndex((l) => l.id === selectedId.value)
@@ -50,13 +50,13 @@ const summary = computed(() => {
   const c = roomCounts.value
   return [`${c.total} items`, c.low && `${c.low} low`, c.surplus && `${c.surplus} surplus`].filter(Boolean).join(' · ')
 })
-const withQuery = (q: Record<string, string | undefined>) => ({ query: { ...route.query, ...q } })
+const withQuery = (q) => ({ query: { ...route.query, ...q } })
 const closeItem = () => router.replace(withQuery({ item: undefined }))
-const tileMeta = (id: string, note?: string) => {
+const tileMeta = (id, note) => {
   const c = house.countsFor(id)
-  if (c.low) return { meta: `${c.low} low`, tone: 'alert' as const }
-  if (c.total === 0) return { meta: 'empty', tone: 'muted' as const }
-  return { meta: note, tone: 'muted' as const }
+  if (c.low) return { meta: `${c.low} low`, tone: 'alert' }
+  if (c.total === 0) return { meta: 'empty', tone: 'muted' }
+  return { meta: note, tone: 'muted' }
 }
 </script>
 
@@ -77,7 +77,7 @@ const tileMeta = (id: string, note?: string) => {
         <template #meta>
           <div class="flex flex-wrap items-center gap-2">
             <ApStatusChip :status="status(openItem)" />
-            <ApBinTag v-if="house.location(openItem.location)?.code" :code="house.location(openItem.location)!.code!" :label="house.location(openItem.location)!.name" />
+            <ApBinTag v-if="house.location(openItem.location)?.code" :code="house.location(openItem.location).code" :label="house.location(openItem.location).name" />
           </div>
         </template>
       </ApPageHead>
@@ -104,7 +104,7 @@ const tileMeta = (id: string, note?: string) => {
         <template #eyebrow><ApBreadcrumb :items="house.crumbs(room.id)" current /></template>
         <template #meta>
           <div class="flex flex-wrap items-center gap-2.5">
-            <ApBinTag v-for="f in furniture.filter((x) => x.code)" :key="f.id" :code="f.code!" :label="f.note ?? f.name" />
+            <ApBinTag v-for="f in furniture.filter((x) => x.code)" :key="f.id" :code="f.code" :label="f.note ?? f.name" />
             <span class="type-meta text-ink-muted">{{ summary }}</span>
           </div>
         </template>
@@ -152,7 +152,7 @@ const tileMeta = (id: string, note?: string) => {
           <template #aside>
             <div class="flex items-center gap-4">
               <span v-if="selected.code" class="type-code text-ink-muted">{{ selected.code }}</span>
-              <button v-if="selected.kind !== 'furniture' && !furniture.some((f) => f.id === selected!.id)" type="button" :class="textBtn" :aria-label="`Edit ${selected.name}`" @click="ui.openEditSpot(selected.id)">Edit</button>
+              <button v-if="selected.kind !== 'furniture' && !furniture.some((f) => f.id === selected.id)" type="button" :class="textBtn" :aria-label="`Edit ${selected.name}`" @click="ui.openEditSpot(selected.id)">Edit</button>
             </div>
           </template>
           <ApList v-if="contents.length">

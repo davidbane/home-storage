@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ApContainer, ApList, ApListRow, ApPageHead, ApSection } from '@home/ui'
 import { catalog, groups } from '@/catalog'
 </script>

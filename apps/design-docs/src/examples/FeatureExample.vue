@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ApFeature, ApStat } from '@home/ui'
 </script>
 

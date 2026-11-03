@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { nextTick, onMounted, ref, useId, watch } from 'vue'
 import { IconX } from '@tabler/icons-vue'
 
@@ -7,15 +7,15 @@ import { IconX } from '@tabler/icons-vue'
  * page behind is inert. A centered panel on desktop, a bottom sheet on phones.
  * Slots: default (body), footer (actions; put the primary action last).
  */
-const open = defineModel<boolean>('open', { required: true })
-const props = defineProps<{ title: string; description?: string }>()
-const emit = defineEmits<{ closed: [] }>()
+const open = defineModel('open', { type: Boolean, required: true })
+const props = defineProps({ title: { type: String, required: true }, description: String })
+const emit = defineEmits(['closed'])
 
-const el = ref<HTMLDialogElement>()
+const el = ref()
 const titleId = useId()
 const descId = useId()
 
-async function sync(v: boolean) {
+async function sync(v) {
   await nextTick()
   const d = el.value
   if (!d) return
@@ -32,7 +32,7 @@ function onClose() {
   emit('closed')
 }
 // A click whose target is the <dialog> itself landed on the backdrop.
-function onClick(e: MouseEvent) {
+function onClick(e) {
   if (e.target === el.value) open.value = false
 }
 </script>

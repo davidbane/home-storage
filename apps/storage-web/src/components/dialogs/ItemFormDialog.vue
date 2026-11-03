@@ -1,11 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import { computed, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ApButton, ApDialog, ApSelect, ApTextField, useToast } from '@home/ui'
 import PlaceSelect from '@/components/PlaceSelect.vue'
 import { useHouseStore } from '@/stores/house'
 import { useUiStore } from '@/stores/ui'
-import type { ItemDraft, StorageClass } from '@/models'
 
 const house = useHouseStore()
 const ui = useUiStore()
@@ -19,8 +18,8 @@ const open = computed({
 })
 
 // Text inputs bind strings; convert on save.
-const form = reactive({ name: '', quantity: '1', par: '', storage_class: 'daily' as StorageClass, location: null as string | null, brand: '', used_for: '' })
-const errors = reactive<Record<string, string>>({})
+const form = reactive({ name: '', quantity: '1', par: '', storage_class: 'daily', location: null, brand: '', used_for: '' })
+const errors = reactive({})
 const saving = ref(false)
 
 watch(open, (v) => {
@@ -38,9 +37,10 @@ watch(open, (v) => {
   })
 })
 
-const whole = (v: string) => /^\d+$/.test(v.trim())
+const whole = (v) => /^\d+$/.test(v.trim())
 
-function validate(): ItemDraft | undefined {
+/** The form as an ItemDraft, or undefined (with `errors` filled in) when it isn't valid. */
+function validate() {
   Object.keys(errors).forEach((k) => delete errors[k])
   if (!form.name.trim()) errors.name = 'Enter a name.'
   if (!whole(form.quantity)) errors.quantity = 'Enter a whole number, 0 or more.'
@@ -52,7 +52,7 @@ function validate(): ItemDraft | undefined {
     quantity: Number(form.quantity),
     par: form.par.trim() ? Number(form.par) : null,
     storage_class: form.storage_class,
-    location: form.location!,
+    location: form.location,
     brand: form.brand.trim() || undefined,
     used_for: form.used_for.trim() || undefined,
   }

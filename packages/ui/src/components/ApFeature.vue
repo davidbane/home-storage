@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** The one bottle-green surface per screen. Text only in on-bottle and brass-on-bottle. */
-withDefaults(defineProps<{ as?: string }>(), { as: 'section' })
+defineProps({ as: { type: String, default: 'section' } })
 </script>
 
 <template>

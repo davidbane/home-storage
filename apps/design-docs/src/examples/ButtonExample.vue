@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { IconPlus, IconTrash } from '@tabler/icons-vue'
 import { ApButton } from '@home/ui'
 </script>

@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import { useId } from 'vue'
 import { IconChevronDown } from '@tabler/icons-vue'
 
 /** Labelled native select in a sunken well. Pass <option>/<optgroup> elements in the default slot. */
-const model = defineModel<string | null>()
-const props = defineProps<{ label: string; hint?: string; error?: string; required?: boolean }>()
+const model = defineModel({ type: String })
+const props = defineProps({ label: { type: String, required: true }, hint: String, error: String, required: Boolean })
 const id = useId()
 </script>
 

@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { ApContainer, ApPageHead, ApSection } from '@home/ui'
 import { tokens } from '@/tokens'
 
-const depthNotes: Record<string, string> = {
+const depthNotes = {
   'shadow-sunken': 'Sunken: inputs, search, the stepper track',
   'shadow-raised': 'Raised: cards, lists, tiles, panels',
   'shadow-raised-hover': 'Raised, on hover: with a 2px lift',

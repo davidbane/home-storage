@@ -1,9 +1,9 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 
-export function useMediaQuery(query: string) {
+export function useMediaQuery(query) {
   const matches = ref(typeof window !== 'undefined' && window.matchMedia(query).matches)
-  let mql: MediaQueryList | undefined
-  const update = (e: MediaQueryListEvent) => (matches.value = e.matches)
+  let mql
+  const update = (e) => (matches.value = e.matches)
   onMounted(() => {
     mql = window.matchMedia(query)
     matches.value = mql.matches

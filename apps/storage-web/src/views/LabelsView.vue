@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { IconPrinter } from '@tabler/icons-vue'
@@ -18,7 +18,7 @@ const groups = computed(() =>
     .map((room) => ({ room, places: house.labelled.filter((l) => house.roomOf(l.id)?.id === room.id) }))
     .filter((g) => g.places.length),
 )
-const selected = ref(new Set<string>())
+const selected = ref(new Set())
 
 // Preselect from ?room= or ?ids= whenever the query or data changes.
 watch(
@@ -33,13 +33,13 @@ watch(
   { immediate: true },
 )
 
-const isOn = (id: string) => selected.value.has(id)
-function set(id: string, on: boolean) {
+const isOn = (id) => selected.value.has(id)
+function set(id, on) {
   const next = new Set(selected.value)
   on ? next.add(id) : next.delete(id)
   selected.value = next
 }
-function setRoom(ids: string[], on: boolean) {
+function setRoom(ids, on) {
   const next = new Set(selected.value)
   ids.forEach((id) => (on ? next.add(id) : next.delete(id)))
   selected.value = next
@@ -80,7 +80,7 @@ function print() {
           </template>
           <ul class="m-0 list-none rounded-md bg-surface-1 px-4 py-1 shadow-raised">
             <li v-for="p in g.places" :key="p.id" class="flex items-center justify-between gap-3 [&+&]:border-t [&+&]:border-line">
-              <ApCheckbox :model-value="isOn(p.id)" @update:model-value="(v: boolean) => set(p.id, v)">
+              <ApCheckbox :model-value="isOn(p.id)" @update:model-value="(v) => set(p.id, v)">
                 {{ house.ancestry(p.id).slice(1).map((a) => a.name).join(' / ') }}
               </ApCheckbox>
               <span v-if="p.code" class="type-code text-ink-muted">{{ p.code }}</span>

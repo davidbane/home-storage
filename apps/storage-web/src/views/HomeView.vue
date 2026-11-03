@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref } from 'vue'
 import { IconPlus, IconScan, IconSettings } from '@tabler/icons-vue'
 import {
@@ -7,7 +7,6 @@ import {
 } from '@home/ui'
 import { status, useHouseStore } from '@/stores/house'
 import { useUiStore } from '@/stores/ui'
-import type { Item } from '@/models'
 
 const house = useHouseStore()
 const ui = useUiStore()
@@ -20,10 +19,10 @@ const greeting = computed(() => {
   const day = new Date().toLocaleDateString(undefined, { weekday: 'long' })
   return `${day} ${h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening'}`
 })
-const linkFor = (i: Item) => ({ path: `/rooms/${house.roomOf(i.location)?.id}`, query: { in: i.location, item: i.id } })
-const tileMeta = (id: string) => {
+const linkFor = (i) => ({ path: `/rooms/${house.roomOf(i.location)?.id}`, query: { in: i.location, item: i.id } })
+const tileMeta = (id) => {
   const c = house.countsFor(id)
-  return c.low ? { meta: `${c.low} low`, tone: 'alert' as const } : c.surplus ? { meta: `${c.surplus} surplus`, tone: 'muted' as const } : { meta: 'all stocked', tone: 'muted' as const }
+  return c.low ? { meta: `${c.low} low`, tone: 'alert' } : c.surplus ? { meta: `${c.surplus} surplus`, tone: 'muted' } : { meta: 'all stocked', tone: 'muted' }
 }
 </script>
 

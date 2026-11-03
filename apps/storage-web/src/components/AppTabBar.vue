@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script setup>
 import { IconAlertTriangle, IconHome, IconList, IconPlus, IconQrcode } from '@tabler/icons-vue'
 import { ApFab, ApTab, ApTabBar } from '@home/ui'
 import { useUiStore } from '@/stores/ui'
 
 const ui = useUiStore()
 
-const icon = { size: 22, stroke: '1.5', 'aria-hidden': 'true' } as const
+const icon = { size: 22, stroke: '1.5', 'aria-hidden': 'true' }
 </script>
 
 <template>

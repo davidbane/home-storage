@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ApButton, ApDialog, ApTextField } from '@home/ui'

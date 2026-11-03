@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 /**
  * Large-title header. Slots: back (phone only), eyebrow, meta, actions.
  * Title is display-xl on phones and display-2xl at 960px and up. Actions wrap under the title on phones.
  */
-defineProps<{ title: string }>()
+defineProps({ title: { type: String, required: true } })
 </script>
 
 <template>

@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** Bottom action dock on phones, casting a shadow up over the content. Desktop puts these actions in the page head. */
-withDefaults(defineProps<{ mobileOnly?: boolean }>(), { mobileOnly: true })
+defineProps({ mobileOnly: { type: Boolean, default: true } })
 </script>
 
 <template>

@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { ApContainer, ApPageHead, ApSection } from '@home/ui'
 import { tokens } from '@/tokens'
 
-const fontVar = (family: string) => `var(--ap-font-${family})`
+const fontVar = (family) => `var(--ap-font-${family})`
 </script>
 
 <template>

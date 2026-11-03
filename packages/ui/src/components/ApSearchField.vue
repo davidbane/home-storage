@@ -1,18 +1,18 @@
-<script setup lang="ts">
+<script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { IconSearch } from '@tabler/icons-vue'
 
 /** Sunken search well. `shortcut` adds a "/" hint and focuses the field on that key (desktop). */
-const model = defineModel<string>({ default: '' })
-const props = withDefaults(defineProps<{ placeholder?: string; label?: string; shortcut?: boolean }>(), {
-  placeholder: 'Search the house',
-  label: 'Search items and places',
-  shortcut: false,
+const model = defineModel({ type: String, default: '' })
+const props = defineProps({
+  placeholder: { type: String, default: 'Search the house' },
+  label: { type: String, default: 'Search items and places' },
+  shortcut: Boolean,
 })
-const input = ref<HTMLInputElement>()
+const input = ref()
 
-function onKey(e: KeyboardEvent) {
-  const t = e.target as HTMLElement | null
+function onKey(e) {
+  const t = e.target
   if (e.key !== '/' || t?.closest('input, textarea, [contenteditable]')) return
   e.preventDefault()
   input.value?.focus()

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { RouterView, useRoute } from 'vue-router'
 import { ApButton, ApContainer, ApPanel, ApShell, ApToaster } from '@home/ui'
 import AppSidebar from '@/components/AppSidebar.vue'

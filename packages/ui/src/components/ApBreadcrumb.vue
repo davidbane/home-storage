@@ -1,12 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { RouterLink } from 'vue-router'
-import type { Crumb } from '../types'
 
 /**
  * The location path: House / Room / Furniture / Container.
+ * Each item is { label, to? }.
  * With `current`, the last crumb is the page you're on and doesn't link.
  */
-defineProps<{ items: Crumb[]; current?: boolean }>()
+defineProps({ items: { type: Array, required: true }, current: Boolean })
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { RouterLink } from 'vue-router'
 import { ApContainer, ApFeature, ApPageHead, ApStat } from '@home/ui'
 import { catalog } from '@/catalog'

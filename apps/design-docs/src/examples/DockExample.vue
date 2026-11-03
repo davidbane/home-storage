@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ApButton, ApDock } from '@home/ui'
 </script>
 

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { IconAlertTriangle, IconHome, IconList, IconPlus, IconQrcode } from '@tabler/icons-vue'
 import { ApFab, ApTab, ApTabBar } from '@home/ui'
 </script>

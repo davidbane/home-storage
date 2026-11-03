@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** Floating phone navigation: four ApTab around an ApFab. Hidden at 960px and up. */
-defineProps<{ label?: string }>()
+defineProps({ label: String })
 </script>
 
 <template>

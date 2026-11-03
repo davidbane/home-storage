@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** Desktop navigation. Slots: brand, default (ApNavGroup), footer. Hidden under 960px by ApShell. */
-defineProps<{ label?: string }>()
+defineProps({ label: String })
 </script>
 
 <template>

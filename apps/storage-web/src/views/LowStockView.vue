@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { ApButton, ApContainer, ApList, ApListRow, ApPageHead, useToast } from '@home/ui'
 import { status, useHouseStore } from '@/stores/house'

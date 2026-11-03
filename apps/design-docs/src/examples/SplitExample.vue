@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ApList, ApListRow, ApPanel, ApSplit } from '@home/ui'
 </script>
 

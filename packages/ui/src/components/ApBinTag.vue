@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup>
 /** A container's printed label: brass hairline, mono code. For bins and containers, not items. */
-defineProps<{ code: string; label?: string }>()
+defineProps({ code: { type: String, required: true }, label: String })
 </script>
 
 <template>

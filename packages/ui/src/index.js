@@ -32,7 +32,6 @@ export { default as ApTileGrid } from './components/ApTileGrid.vue'
 export { default as ApToaster } from './components/ApToaster.vue'
 
 export { useTheme } from './composables/useTheme'
-export { useToast, type Toast } from './composables/useToast'
+export { useToast } from './composables/useToast'
 export { useMediaQuery, useIsDesktop } from './composables/useMediaQuery'
 export { statusLabel } from './types'
-export type { Status, Theme, Crumb } from './types'
