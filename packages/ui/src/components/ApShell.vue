@@ -6,9 +6,11 @@
     >
       <slot name="sidebar" />
     </div>
+
     <main class="min-w-0 flex-1 pb-32 md:pb-12">
       <slot />
     </main>
+
     <slot name="bottom" />
   </div>
 </template>

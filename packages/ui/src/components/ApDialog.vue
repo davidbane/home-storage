@@ -16,6 +16,7 @@
           >
             {{ props.title }}
           </h2>
+
           <p
             v-if="props.description"
             :id="descId"
@@ -24,6 +25,7 @@
             {{ props.description }}
           </p>
         </div>
+
         <button
           type="button"
           aria-label="Close"
@@ -37,9 +39,11 @@
           />
         </button>
       </header>
+
       <div class="min-h-0 flex-1 overflow-y-auto px-5 pb-2 md:px-6">
         <slot />
       </div>
+
       <footer
         v-if="$slots.footer"
         class="flex flex-wrap justify-end gap-2.5 px-5 pt-3 pb-6 md:px-6"

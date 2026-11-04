@@ -7,6 +7,7 @@
           to="/"
         />
       </template>
+
       <ApNavGroup label="Catalog">
         <ApNavItem
           to="/"
@@ -20,6 +21,7 @@
             />
           </template>
         </ApNavItem>
+
         <ApNavItem
           to="/"
           label="Low stock"
@@ -35,6 +37,7 @@
           </template>
         </ApNavItem>
       </ApNavGroup>
+
       <ApNavGroup label="Rooms">
         <ApNavItem
           to="/"
@@ -42,6 +45,7 @@
           :count="64"
           :active="false"
         />
+
         <ApNavItem
           to="/"
           label="Hall closet"
@@ -58,5 +62,5 @@
      The wrapper here just lets it sit in the page. -->
 <script setup>
   import { IconAlertTriangle, IconHome } from '@tabler/icons-vue';
-  import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@home/ui';
+  import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@keep/ui';
 </script>

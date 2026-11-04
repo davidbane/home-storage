@@ -8,6 +8,7 @@
             to="/"
           />
         </template>
+
         <ApNavGroup label="Foundations">
           <ApNavItem
             to="/"
@@ -18,6 +19,7 @@
               <IconHome v-bind="icon" />
             </template>
           </ApNavItem>
+
           <ApNavItem
             to="/color"
             label="Color"
@@ -26,6 +28,7 @@
               <IconPalette v-bind="icon" />
             </template>
           </ApNavItem>
+
           <ApNavItem
             to="/type"
             label="Type"
@@ -34,6 +37,7 @@
               <IconTypography v-bind="icon" />
             </template>
           </ApNavItem>
+
           <ApNavItem
             to="/shape"
             label="Space, shape and depth"
@@ -42,6 +46,7 @@
               <IconBox v-bind="icon" />
             </template>
           </ApNavItem>
+
           <ApNavItem
             to="/layout"
             label="Layout"
@@ -51,6 +56,7 @@
             </template>
           </ApNavItem>
         </ApNavGroup>
+
         <ApNavGroup
           v-for="group in groups"
           :key="group"
@@ -63,6 +69,7 @@
             :label="entry.name"
           />
         </ApNavGroup>
+
         <template #footer>
           <ApButton
             variant="ghost"
@@ -74,7 +81,9 @@
               <IconSun
                 v-if="theme === 'night'"
                 v-bind="icon"
-              /><IconMoon
+              />
+
+              <IconMoon
                 v-else
                 v-bind="icon"
               />
@@ -98,6 +107,7 @@
             <IconHome v-bind="tabIcon" />
           </template>
         </ApTab>
+
         <ApTab
           to="/color"
           label="Color"
@@ -106,6 +116,7 @@
             <IconPalette v-bind="tabIcon" />
           </template>
         </ApTab>
+
         <ApTab
           to="/type"
           label="Type"
@@ -114,6 +125,7 @@
             <IconTypography v-bind="tabIcon" />
           </template>
         </ApTab>
+
         <ApTab
           to="/components"
           label="Parts"
@@ -123,6 +135,7 @@
             <IconBox v-bind="tabIcon" />
           </template>
         </ApTab>
+
         <button
           type="button"
           :aria-label="theme === 'night' ? 'Switch to parchment theme' : 'Switch to night theme'"
@@ -132,7 +145,9 @@
           <IconSun
             v-if="theme === 'night'"
             v-bind="tabIcon"
-          /><IconMoon
+          />
+
+          <IconMoon
             v-else
             v-bind="tabIcon"
           />
@@ -141,13 +156,14 @@
       </ApTabBar>
     </template>
   </ApShell>
+
   <ApToaster />
 </template>
 
 <script setup>
   import { useRoute } from 'vue-router';
   import { IconBox, IconHome, IconLayout, IconMoon, IconPalette, IconSun, IconTypography } from '@tabler/icons-vue';
-  import { ApBrand, ApButton, ApNavGroup, ApNavItem, ApShell, ApSidebar, ApTab, ApTabBar, ApToaster, useTheme } from '@home/ui';
+  import { ApBrand, ApButton, ApNavGroup, ApNavItem, ApShell, ApSidebar, ApTab, ApTabBar, ApToaster, useTheme } from '@keep/ui';
   import { catalog, groups } from '@/catalog';
 
   const route = useRoute();

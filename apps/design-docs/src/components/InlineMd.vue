@@ -7,6 +7,7 @@
       v-if="part.code"
       class="rounded-sm bg-surface-2 px-1 py-px font-mono text-[0.9em]"
     >{{ part.text }}</code>
+
     <template v-else>
       {{ part.text }}
     </template>

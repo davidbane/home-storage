@@ -1,22 +1,22 @@
-# home-storage
+# Materia
 
-My home apps, starting with the house storage catalog: a Django REST Framework API and a Vue 3 + JavaScript + Tailwind CSS v4 frontend, styled with the **Apothecary** design system (bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press).
+The house storage catalog, and the first service in Keep, my collection of home services: a Django REST Framework API and a Vue 3 + JavaScript + Tailwind CSS v4 frontend, styled with the **Apothecary** design system (bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press).
 
 ## Layout
 
 ```
 packages/
-  tokens/        @home/tokens  design tokens → CSS variables + a Tailwind v4 theme
-  ui/            @home/ui      Vue 3 components built on those tokens
+  apothecary-tokens/  @keep/apothecary-tokens  design tokens → CSS variables + a Tailwind v4 theme
+  ui/                 @keep/ui                 Vue 3 components built on those tokens
 apps/
-  storage-web/   the storage catalog: Vue 3, Pinia, axios, Vue Router
+  materia-web/   the storage catalog: Vue 3, Pinia, axios, Vue Router
   design-docs/   live design system docs (yarn docs)
 docs/
   design-system/ guidelines: principles, foundations, layout, components, token reference
 backend/         Django + DRF API (moved in from davidbane/homeapi, history kept)
 ```
 
-The packages are Yarn workspaces, so a change to a component shows up in the app on save. When a second home app needs them outside this repo, publish `@home/tokens` and `@home/ui` (GitHub Packages works well) and version them with Changesets.
+The packages are Yarn workspaces, so a change to a component shows up in the app on save. When a second home app needs them outside this repo, publish `@keep/apothecary-tokens` and `@keep/ui` (GitHub Packages works well) and version them with Changesets.
 
 ## Getting started
 
@@ -29,11 +29,12 @@ yarn install
 yarn dev          # builds tokens, then runs the storage app at http://localhost:5173
 yarn build        # build everything
 yarn lint         # lint the frontend (yarn lint:fix applies the fixes it can)
+yarn lint:py      # check backend formatting (yarn lint:py:fix applies it)
 yarn tokens       # rebuild tokens (and docs/design-system/tokens.md) after editing tokens.json
 yarn docs         # live design system docs at http://localhost:5174
 ```
 
-Adding a dependency to one workspace: `yarn workspace storage-web add <pkg>` (or `@home/ui`, `@home/tokens`). Yarn is set to a plain `node_modules` layout in `.yarnrc.yml`.
+Adding a dependency to one workspace: `yarn workspace materia-web add <pkg>` (or `@keep/ui`, `@keep/apothecary-tokens`). Yarn is set to a plain `node_modules` layout in `.yarnrc.yml`.
 
 ### Backend
 
@@ -50,15 +51,15 @@ Settings come from `backend/.env` (or real environment variables): `SECRET_KEY`,
 
 ### Frontend ↔ API
 
-In dev, Vite proxies `/api` to `http://localhost:8000`, so the browser sees one origin: Django's session cookie and CSRF token work with no CORS setup. The axios client (`apps/storage-web/src/api/client.js`) sends the `csrftoken` cookie back as `X-CSRFToken`.
+In dev, Vite proxies `/api` to `http://localhost:8000`, so the browser sees one origin: Django's session cookie and CSRF token work with no CORS setup. The axios client (`apps/materia-web/src/api/client.js`) sends the `csrftoken` cookie back as `X-CSRFToken`.
 
-The app reads sample data by default. To use the real API, create `apps/storage-web/.env.local` with:
+The app reads sample data by default. To use the real API, create `apps/materia-web/.env.local` with:
 
 ```sh
 VITE_DATA_SOURCE=api
 ```
 
-`src/api/endpoints.js` documents the DRF response shapes as they are today, and `src/api/adapt.js` turns residences, areas, spots and items into the app's location tree. State lives in a Pinia store (`src/stores/house.js`).
+The API returns the shapes in `src/models.js`, and `src/api/endpoints.js` lists the calls. The only thing the app adds is each location's `kind`, worked out from its depth (`deriveKinds`). State lives in a Pinia store (`src/stores/house.js`).
 
 ## Design system
 
@@ -66,12 +67,12 @@ The Apothecary design system is documented in [`docs/design-system`](docs/design
 
 ## How the styling fits together
 
-1. **`packages/tokens/src/tokens.json`** is the source of truth: colors per theme (`night`, `parchment`), type styles, spacing, radii, shadows and breakpoints. It's the same file the Apothecary design-system page uses.
+1. **`packages/apothecary-tokens/src/tokens.json`** is the source of truth: colors per theme (`night`, `parchment`), type styles, spacing, radii, shadows and breakpoints. It's the same file the Apothecary design-system page uses.
 2. **`yarn tokens`** compiles it into
    - `dist/tokens.css`: raw `--ap-*` custom properties, one block per `[data-theme]`
    - `dist/theme.css`: a Tailwind `@theme` that maps utilities onto those properties, plus `type-*` utilities for each text style.
-3. **`@home/ui/styles.css`** imports both, adds base styles and a few system utilities (`rounded-arch-top`, `sheen`, `feature-wash`), and points Tailwind at the component sources.
-4. **The app's `style.css`** is two lines: `@import "tailwindcss";` then `@import "@home/ui/styles.css";`.
+3. **`@keep/ui/styles.css`** imports both, adds base styles and a few system utilities (`rounded-arch-top`, `sheen`, `feature-wash`), and points Tailwind at the component sources.
+4. **The app's `style.css`** is two lines: `@import "tailwindcss";` then `@import "@keep/ui/styles.css";`.
 
 Because utilities resolve to CSS variables, switching `data-theme` on `<html>` re-themes everything with no rebuild (`useTheme()` handles that and remembers the choice).
 
@@ -95,11 +96,11 @@ Spacing stays Tailwind's 4px scale, which matches the system (`p-5` is `space-5`
 - **Sapphire means "act".** One `variant="primary"` button per view. Brass is ornament only; nothing decorative is blue.
 - **Display face for headlines and numbers only.** Item names, paths, quantities and controls are Inter.
 - **Arched things are places.** Only `ApLocationTile` gets the arch.
-- **Status is a fixed vocabulary:** Low, Surplus, Long-term, Stocked (`statusLabel` in `@home/ui`). The app decides which one applies (`status()` in `apps/storage-web/src/stores/house.js`); components only display it.
+- **Status is a fixed vocabulary:** Low, Surplus, Long-term, Stocked (`statusLabel` in `@keep/ui`). The app decides which one applies (`status()` in `apps/materia-web/src/stores/house.js`); components only display it.
 - **Depth is lit from above:** sunken for inputs, raised for cards and lists, floating for the tab bar and docks.
 - **One URL per state at every width.** `/rooms/hall-closet?in=drawer-b&item=9v-batteries` shows a detail pane on desktop and the item screen on a phone.
 
-## Components (`@home/ui`)
+## Components (`@keep/ui`)
 
 Layout: `ApShell`, `ApContainer`, `ApSidebar`, `ApBrand`, `ApNavGroup`, `ApNavItem`, `ApTabBar`, `ApTab`, `ApFab`, `ApDock`, `ApPageHead`, `ApSection`, `ApSplit`, `ApTileGrid`
 Content: `ApList`, `ApListRow`, `ApLocationTile`, `ApPanel`, `ApFeature`, `ApStat`, `ApBreadcrumb`, `ApBinTag`, `ApStatusChip`

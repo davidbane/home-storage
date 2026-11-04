@@ -12,8 +12,8 @@ A dark, modern-gothic look for the home apps: bottle green and bone, a thread of
 
 | Package | What |
 |---|---|
-| `packages/tokens` (`@home/tokens`) | `src/tokens.json` is the source of truth. `yarn tokens` compiles it to CSS variables and a Tailwind v4 theme, and regenerates `tokens.md`. |
-| `packages/ui` (`@home/ui`) | Vue 3 components, composables (`useTheme`, `useToast`, `useIsDesktop`) and base styles. |
+| `packages/apothecary-tokens` (`@keep/apothecary-tokens`) | `src/tokens.json` is the source of truth. `yarn tokens` compiles it to CSS variables and a Tailwind v4 theme, and regenerates `tokens.md`. |
+| `packages/ui` (`@keep/ui`) | Vue 3 components, composables (`useTheme`, `useToast`, `useIsDesktop`) and base styles. |
 | `apps/design-docs` | The live docs app. Examples there are the code shown on each page. |
 
 ## Principles
@@ -28,15 +28,15 @@ A dark, modern-gothic look for the home apps: bottle green and bone, a thread of
 
 ## Starting a new home app
 
-1. Add an app under `apps/` with `vue`, `vue-router`, `pinia`, `@home/ui` (`workspace:*`), Tailwind and the Vite plugins (copy `apps/storage-web/package.json` and trim).
+1. Add an app under `apps/` with `vue`, `vue-router`, `pinia`, `@keep/ui` (`workspace:*`), Tailwind and the Vite plugins (copy `apps/materia-web/package.json` and trim).
 2. Its stylesheet is two lines:
 
    ```css
    @import "tailwindcss";
-   @import "@home/ui/styles.css";
+   @import "@keep/ui/styles.css";
    ```
 
-3. In `main.js`, `import '@home/ui/fonts'` once.
+3. In `main.js`, `import '@keep/ui/fonts'` once.
 4. Wrap the app in `ApShell` with an `ApSidebar` (desktop) and an `ApTabBar` (phones). Mount `ApToaster` once.
 5. To give the app its own identity, change only `bottle` (and `on-bottle`) and optionally `brass` in a theme override, check contrast in the token reference, and keep sapphire as the action color so every home app behaves the same.
 

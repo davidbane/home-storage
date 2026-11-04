@@ -9,6 +9,7 @@
       meta="tools, tape"
       to="/"
     />
+
     <ApLocationTile
       name="Drawer B"
       :count="9"
@@ -17,6 +18,7 @@
       to="/"
       selected
     />
+
     <ApLocationTile
       name="Drawer E"
       :count="0"
@@ -27,5 +29,5 @@
 </template>
 
 <script setup>
-  import { ApLocationTile, ApTileGrid } from '@home/ui';
+  import { ApLocationTile, ApTileGrid } from '@keep/ui';
 </script>

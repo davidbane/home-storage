@@ -7,12 +7,16 @@
       >
         <slot name="back" />
       </div>
+
       <slot name="eyebrow" />
+
       <h1 class="m-0 type-display-xl md:type-display-2xl">
         {{ title }}
       </h1>
+
       <slot name="meta" />
     </div>
+
     <div
       v-if="$slots.actions"
       class="flex flex-[1_1_360px] items-center justify-end gap-3"

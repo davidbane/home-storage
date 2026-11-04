@@ -23,6 +23,8 @@ export default [
       'vue/block-order': ['error', { order: ['template', 'script', 'style'] }],
       // An element with more than one attribute puts each on its own line.
       'vue/max-attributes-per-line': ['error', { singleline: { max: 1 }, multiline: { max: 1 } }],
+      // Sibling elements in a template are separated by a blank line.
+      'vue/padding-line-between-tags': ['error', [{ blankLine: 'always', prev: '*', next: '*' }]],
       'vue/multi-word-component-names': ['error', { ignores: ['App'] }],
       'vue/require-default-prop': 'off',
     },
@@ -38,7 +40,7 @@ export default [
   },
 
   {
-    files: ['packages/tokens/scripts/**', '**/vite.config.js', 'eslint.config.mjs'],
+    files: ['packages/apothecary-tokens/scripts/**', '**/vite.config.js', 'eslint.config.mjs'],
     languageOptions: { globals: globals.node },
   },
 ];

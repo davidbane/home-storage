@@ -187,30 +187,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@home/tokens@workspace:*, @home/tokens@workspace:packages/tokens":
-  version: 0.0.0-use.local
-  resolution: "@home/tokens@workspace:packages/tokens"
-  languageName: unknown
-  linkType: soft
-
-"@home/ui@workspace:*, @home/ui@workspace:packages/ui":
-  version: 0.0.0-use.local
-  resolution: "@home/ui@workspace:packages/ui"
-  dependencies:
-    "@fontsource/cormorant-garamond": "npm:^5.2.5"
-    "@fontsource/inter": "npm:^5.2.5"
-    "@fontsource/jetbrains-mono": "npm:^5.2.5"
-    "@home/tokens": "workspace:*"
-    "@tabler/icons-vue": "npm:^3.31.0"
-    vite: "npm:^8.0.14"
-    vue: "npm:^3.5.34"
-    vue-router: "npm:^4.5.1"
-  peerDependencies:
-    vue: ^3.5.0
-    vue-router: ^4.5.0
-  languageName: unknown
-  linkType: soft
-
 "@humanfs/core@npm:^0.19.2":
   version: 0.19.2
   resolution: "@humanfs/core@npm:0.19.2"
@@ -304,6 +280,30 @@ __metadata:
   checksum: 10c0/4b30ec8cd56c5fd9a661f088230af01e0c1a3888d11ffb6b47639700f71225be21d1f7e168048d6d4f9449207b978a235c07c8f15c07705685d16dc06280e9d9
   languageName: node
   linkType: hard
+
+"@keep/apothecary-tokens@workspace:*, @keep/apothecary-tokens@workspace:packages/apothecary-tokens":
+  version: 0.0.0-use.local
+  resolution: "@keep/apothecary-tokens@workspace:packages/apothecary-tokens"
+  languageName: unknown
+  linkType: soft
+
+"@keep/ui@workspace:*, @keep/ui@workspace:packages/ui":
+  version: 0.0.0-use.local
+  resolution: "@keep/ui@workspace:packages/ui"
+  dependencies:
+    "@fontsource/cormorant-garamond": "npm:^5.2.5"
+    "@fontsource/inter": "npm:^5.2.5"
+    "@fontsource/jetbrains-mono": "npm:^5.2.5"
+    "@keep/apothecary-tokens": "workspace:*"
+    "@tabler/icons-vue": "npm:^3.31.0"
+    vite: "npm:^8.0.14"
+    vue: "npm:^3.5.34"
+    vue-router: "npm:^4.5.1"
+  peerDependencies:
+    vue: ^3.5.0
+    vue-router: ^4.5.0
+  languageName: unknown
+  linkType: soft
 
 "@keyv/bigmap@npm:^1.3.1":
   version: 1.3.1
@@ -1053,8 +1053,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "design-docs@workspace:apps/design-docs"
   dependencies:
-    "@home/tokens": "workspace:*"
-    "@home/ui": "workspace:*"
+    "@keep/apothecary-tokens": "workspace:*"
+    "@keep/ui": "workspace:*"
     "@tabler/icons-vue": "npm:^3.31.0"
     "@tailwindcss/vite": "npm:^4.3.0"
     "@vitejs/plugin-vue": "npm:^6.0.7"
@@ -1540,19 +1540,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"home-storage@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "home-storage@workspace:."
-  dependencies:
-    "@eslint/js": "npm:^10.0.1"
-    "@stylistic/eslint-plugin": "npm:^5.10.0"
-    eslint: "npm:^10.14.0"
-    eslint-plugin-vue: "npm:^10.12.0"
-    globals: "npm:^17.14.0"
-    vue-eslint-parser: "npm:^10.4.1"
-  languageName: unknown
-  linkType: soft
-
 "hookable@npm:^5.5.3":
   version: 5.5.3
   resolution: "hookable@npm:5.5.3"
@@ -1928,6 +1915,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"materia-web@workspace:apps/materia-web":
+  version: 0.0.0-use.local
+  resolution: "materia-web@workspace:apps/materia-web"
+  dependencies:
+    "@keep/ui": "workspace:*"
+    "@tabler/icons-vue": "npm:^3.31.0"
+    "@tailwindcss/vite": "npm:^4.3.0"
+    "@vitejs/plugin-vue": "npm:^6.0.7"
+    axios: "npm:^1.16.1"
+    pinia: "npm:^3.0.4"
+    tailwindcss: "npm:^4.3.0"
+    vite: "npm:^8.0.14"
+    vue: "npm:^3.5.34"
+    vue-router: "npm:^4.5.1"
+  languageName: unknown
+  linkType: soft
+
+"materia@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "materia@workspace:."
+  dependencies:
+    "@eslint/js": "npm:^10.0.1"
+    "@stylistic/eslint-plugin": "npm:^5.10.0"
+    eslint: "npm:^10.14.0"
+    eslint-plugin-vue: "npm:^10.12.0"
+    globals: "npm:^17.14.0"
+    vue-eslint-parser: "npm:^10.4.1"
+  languageName: unknown
+  linkType: soft
+
 "math-intrinsics@npm:^1.1.0":
   version: 1.1.0
   resolution: "math-intrinsics@npm:1.1.0"
@@ -2298,23 +2315,6 @@ __metadata:
   checksum: 10c0/1de1d1b938a7c4d9e79593ff7a26d312ec04a7c3234ca40b7f9b8106daf74ea9d2110a077f5db97ecf3762b83069e3ccbf9694431b51d4fcfd863f0b3333c342
   languageName: node
   linkType: hard
-
-"storage-web@workspace:apps/storage-web":
-  version: 0.0.0-use.local
-  resolution: "storage-web@workspace:apps/storage-web"
-  dependencies:
-    "@home/ui": "workspace:*"
-    "@tabler/icons-vue": "npm:^3.31.0"
-    "@tailwindcss/vite": "npm:^4.3.0"
-    "@vitejs/plugin-vue": "npm:^6.0.7"
-    axios: "npm:^1.16.1"
-    pinia: "npm:^3.0.4"
-    tailwindcss: "npm:^4.3.0"
-    vite: "npm:^8.0.14"
-    vue: "npm:^3.5.34"
-    vue-router: "npm:^4.5.1"
-  languageName: unknown
-  linkType: soft
 
 "superjson@npm:^2.2.2":
   version: 2.2.6

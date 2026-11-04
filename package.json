@@ -1,5 +1,5 @@
 {
-  "name": "home-storage",
+  "name": "materia",
   "private": true,
   "packageManager": "yarn@4.9.1",
   "engines": {
@@ -10,14 +10,16 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "yarn workspace @home/tokens build && yarn workspace storage-web dev",
-    "build": "yarn workspaces foreach --all --topological run build",
-    "tokens": "yarn workspace @home/tokens build && yarn workspace @home/tokens docs",
+    "dev": "yarn workspace @keep/apothecary-tokens build && yarn workspace materia-web dev",
+    "build": "yarn workspace @keep/apothecary-tokens build && yarn workspaces foreach --all --exclude @keep/apothecary-tokens --topological run build",
+    "tokens": "yarn workspace @keep/apothecary-tokens build && yarn workspace @keep/apothecary-tokens docs",
     "api": "cd backend && python manage.py runserver",
-    "tokens:docs": "yarn workspace @home/tokens docs",
-    "docs": "yarn workspace @home/tokens build && yarn workspace design-docs dev",
+    "tokens:docs": "yarn workspace @keep/apothecary-tokens docs",
+    "docs": "yarn workspace @keep/apothecary-tokens build && yarn workspace design-docs dev",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "lint:py": "cd backend && .venv/bin/ruff format --check",
+    "lint:py:fix": "cd backend && .venv/bin/ruff format"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -11,6 +11,7 @@
     ]"
   >
     <slot name="icon" />
+
     <slot />
   </ApLink>
 </template>

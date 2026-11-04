@@ -23,12 +23,15 @@
           >
             <div class="flex flex-col gap-0.5">
               <code class="font-mono text-[13px]">type-{{ style.name }}</code>
+
               <span class="type-meta text-ink-muted">{{ style.fontSize }} / {{ style.lineHeight }} · {{ style.fontWeight }}{{ style.letterSpacing ? ` · ${style.letterSpacing}` : '' }}</span>
+
               <span
                 v-if="style.usage"
                 class="type-meta text-ink-muted"
               >{{ style.usage }}</span>
             </div>
+
             <div
               class="min-w-0 overflow-hidden text-ellipsis"
               :style="{ fontFamily: fontVar(style.family ?? group.family), fontSize: style.fontSize, lineHeight: style.lineHeight, fontWeight: style.fontWeight, letterSpacing: style.letterSpacing }"
@@ -43,10 +46,13 @@
         <div class="flex flex-wrap items-baseline gap-8 rounded-lg bg-surface-1 p-5 shadow-raised">
           <div class="flex flex-col gap-1">
             <span class="type-numeral">0 1 2 3 4 5 6 7 8 9</span>
+
             <span class="type-meta text-ink-muted">Cormorant old-style figures: counts on tiles and the stepper</span>
           </div>
+
           <div class="flex flex-col gap-1">
             <span class="text-[32px] leading-8 font-medium tabular-nums">0 1 2 3 4 5 6 7 8 9</span>
+
             <span class="type-meta text-ink-muted">Inter: quantities in lists and forms</span>
           </div>
         </div>
@@ -56,7 +62,7 @@
 </template>
 
 <script setup>
-  import { ApContainer, ApPageHead, ApSection } from '@home/ui';
+  import { ApContainer, ApPageHead, ApSection } from '@keep/ui';
   import { tokens } from '@/tokens';
 
   const fontVar = (family) => `var(--ap-font-${family})`;

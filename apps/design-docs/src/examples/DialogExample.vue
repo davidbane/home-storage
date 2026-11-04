@@ -2,6 +2,7 @@
   <ApButton @click="open = true">
     Remove 9V batteries
   </ApButton>
+
   <ApDialog
     v-model:open="open"
     title="Remove 9V batteries?"
@@ -14,6 +15,7 @@
       >
         Keep it
       </ApButton>
+
       <ApButton
         variant="danger"
         @click="open = false"
@@ -26,7 +28,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApButton, ApDialog } from '@home/ui';
+  import { ApButton, ApDialog } from '@keep/ui';
 
   const open = ref(false);
 </script>

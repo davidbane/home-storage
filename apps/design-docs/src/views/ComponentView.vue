@@ -13,9 +13,11 @@
           />
         </ApIconButton>
       </template>
+
       <template #eyebrow>
         <ApBreadcrumb :items="[{ label: 'Components', to: '/components' }, { label: entry.group }]" />
       </template>
+
       <template #meta>
         <p class="m-0 max-w-2xl text-[15px] leading-[22px] text-ink-muted">
           <InlineMd :text="entry.summary" />
@@ -58,7 +60,9 @@
         >
           ← {{ previous.name }}
         </ApButton>
+
         <span v-else />
+
         <ApButton
           v-if="next"
           variant="ghost"
@@ -69,8 +73,10 @@
       </nav>
     </div>
   </ApContainer>
+
   <ApContainer v-else>
     <ApPageHead title="Not found" />
+
     <ApButton to="/components">
       All components
     </ApButton>
@@ -81,7 +87,7 @@
   import { computed } from 'vue';
   import { useRoute } from 'vue-router';
   import { IconArrowLeft } from '@tabler/icons-vue';
-  import { ApBreadcrumb, ApButton, ApContainer, ApIconButton, ApPageHead, ApSection } from '@home/ui';
+  import { ApBreadcrumb, ApButton, ApContainer, ApIconButton, ApPageHead, ApSection } from '@keep/ui';
   import ExampleFrame from '@/components/ExampleFrame.vue';
   import InlineMd from '@/components/InlineMd.vue';
   import { catalog } from '@/catalog';

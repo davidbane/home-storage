@@ -7,6 +7,7 @@
       >
         {{ title }}
       </component>
+
       <slot name="aside">
         <RouterLink
           v-if="linkLabel && linkTo"
@@ -15,6 +16,7 @@
         >{{ linkLabel }}</RouterLink>
       </slot>
     </div>
+
     <slot />
   </section>
 </template>

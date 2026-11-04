@@ -4,6 +4,7 @@
       code="C-07-B"
       label="Batteries"
     />
+
     <ApBinTag code="A-01-9">
       Keepsakes
     </ApBinTag>
@@ -11,5 +12,5 @@
 </template>
 
 <script setup>
-  import { ApBinTag } from '@home/ui';
+  import { ApBinTag } from '@keep/ui';
 </script>

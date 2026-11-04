@@ -7,6 +7,7 @@
       stroke="1.5"
       aria-hidden="true"
     />
+
     <input
       ref="input"
       v-model="model"
@@ -15,6 +16,7 @@
       :aria-label="props.label"
       class="min-w-0 flex-1 border-0 bg-transparent text-[15px] leading-[22px] text-ink outline-none placeholder:text-ink-muted"
     >
+
     <kbd
       v-if="props.shortcut"
       class="hidden rounded-sm border border-line px-1.5 py-px type-code md:inline"

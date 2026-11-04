@@ -7,11 +7,13 @@
         :qty="1"
         selected
       />
+
       <ApListRow
         name="AA batteries"
         :qty="12"
       />
     </ApList>
+
     <template #pane>
       <ApPanel>
         <h3 class="m-0 type-title">
@@ -24,5 +26,5 @@
 
 <!-- At 960px and up the pane sits beside the list; below that it's hidden. -->
 <script setup>
-  import { ApList, ApListRow, ApPanel, ApSplit } from '@home/ui';
+  import { ApList, ApListRow, ApPanel, ApSplit } from '@keep/ui';
 </script>

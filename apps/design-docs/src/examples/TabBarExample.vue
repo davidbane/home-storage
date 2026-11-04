@@ -13,6 +13,7 @@
           />
         </template>
       </ApTab>
+
       <ApTab
         to="/"
         label="Lists"
@@ -25,12 +26,14 @@
           />
         </template>
       </ApTab>
+
       <ApFab label="Add item">
         <IconPlus
           :size="22"
           stroke="1.75"
         />
       </ApFab>
+
       <ApTab
         to="/"
         label="Low"
@@ -43,6 +46,7 @@
           />
         </template>
       </ApTab>
+
       <ApTab
         to="/"
         label="Labels"
@@ -63,5 +67,5 @@
      The wrapper here pins it in place so you can see it at any width. -->
 <script setup>
   import { IconAlertTriangle, IconHome, IconList, IconPlus, IconQrcode } from '@tabler/icons-vue';
-  import { ApFab, ApTab, ApTabBar } from '@home/ui';
+  import { ApFab, ApTab, ApTabBar } from '@keep/ui';
 </script>

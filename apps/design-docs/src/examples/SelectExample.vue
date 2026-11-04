@@ -8,9 +8,11 @@
     <option value="daily">
       Daily use
     </option>
+
     <option value="surplus">
       Surplus store
     </option>
+
     <option value="long_term">
       Long-term
     </option>
@@ -19,7 +21,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApSelect } from '@home/ui';
+  import { ApSelect } from '@keep/ui';
 
   const kept = ref('daily');
 </script>

@@ -12,6 +12,7 @@
         status="low"
         :qty="1"
       />
+
       <ApListRow
         name="Paper towels"
         sub="Garage / Shelf 3"
@@ -23,5 +24,5 @@
 </template>
 
 <script setup>
-  import { ApList, ApListRow, ApSection } from '@home/ui';
+  import { ApList, ApListRow, ApSection } from '@keep/ui';
 </script>

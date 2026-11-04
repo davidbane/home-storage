@@ -1,5 +1,5 @@
 {
-  "name": "@home/ui",
+  "name": "@keep/ui",
   "version": "0.1.0",
   "private": true,
   "description": "Apothecary Vue 3 components for home apps",
@@ -17,7 +17,7 @@
     "@fontsource/cormorant-garamond": "^5.2.5",
     "@fontsource/inter": "^5.2.5",
     "@fontsource/jetbrains-mono": "^5.2.5",
-    "@home/tokens": "workspace:*",
+    "@keep/apothecary-tokens": "workspace:*",
     "@tabler/icons-vue": "^3.31.0"
   },
   "devDependencies": {

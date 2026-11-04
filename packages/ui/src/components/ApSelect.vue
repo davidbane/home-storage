@@ -9,6 +9,7 @@
         class="font-normal text-ink-muted"
       > (optional)</span>
     </label>
+
     <div class="relative">
       <select
         :id="id"
@@ -23,6 +24,7 @@
       >
         <slot />
       </select>
+
       <IconChevronDown
         :size="18"
         stroke="1.5"
@@ -30,6 +32,7 @@
         class="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-ink-muted"
       />
     </div>
+
     <p
       v-if="props.error"
       :id="`${id}-msg`"
@@ -37,6 +40,7 @@
     >
       {{ props.error }}
     </p>
+
     <p
       v-else-if="props.hint"
       :id="`${id}-msg`"

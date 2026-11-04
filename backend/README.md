@@ -1,8 +1,10 @@
 # backend
 
-Django REST Framework API for the home apps. Moved here from `davidbane/homeapi` with its history.
+Django REST Framework API for Materia. Moved here from `davidbane/homeapi` with its history.
 
-Endpoints (all under `/api/`): `residences`, `owners`, `storage-areas`, `storage-spots`, `storage-items`, `storage-types`, and `health`.
+Endpoints (all under `/api/`): `residences`, `owners`, `locations`, `storage-items`, `storage-types`, and `health`. `locations` and `storage-items` take `?residence=<id>`.
+
+A `Location` with no parent is a room; anything else is a storage spot and needs a `type`.
 
 ## Setup
 
@@ -13,6 +15,10 @@ cp .env.example .env    # fill in SECRET_KEY and DATABASE_URL
 python manage.py migrate
 python manage.py runserver
 ```
+
+## Formatting
+
+[Ruff](https://docs.astral.sh/ruff/) formats the backend with single quotes (`ruff.toml`). Migrations are skipped because Django generates them. From the repo root, `yarn lint:py` checks and `yarn lint:py:fix` applies it.
 
 ## Settings
 

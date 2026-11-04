@@ -44,7 +44,7 @@ Rules:
 | `type-caption` (12px) | Inter 500 | Chips, tab labels. Sentence case, no tracking |
 | `type-code` (12px) | JetBrains Mono | Bin codes |
 
-Never set Cormorant below 20px or use it for item names in lists. Two weights per face, no more. Fonts are self-hosted through `@home/ui/fonts`.
+Never set Cormorant below 20px or use it for item names in lists. Two weights per face, no more. Fonts are self-hosted through `@keep/ui/fonts`.
 
 ## Spacing
 

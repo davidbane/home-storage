@@ -5,7 +5,7 @@ dist
 !.env.example
 .DS_Store
 .vite
-packages/tokens/dist
+packages/apothecary-tokens/dist
 
 # Yarn 4 (no zero-installs): keep config and any vendored releases/plugins/patches, ignore caches.
 .yarn/*

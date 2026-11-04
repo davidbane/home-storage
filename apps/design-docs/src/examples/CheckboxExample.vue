@@ -4,6 +4,7 @@
       v-model="drawerA"
       label="Drawer chest / Drawer A"
     />
+
     <ApCheckbox
       v-model="drawerB"
       label="Drawer chest / Drawer B"
@@ -13,7 +14,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApCheckbox } from '@home/ui';
+  import { ApCheckbox } from '@keep/ui';
 
   const drawerA = ref(true);
   const drawerB = ref(false);

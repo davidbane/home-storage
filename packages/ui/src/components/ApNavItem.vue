@@ -15,7 +15,9 @@
         @click="navigate"
       >
         <slot name="icon" />
+
         <span class="min-w-0 flex-1 truncate">{{ props.label }}</span>
+
         <span
           v-if="props.count !== undefined"
           :class="['type-caption', props.alert ? 'text-oxblood-ink' : 'text-ink-muted']"

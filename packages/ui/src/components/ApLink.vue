@@ -3,10 +3,12 @@
     v-if="to"
     :to="to"
   ><slot /></RouterLink>
+
   <a
     v-else-if="href"
     :href="href"
   ><slot /></a>
+
   <component
     :is="as"
     v-else

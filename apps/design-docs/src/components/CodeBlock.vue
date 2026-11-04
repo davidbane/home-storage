@@ -12,13 +12,14 @@
         aria-hidden="true"
       />
     </button>
+
     <pre class="m-0 overflow-x-auto rounded-md bg-surface-0 p-4 pr-14 font-mono text-[13px] leading-5 text-ink shadow-sunken"><code>{{ code }}</code></pre>
   </div>
 </template>
 
 <script setup>
   import { IconCopy } from '@tabler/icons-vue';
-  import { useToast } from '@home/ui';
+  import { useToast } from '@keep/ui';
 
   const props = defineProps({ code: { type: String, required: true }, label: String });
   const { show } = useToast();

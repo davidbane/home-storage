@@ -8,10 +8,13 @@
         />
       </template>Add item
     </ApButton>
+
     <ApButton>Move</ApButton>
+
     <ApButton variant="ghost">
       Cancel
     </ApButton>
+
     <ApButton variant="danger">
       <template #icon>
         <IconTrash
@@ -25,5 +28,5 @@
 
 <script setup>
   import { IconPlus, IconTrash } from '@tabler/icons-vue';
-  import { ApButton } from '@home/ui';
+  import { ApButton } from '@keep/ui';
 </script>

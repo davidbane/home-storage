@@ -4,6 +4,7 @@
       <template #eyebrow>
         <span class="type-meta text-ink-muted">Design system for the home apps</span>
       </template>
+
       <template #meta>
         <p class="m-0 max-w-2xl text-[15px] leading-[22px] text-ink-muted">
           Bottle green and bone, a thread of brass, and one jewel-toned sapphire for everything you can press. The markdown guidelines live in
@@ -18,14 +19,17 @@
           :value="tokens.color.tokens.length"
           label="color tokens"
         />
+
         <ApStat
           :value="tokens.color.themes.length"
           label="themes"
         />
+
         <ApStat
           :value="tokens.type.groups.reduce((total, group) => total + group.styles.length, 0)"
           label="type styles"
         />
+
         <ApStat
           :value="catalog.length"
           label="components"
@@ -36,6 +40,7 @@
         <h2 class="m-0 type-title md:text-[1.625rem]">
           Principles
         </h2>
+
         <ol class="m-0 grid list-none gap-3 p-0 md:grid-cols-2">
           <li
             v-for="([title, text], index) in principles"
@@ -46,8 +51,10 @@
               class="type-numeral text-brass"
               aria-hidden="true"
             >{{ index + 1 }}</span>
+
             <span class="flex flex-col gap-1">
               <span class="text-[15px] leading-5 font-medium">{{ title }}</span>
+
               <span class="type-meta text-ink-muted">{{ text }}</span>
             </span>
           </li>
@@ -58,6 +65,7 @@
         <h2 class="m-0 type-title md:text-[1.625rem]">
           Explore
         </h2>
+
         <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <RouterLink
             v-for="section in sections"
@@ -66,6 +74,7 @@
             class="flex flex-col gap-1 rounded-lg bg-surface-1 sheen p-5 text-ink no-underline shadow-raised transition duration-150 hover:-translate-y-0.5 hover:shadow-raised-hover"
           >
             <span class="type-title">{{ section.title }}</span>
+
             <span class="type-meta text-ink-muted">{{ section.text }}</span>
           </RouterLink>
         </div>
@@ -76,7 +85,7 @@
 
 <script setup>
   import { RouterLink } from 'vue-router';
-  import { ApContainer, ApFeature, ApPageHead, ApStat } from '@home/ui';
+  import { ApContainer, ApFeature, ApPageHead, ApStat } from '@keep/ui';
   import { catalog } from '@/catalog';
   import { tokens } from '@/tokens';
 

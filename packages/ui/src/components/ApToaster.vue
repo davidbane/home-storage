@@ -10,6 +10,7 @@
       class="pointer-events-auto flex max-w-110 items-center gap-4 rounded-md bg-surface-2 py-2.5 pr-2.5 pl-4 text-[15px] leading-5 text-ink shadow-float"
     >
       <span :class="toast.tone === 'danger' && 'text-oxblood-ink'">{{ toast.message }}</span>
+
       <button
         v-if="toast.action"
         type="button"
