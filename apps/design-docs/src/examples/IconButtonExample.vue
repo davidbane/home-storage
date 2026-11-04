@@ -6,12 +6,14 @@
         stroke="1.5"
       />
     </ApIconButton>
+
     <ApIconButton label="Edit item">
       <IconPencil
         :size="20"
         stroke="1.5"
       />
     </ApIconButton>
+
     <ApIconButton
       label="Find a bin"
       size="lg"

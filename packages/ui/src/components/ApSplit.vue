@@ -3,6 +3,7 @@
     <div class="flex min-w-0 flex-col gap-9">
       <slot />
     </div>
+
     <div
       v-if="$slots.pane"
       :class="['hidden md:block', props.sticky && 'md:sticky md:top-6']"

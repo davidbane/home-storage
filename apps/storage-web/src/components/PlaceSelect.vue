@@ -11,6 +11,7 @@
     >
       Choose a place
     </option>
+
     <optgroup
       v-for="group in house.places"
       :key="group.room.id"

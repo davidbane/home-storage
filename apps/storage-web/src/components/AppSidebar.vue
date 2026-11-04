@@ -6,6 +6,7 @@
         to="/"
       />
     </template>
+
     <ApNavGroup label="Catalog">
       <ApNavItem
         to="/"
@@ -16,6 +17,7 @@
           <IconHome v-bind="icon" />
         </template>
       </ApNavItem>
+
       <ApNavItem
         to="/lists"
         label="Shopping list"
@@ -25,6 +27,7 @@
           <IconList v-bind="icon" />
         </template>
       </ApNavItem>
+
       <ApNavItem
         to="/low"
         label="Low stock"
@@ -35,6 +38,7 @@
           <IconAlertTriangle v-bind="icon" />
         </template>
       </ApNavItem>
+
       <ApNavItem
         to="/labels"
         label="Labels"
@@ -44,6 +48,7 @@
         </template>
       </ApNavItem>
     </ApNavGroup>
+
     <ApNavGroup label="Rooms">
       <ApNavItem
         v-for="room in house.rooms"
@@ -53,6 +58,7 @@
         :count="house.countsFor(room.id).total"
         :alert="house.countsFor(room.id).low > 0"
       />
+
       <li>
         <button
           type="button"
@@ -63,6 +69,7 @@
         </button>
       </li>
     </ApNavGroup>
+
     <template #footer>
       <ul class="m-0 list-none p-0">
         <ApNavItem

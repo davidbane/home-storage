@@ -7,11 +7,13 @@
         :qty="1"
         selected
       />
+
       <ApListRow
         name="AA batteries"
         :qty="12"
       />
     </ApList>
+
     <template #pane>
       <ApPanel>
         <h3 class="m-0 type-title">

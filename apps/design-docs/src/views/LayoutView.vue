@@ -20,24 +20,28 @@
                 >
                   Prefix
                 </th>
+
                 <th
                   scope="col"
                   class="p-3 font-medium"
                 >
                   Width
                 </th>
+
                 <th
                   scope="col"
                   class="p-3 font-medium"
                 >
                   Navigation
                 </th>
+
                 <th
                   scope="col"
                   class="p-3 font-medium"
                 >
                   Layout
                 </th>
+
                 <th
                   scope="col"
                   class="p-3 font-medium"
@@ -46,6 +50,7 @@
                 </th>
               </tr>
             </thead>
+
             <tbody>
               <tr
                 v-for="row in rows"
@@ -59,15 +64,19 @@
                 >
                   {{ row.bp === 'base' ? '(none)' : `${row.bp}:` }}
                 </th>
+
                 <td class="p-3">
                   {{ row.width }}{{ row.bp === now ? ' · you are here' : '' }}
                 </td>
+
                 <td class="p-3">
                   {{ row.nav }}
                 </td>
+
                 <td class="p-3">
                   {{ row.layout }}
                 </td>
+
                 <td class="p-3">
                   {{ row.title }}
                 </td>
@@ -85,6 +94,7 @@
             class="flex flex-col gap-1 rounded-lg bg-surface-1 sheen p-4 shadow-raised"
           >
             <span class="text-[15px] leading-5 font-medium">{{ title }}</span>
+
             <span class="type-meta text-ink-muted">{{ description }}</span>
           </div>
         </div>

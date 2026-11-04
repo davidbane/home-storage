@@ -7,6 +7,7 @@
         </p>
       </template>
     </ApPageHead>
+
     <div class="flex flex-col gap-8 md:max-w-3xl">
       <ApSection
         v-for="group in groups"

@@ -1,11 +1,13 @@
 <template>
   <ApContainer>
     <ApPageHead title="Settings" />
+
     <div class="flex flex-col gap-10 md:max-w-2xl">
       <ApSection title="Storage types">
         <p class="m-0 type-meta text-ink-muted">
           The kinds of storage you use, like Drawer chest, Bin or Shelf. Every storage spot has one.
         </p>
+
         <ul class="m-0 list-none rounded-md bg-surface-1 p-0 shadow-raised">
           <li
             v-for="storageType in house.types"
@@ -22,7 +24,9 @@
                 @blur="rename(storageType.id)"
                 @keydown.enter.prevent="$event.target.blur()"
               >
+
               <span class="type-meta whitespace-nowrap text-ink-muted">{{ house.typeUsage(storageType.id) || 'unused' }}{{ house.typeUsage(storageType.id) ? (house.typeUsage(storageType.id) === 1 ? ' place' : ' places') : '' }}</span>
+
               <ApIconButton
                 :label="`Remove ${storageType.name}`"
                 @click="remove(storageType.id, storageType.name)"
@@ -34,6 +38,7 @@
                 />
               </ApIconButton>
             </div>
+
             <p
               v-if="rowError?.id === storageType.id"
               role="alert"
@@ -42,6 +47,7 @@
               {{ rowError.message }}
             </p>
           </li>
+
           <li
             v-if="!house.types.length"
             class="px-4 py-4 text-[15px] text-ink-muted"
@@ -49,6 +55,7 @@
             No storage types yet.
           </li>
         </ul>
+
         <form
           class="flex items-start gap-3"
           novalidate
@@ -64,6 +71,7 @@
               :error="addError"
             />
           </div>
+
           <ApButton
             type="submit"
             class="mt-6.5"
@@ -76,6 +84,7 @@
       <ApSection title="Appearance">
         <div class="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-1 px-4 py-3 shadow-raised">
           <span class="text-[15px]">{{ theme === 'night' ? 'Night theme' : 'Parchment theme' }}</span>
+
           <ApButton @click="toggle">
             <template #icon>
               <IconSun
@@ -83,7 +92,9 @@
                 :size="18"
                 stroke="1.5"
                 aria-hidden="true"
-              /><IconMoon
+              />
+
+              <IconMoon
                 v-else
                 :size="18"
                 stroke="1.5"

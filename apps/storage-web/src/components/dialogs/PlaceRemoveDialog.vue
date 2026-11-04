@@ -12,6 +12,7 @@
     >
       {{ error }}
     </p>
+
     <template #footer>
       <ApButton
         variant="ghost"
@@ -19,6 +20,7 @@
       >
         {{ contents.items ? 'Close' : 'Keep it' }}
       </ApButton>
+
       <ApButton
         v-if="!contents.items"
         variant="danger"

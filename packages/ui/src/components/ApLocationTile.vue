@@ -10,7 +10,9 @@
     ]"
   >
     <span :class="['type-numeral md:text-[2.5rem] md:leading-11', props.count === 0 && !props.selected && 'text-ink-muted']">{{ props.count }}</span>
+
     <span class="text-sm leading-5 font-medium">{{ props.name }}</span>
+
     <span
       v-if="props.meta"
       :class="['type-caption font-normal', props.selected ? 'text-sapphire-ink' : props.metaTone === 'alert' ? 'text-oxblood-ink' : 'text-ink-muted']"

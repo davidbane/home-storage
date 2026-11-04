@@ -18,6 +18,7 @@
         :error="errors.name"
         autofocus
       />
+
       <div class="grid grid-cols-2 gap-3">
         <ApTextField
           v-model="form.quantity"
@@ -26,6 +27,7 @@
           inputmode="numeric"
           :error="errors.quantity"
         />
+
         <ApTextField
           v-model="form.par"
           label="Par"
@@ -35,11 +37,13 @@
           :error="errors.par"
         />
       </div>
+
       <PlaceSelect
         v-model="form.location"
         label="Where it lives"
         :error="errors.location"
       />
+
       <ApSelect
         v-model="form.storage_class"
         label="Kept as"
@@ -48,24 +52,29 @@
         <option value="daily">
           Daily use
         </option>
+
         <option value="surplus">
           Surplus store
         </option>
+
         <option value="long_term">
           Long-term
         </option>
       </ApSelect>
+
       <ApTextField
         v-model="form.brand"
         label="Brand"
         :maxlength="20"
         placeholder="Energizer"
       />
+
       <ApTextField
         v-model="form.used_for"
         label="Used for"
         placeholder="Smoke detectors, each spring"
       />
+
       <p
         v-if="house.saveError"
         role="alert"
@@ -74,6 +83,7 @@
         Couldn't save: {{ house.saveError }}
       </p>
     </form>
+
     <template #footer>
       <ApButton
         variant="ghost"
@@ -81,6 +91,7 @@
       >
         Cancel
       </ApButton>
+
       <ApButton
         variant="primary"
         type="submit"

@@ -12,6 +12,7 @@
         status="low"
         :qty="1"
       />
+
       <ApListRow
         name="Paper towels"
         sub="Garage / Shelf 3"

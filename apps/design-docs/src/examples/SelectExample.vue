@@ -8,9 +8,11 @@
     <option value="daily">
       Daily use
     </option>
+
     <option value="surplus">
       Surplus store
     </option>
+
     <option value="long_term">
       Long-term
     </option>

@@ -7,6 +7,7 @@
       :qty="1"
       to="/"
     />
+
     <ApListRow
       name="AA batteries"
       sub="Par 8"
@@ -15,6 +16,7 @@
       to="/"
       selected
     />
+
     <ApListRow
       name="Headlamp"
       sub="Camping overflow"
@@ -22,6 +24,7 @@
       :qty="2"
       to="/"
     />
+
     <ApListRow
       name="Tea lights"
       sub="Box of 50"

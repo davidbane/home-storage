@@ -4,6 +4,7 @@
       <template #meta>
         <span class="type-meta text-ink-muted">{{ house.shoppingItems.length ? `${house.shoppingItems.length} to buy` : 'Nothing to buy' }}</span>
       </template>
+
       <template
         v-if="house.shoppingItems.length"
         #actions
@@ -31,6 +32,7 @@
         >
           <template #trailing>
             <span class="type-meta whitespace-nowrap text-ink-muted">{{ need(item) }}</span>
+
             <ApButton
               class="h-10! px-3.5!"
               @click="bought(item)"
@@ -43,6 +45,7 @@
                 />
               </template>Bought
             </ApButton>
+
             <ApIconButton
               :label="`Take ${item.name} off the list`"
               @click="house.toggleList(item.id)"
@@ -56,6 +59,7 @@
           </template>
         </ApListRow>
       </ApList>
+
       <p
         v-else
         class="m-0 rounded-md bg-surface-1 px-4 py-5 text-[15px] text-ink-muted shadow-raised"
@@ -76,6 +80,7 @@
             Add all
           </button>
         </template>
+
         <ApList>
           <ApListRow
             v-for="item in suggestions"
@@ -85,6 +90,7 @@
           >
             <template #trailing>
               <span class="type-meta whitespace-nowrap text-oxblood-ink">{{ need(item) }}</span>
+
               <ApButton
                 class="h-10! px-3.5!"
                 @click="house.toggleList(item.id)"

@@ -4,6 +4,7 @@
       v-model="drawerA"
       label="Drawer chest / Drawer A"
     />
+
     <ApCheckbox
       v-model="drawerB"
       label="Drawer chest / Drawer B"

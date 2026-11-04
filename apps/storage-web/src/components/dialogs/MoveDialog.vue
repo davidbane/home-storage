@@ -18,6 +18,7 @@
         :exclude="currentItem.location"
       />
     </form>
+
     <template #footer>
       <ApButton
         variant="ghost"
@@ -25,6 +26,7 @@
       >
         Cancel
       </ApButton>
+
       <ApButton
         variant="primary"
         type="submit"

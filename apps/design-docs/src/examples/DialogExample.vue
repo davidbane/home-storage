@@ -2,6 +2,7 @@
   <ApButton @click="open = true">
     Remove 9V batteries
   </ApButton>
+
   <ApDialog
     v-model:open="open"
     title="Remove 9V batteries?"
@@ -14,6 +15,7 @@
       >
         Keep it
       </ApButton>
+
       <ApButton
         variant="danger"
         @click="open = false"

@@ -19,6 +19,7 @@
         :error="errors.name"
         autofocus
       />
+
       <ApSelect
         v-model="form.parent"
         label="Inside"
@@ -31,6 +32,7 @@
         >
           Choose a room or spot
         </option>
+
         <optgroup
           v-for="group in parentGroups"
           :key="group.room.id"
@@ -45,6 +47,7 @@
           </option>
         </optgroup>
       </ApSelect>
+
       <ApSelect
         v-model="form.type"
         label="Type"
@@ -57,6 +60,7 @@
         >
           Choose a type
         </option>
+
         <option
           v-for="storageType in house.types"
           :key="storageType.id"
@@ -64,10 +68,12 @@
         >
           {{ storageType.name }}
         </option>
+
         <option :value="NEW_TYPE">
           New type…
         </option>
       </ApSelect>
+
       <ApTextField
         v-if="form.type === NEW_TYPE"
         v-model="form.newType"
@@ -77,6 +83,7 @@
         placeholder="Tote"
         :error="errors.newType"
       />
+
       <div class="grid grid-cols-2 gap-3">
         <ApTextField
           v-model="form.code"
@@ -85,6 +92,7 @@
           placeholder="C-07-B"
           hint="Printed on its label"
         />
+
         <ApTextField
           v-model="form.note"
           label="Note"
@@ -92,6 +100,7 @@
           hint="Shown on its tile"
         />
       </div>
+
       <p
         v-if="house.saveError"
         role="alert"
@@ -100,6 +109,7 @@
         Couldn't save: {{ house.saveError }}
       </p>
     </form>
+
     <template #footer>
       <ApButton
         v-if="editing"
@@ -109,12 +119,14 @@
       >
         Remove
       </ApButton>
+
       <ApButton
         variant="ghost"
         @click="ui.close()"
       >
         Cancel
       </ApButton>
+
       <ApButton
         variant="primary"
         type="submit"

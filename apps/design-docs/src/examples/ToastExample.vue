@@ -3,6 +3,7 @@
     <ApButton @click="show('Saved 9V batteries')">
       Show a toast
     </ApButton>
+
     <ApButton @click="show('Removed 9V batteries from Drawer B', { action: { label: 'Undo', run: () => show('Put it back') } })">
       With Undo
     </ApButton>

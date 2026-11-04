@@ -8,21 +8,25 @@
         />
       </ApIconButton>
     </template>
+
     <template #eyebrow>
       <ApBreadcrumb
         :items="[{ label: 'The House', to: '/' }, { label: 'Hall closet' }]"
         current
       />
     </template>
+
     <template #meta>
       <div class="flex flex-wrap items-center gap-2.5">
         <ApBinTag
           code="C-07"
           label="Oak drawer chest"
         />
+
         <span class="type-meta text-ink-muted">41 items · 1 low</span>
       </div>
     </template>
+
     <template #actions>
       <ApButton>
         <template #icon>

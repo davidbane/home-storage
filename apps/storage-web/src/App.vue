@@ -3,6 +3,7 @@
     <template #sidebar>
       <AppSidebar />
     </template>
+
     <ApContainer
       v-if="house.error"
       class="pt-8"
@@ -14,14 +15,17 @@
         <h1 class="m-0 type-title">
           Couldn't load the house
         </h1>
+
         <p class="m-0 type-meta text-ink-muted">
           {{ house.error }}
         </p>
+
         <ApButton @click="house.load()">
           Try again
         </ApButton>
       </ApPanel>
     </ApContainer>
+
     <ApContainer
       v-else-if="house.loading && !house.locations.length"
       class="pt-8"
@@ -33,18 +37,28 @@
         Opening the cabinet…
       </p>
     </ApContainer>
+
     <RouterView v-else />
+
     <template #bottom>
       <AppTabBar v-if="!route.meta.dock" />
     </template>
   </ApShell>
+
   <ItemFormDialog />
+
   <MoveDialog />
+
   <RemoveDialog />
+
   <FindDialog />
+
   <RoomFormDialog />
+
   <SpotFormDialog />
+
   <PlaceRemoveDialog />
+
   <ApToaster />
 </template>
 

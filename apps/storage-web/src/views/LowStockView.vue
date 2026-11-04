@@ -4,6 +4,7 @@
       <template #meta>
         <span class="type-meta text-ink-muted">{{ house.lowItems.length }} items under par</span>
       </template>
+
       <template
         v-if="notListed.length"
         #actions
@@ -16,6 +17,7 @@
         </ApButton>
       </template>
     </ApPageHead>
+
     <ApList
       v-if="house.lowItems.length"
       class="md:max-w-3xl"
@@ -30,6 +32,7 @@
         :to="{ path: `/rooms/${house.roomOf(item.location)?.id}`, query: { in: item.location, item: item.id } }"
       />
     </ApList>
+
     <p
       v-else
       class="m-0 text-[15px] text-ink-muted"

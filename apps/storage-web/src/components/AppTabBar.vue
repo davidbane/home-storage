@@ -8,6 +8,7 @@
         <IconHome v-bind="icon" />
       </template>
     </ApTab>
+
     <ApTab
       to="/lists"
       label="Lists"
@@ -16,6 +17,7 @@
         <IconList v-bind="icon" />
       </template>
     </ApTab>
+
     <ApFab
       label="Add item"
       @click="ui.openAdd()"
@@ -26,6 +28,7 @@
         aria-hidden="true"
       />
     </ApFab>
+
     <ApTab
       to="/low"
       label="Low"
@@ -34,6 +37,7 @@
         <IconAlertTriangle v-bind="icon" />
       </template>
     </ApTab>
+
     <ApTab
       to="/labels"
       label="Labels"

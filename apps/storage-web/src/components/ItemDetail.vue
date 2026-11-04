@@ -14,11 +14,14 @@
           :status="itemStatus"
           class="self-start"
         />
+
         <h2 class="m-0 font-display text-4xl leading-[2.375rem] font-semibold tracking-[-0.01em]">
           {{ currentItem.name }}
         </h2>
+
         <ApBreadcrumb :items="house.crumbs(currentItem.location, false)" />
       </div>
+
       <div class="flex flex-none gap-2">
         <ApIconButton
           label="Edit item"
@@ -30,6 +33,7 @@
             aria-hidden="true"
           />
         </ApIconButton>
+
         <ApIconButton
           label="Close item"
           @click="$emit('close')"
@@ -46,13 +50,16 @@
     <div class="flex items-center justify-between gap-4 rounded-md bg-surface-0 py-3.5 pr-3.5 pl-4.5 shadow-sunken">
       <div class="flex flex-col gap-0.5">
         <span class="text-[15px] leading-5 font-medium">On hand</span>
+
         <span :class="['type-meta', itemStatus === 'low' ? 'text-oxblood-ink' : 'text-ink-muted']">{{ parLine }}</span>
+
         <span
           v-if="house.saveError"
           role="alert"
           class="type-meta text-oxblood-ink"
         >Couldn't save that change. Try again.</span>
       </div>
+
       <ApStepper v-model="onHand" />
     </div>
 
@@ -63,6 +70,7 @@
       <h3 class="m-0 type-title md:text-xl md:leading-6">
         Details
       </h3>
+
       <dl class="m-0 grid grid-cols-[6.5rem_minmax(0,1fr)] text-sm leading-5">
         <template
           v-for="([label, value], index) in details"
@@ -71,6 +79,7 @@
           <dt :class="['py-2.5 text-ink-muted', index > 0 && 'border-t border-line']">
             {{ label }}
           </dt>
+
           <dd :class="['m-0 py-2.5', index > 0 && 'border-t border-line', label === 'Bin' && 'type-code leading-5']">
             {{ value }}
           </dd>
@@ -85,13 +94,16 @@
       <h3 class="m-0 type-title md:text-xl md:leading-6">
         History
       </h3>
+
       <ul class="m-0 flex list-none flex-col gap-1.5 p-0 type-meta text-ink-muted">
         <li
           v-for="(entry, index) in currentItem.history"
           :key="index"
           class="flex justify-between gap-4"
         >
-          <span>{{ entry.text }}</span><span class="whitespace-nowrap">{{ formatDate(entry.date) }}</span>
+          <span>{{ entry.text }}</span>
+
+          <span class="whitespace-nowrap">{{ formatDate(entry.date) }}</span>
         </li>
       </ul>
     </section>
@@ -113,12 +125,14 @@
           aria-hidden="true"
         />
       </ApButton>
+
       <ApButton
         class="flex-1"
         @click="ui.openMove(currentItem.id)"
       >
         Move
       </ApButton>
+
       <ApButton
         :variant="house.onList(currentItem.id) ? 'tonal' : 'primary'"
         class="flex-2"

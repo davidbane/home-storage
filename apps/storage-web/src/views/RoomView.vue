@@ -15,7 +15,9 @@
                 aria-hidden="true"
               />
             </ApIconButton>
+
             <span class="flex-1" />
+
             <ApIconButton
               label="Edit item"
               @click="ui.openEdit(openItem.id)"
@@ -26,6 +28,7 @@
                 aria-hidden="true"
               />
             </ApIconButton>
+
             <ApIconButton
               label="Remove item"
               class="text-oxblood-ink!"
@@ -39,12 +42,15 @@
             </ApIconButton>
           </div>
         </template>
+
         <template #eyebrow>
           <ApBreadcrumb :items="house.crumbs(openItem.location)" />
         </template>
+
         <template #meta>
           <div class="flex flex-wrap items-center gap-2">
             <ApStatusChip :status="status(openItem)" />
+
             <ApBinTag
               v-if="house.location(openItem.location)?.code"
               :code="house.location(openItem.location).code"
@@ -53,10 +59,12 @@
           </div>
         </template>
       </ApPageHead>
+
       <ItemDetail
         :item-id="openItem.id"
         variant="body"
       />
+
       <ApDock>
         <ApButton
           class="flex-1"
@@ -64,6 +72,7 @@
         >
           Move
         </ApButton>
+
         <ApButton
           :variant="house.onList(openItem.id) ? 'tonal' : 'primary'"
           class="flex-2"
@@ -99,7 +108,9 @@
                 aria-hidden="true"
               />
             </ApIconButton>
+
             <span class="flex-1" />
+
             <ApIconButton
               label="Edit room"
               @click="ui.openEditRoom(room.id)"
@@ -110,6 +121,7 @@
                 aria-hidden="true"
               />
             </ApIconButton>
+
             <ApIconButton
               label="Add storage to this room"
               @click="ui.openAddSpot(room.id)"
@@ -122,12 +134,14 @@
             </ApIconButton>
           </div>
         </template>
+
         <template #eyebrow>
           <ApBreadcrumb
             :items="house.crumbs(room.id)"
             current
           />
         </template>
+
         <template #meta>
           <div class="flex flex-wrap items-center gap-2.5">
             <ApBinTag
@@ -136,9 +150,11 @@
               :code="piece.code"
               :label="piece.note || piece.name"
             />
+
             <span class="type-meta text-ink-muted">{{ summary }}</span>
           </div>
         </template>
+
         <template #actions>
           <div class="hidden gap-3 md:flex">
             <ApIconButton
@@ -152,6 +168,7 @@
                 aria-hidden="true"
               />
             </ApIconButton>
+
             <ApButton @click="ui.openAddSpot(room.id)">
               <template #icon>
                 <IconBoxMultiple
@@ -161,6 +178,7 @@
                 />
               </template>Add storage
             </ApButton>
+
             <ApButton :to="{ name: 'labels', query: { room: room.id } }">
               <template #icon>
                 <IconPrinter
@@ -170,6 +188,7 @@
                 />
               </template>Print labels
             </ApButton>
+
             <ApButton
               v-if="selected"
               @click="ui.openAdd(selected.id)"
@@ -194,9 +213,11 @@
           <h2 class="m-0 type-title">
             No storage here yet
           </h2>
+
           <p class="m-0 type-meta text-ink-muted">
             Add the furniture, shelves or bins in {{ room.name }}, then the drawers or slots inside them.
           </p>
+
           <ApButton
             variant="primary"
             @click="ui.openAddSpot(room.id)"
@@ -222,6 +243,7 @@
                 v-if="house.typeName(piece.type)"
                 class="hidden type-meta text-ink-muted sm:inline"
               >{{ house.typeName(piece.type) }}</span>
+
               <button
                 type="button"
                 :class="textBtn"
@@ -229,6 +251,7 @@
               >
                 Add inside
               </button>
+
               <button
                 type="button"
                 :class="textBtn"
@@ -239,6 +262,7 @@
               </button>
             </div>
           </template>
+
           <ApTileGrid :columns="house.children(piece.id).length === 6 || house.children(piece.id).length === 3 ? 3 : undefined">
             <ApLocationTile
               v-for="container in house.children(piece.id).length ? house.children(piece.id) : [piece]"
@@ -264,6 +288,7 @@
                 v-if="selected.code"
                 class="type-code text-ink-muted"
               >{{ selected.code }}</span>
+
               <button
                 v-if="selected.kind !== 'furniture' && !furniture.some((piece) => piece.id === selected.id)"
                 type="button"
@@ -275,6 +300,7 @@
               </button>
             </div>
           </template>
+
           <ApList v-if="contents.length">
             <ApListRow
               v-for="item in contents"
@@ -287,11 +313,13 @@
               :to="withQuery({ item: item.id })"
             />
           </ApList>
+
           <div
             v-else
             class="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-1 px-4 py-4 shadow-raised"
           >
             <span class="text-[15px] text-ink-muted">Nothing here yet.</span>
+
             <ApButton @click="ui.openAdd(selected.id)">
               <template #icon>
                 <IconPlus
@@ -329,6 +357,7 @@
             />
           </template>Print label
         </ApButton>
+
         <ApButton
           v-if="selected"
           variant="primary"
@@ -346,8 +375,10 @@
       </ApDock>
     </template>
   </ApContainer>
+
   <ApContainer v-else>
     <ApPageHead title="Room not found" />
+
     <ApButton to="/">
       Back to the house
     </ApButton>

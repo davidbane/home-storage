@@ -18,11 +18,13 @@
         :error="error"
         autofocus
       />
+
       <ApTextField
         v-model="form.note"
         label="Description"
         placeholder="Under the stairs"
       />
+
       <p
         v-if="house.saveError"
         role="alert"
@@ -31,6 +33,7 @@
         Couldn't save: {{ house.saveError }}
       </p>
     </form>
+
     <template #footer>
       <ApButton
         v-if="editing"
@@ -40,12 +43,14 @@
       >
         Remove room
       </ApButton>
+
       <ApButton
         variant="ghost"
         @click="ui.close()"
       >
         Cancel
       </ApButton>
+
       <ApButton
         variant="primary"
         type="submit"

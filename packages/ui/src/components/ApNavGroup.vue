@@ -6,6 +6,7 @@
     >
       {{ label }}
     </div>
+
     <ul class="m-0 flex list-none flex-col gap-0.5 p-0">
       <slot />
     </ul>

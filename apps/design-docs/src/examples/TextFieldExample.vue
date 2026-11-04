@@ -6,12 +6,14 @@
       required
       :maxlength="30"
     />
+
     <ApTextField
       v-model="par"
       label="Par"
       inputmode="numeric"
       error="Enter a whole number, or leave it empty."
     />
+
     <ApTextField
       v-model="brand"
       label="Brand"

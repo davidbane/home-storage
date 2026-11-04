@@ -11,16 +11,19 @@
           aria-hidden="true"
           class="text-line-strong"
         >/</span>
+
         <span
           v-if="current && index === items.length - 1"
           aria-current="page"
           class="text-ink"
         >{{ crumb.label }}</span>
+
         <RouterLink
           v-else-if="crumb.to"
           :to="crumb.to"
           class="text-ink-muted no-underline hover:text-ink"
         >{{ crumb.label }}</RouterLink>
+
         <span v-else>{{ crumb.label }}</span>
       </li>
     </ol>

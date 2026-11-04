@@ -12,6 +12,7 @@
     >
       {{ error }}
     </p>
+
     <template #footer>
       <ApButton
         variant="ghost"
@@ -19,6 +20,7 @@
       >
         Keep it
       </ApButton>
+
       <ApButton
         variant="danger"
         @click="remove"

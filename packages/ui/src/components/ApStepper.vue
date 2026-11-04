@@ -17,10 +17,12 @@
         aria-hidden="true"
       />
     </button>
+
     <output
       class="min-w-10 text-center type-numeral"
       aria-live="polite"
     >{{ model }}</output>
+
     <button
       type="button"
       :class="buttonClass"

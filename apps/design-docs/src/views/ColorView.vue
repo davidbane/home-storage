@@ -24,9 +24,12 @@
               class="h-20 border-b border-line"
               :style="{ background: `var(--ap-${name})` }"
             />
+
             <figcaption class="flex flex-col gap-0.5 p-3">
               <code class="font-mono text-[13px] text-ink">{{ name }}</code>
+
               <span class="type-code text-ink-muted">{{ hex(name, theme) }}</span>
+
               <span
                 v-if="byName.get(name)?.usage"
                 class="type-meta text-ink-muted"
@@ -40,6 +43,7 @@
         <p class="m-0 type-meta text-ink-muted">
           WCAG 2 ratios in the {{ themeName }} theme. Body text needs 4.5:1.
         </p>
+
         <div class="overflow-x-auto rounded-lg bg-surface-1 shadow-raised">
           <table class="w-full border-collapse text-left text-sm">
             <thead>
@@ -50,6 +54,7 @@
                 >
                   Text on
                 </th>
+
                 <th
                   v-for="surface in surfaces"
                   :key="surface"
@@ -60,6 +65,7 @@
                 </th>
               </tr>
             </thead>
+
             <tbody>
               <tr
                 v-for="foreground in textTokens"
@@ -75,6 +81,7 @@
                     class="font-mono text-[13px]"
                   >{{ foreground }}</span>
                 </th>
+
                 <td
                   v-for="surface in surfaces"
                   :key="surface"
@@ -82,6 +89,7 @@
                   :style="{ background: `var(--ap-${surface})` }"
                 >
                   <span :style="{ color: `var(--ap-${foreground})` }">{{ ratio(foreground, surface).toFixed(1) }}</span>
+
                   <span
                     v-if="ratio(foreground, surface) < 4.5"
                     class="ml-1 text-oxblood-ink"
@@ -91,6 +99,7 @@
             </tbody>
           </table>
         </div>
+
         <div class="grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-3">
           <div
             v-for="[foreground, background] in pairs"
@@ -99,6 +108,7 @@
             :style="{ background: `var(--ap-${background})`, color: `var(--ap-${foreground})` }"
           >
             <span class="font-mono text-[12px]">{{ foreground }} / {{ background }}</span>
+
             <span class="font-medium">{{ ratio(foreground, background).toFixed(1) }}</span>
           </div>
         </div>

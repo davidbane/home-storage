@@ -9,6 +9,7 @@
         class="font-normal text-ink-muted"
       > (optional)</span>
     </label>
+
     <input
       :id="id"
       v-model="model"
@@ -26,6 +27,7 @@
         props.error ? 'border-oxblood-ink' : 'border-line',
       ]"
     >
+
     <p
       v-if="props.error"
       :id="`${id}-msg`"
@@ -33,6 +35,7 @@
     >
       {{ props.error }}
     </p>
+
     <p
       v-else-if="props.hint"
       :id="`${id}-msg`"

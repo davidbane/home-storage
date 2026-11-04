@@ -9,10 +9,12 @@
         v-if="Example"
       />
     </div>
+
     <details class="border-t border-line">
       <summary class="flex min-h-11 cursor-pointer items-center px-5 text-sm font-medium text-sapphire-ink md:px-8">
         Show code
       </summary>
+
       <div class="px-3 pb-3 md:px-5 md:pb-5">
         <CodeBlock
           :code="code"

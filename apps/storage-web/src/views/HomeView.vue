@@ -4,6 +4,7 @@
       <template #eyebrow>
         <div class="flex items-center gap-2">
           <span class="flex-1 text-[13px] leading-[18px] font-medium text-ink-muted">{{ greeting }}</span>
+
           <div class="flex gap-2 md:hidden">
             <ApIconButton
               label="Settings"
@@ -15,6 +16,7 @@
                 aria-hidden="true"
               />
             </ApIconButton>
+
             <ApIconButton
               label="Find a bin by its label code"
               @click="ui.openFind()"
@@ -28,12 +30,14 @@
           </div>
         </div>
       </template>
+
       <template #actions>
         <ApSearchField
           v-model="query"
           shortcut
           class="max-w-105 flex-1"
         />
+
         <ApIconButton
           label="Find a bin by its label code"
           size="lg"
@@ -46,6 +50,7 @@
             aria-hidden="true"
           />
         </ApIconButton>
+
         <ApButton
           variant="primary"
           class="hidden! md:inline-flex!"
@@ -69,6 +74,7 @@
       <p class="m-0 type-meta text-ink-muted">
         {{ results.length }} {{ results.length === 1 ? 'match' : 'matches' }} for “{{ query.trim() }}”
       </p>
+
       <ApList
         v-if="results.length"
         label="Search results"
@@ -83,6 +89,7 @@
           :to="linkFor(item)"
         />
       </ApList>
+
       <p
         v-else
         class="m-0 text-[15px] text-ink-muted"
@@ -103,20 +110,24 @@
           :value="house.items.length"
           label="items filed"
         />
+
         <ApStat
           :value="house.lowItems.length"
           label="running low"
         />
+
         <ApStat
           :value="house.surplusItems.length"
           label="in surplus"
           class="hidden md:flex"
         />
+
         <ApStat
           :value="house.rooms.length"
           label="rooms"
           class="md:hidden"
         />
+
         <ApStat
           :value="house.longTermItems.length"
           label="long-term"
@@ -142,6 +153,7 @@
             />
           </ApList>
         </ApSection>
+
         <ApSection
           title="Recently moved"
           class="hidden md:flex"
@@ -168,6 +180,7 @@
             Add a room
           </button>
         </template>
+
         <div
           v-if="!house.rooms.length"
           class="flex flex-col items-start gap-3 rounded-lg bg-surface-1 px-5 py-6 shadow-raised"
@@ -175,9 +188,11 @@
           <h3 class="m-0 type-title">
             Start with a room
           </h3>
+
           <p class="m-0 type-meta text-ink-muted">
             Add the rooms you store things in, then the furniture and bins inside each one.
           </p>
+
           <ApButton
             variant="primary"
             @click="ui.openAddRoom()"
@@ -191,6 +206,7 @@
             </template>Add a room
           </ApButton>
         </div>
+
         <ApTileGrid v-else>
           <ApLocationTile
             v-for="room in house.rooms"

@@ -8,10 +8,13 @@
         />
       </template>Add item
     </ApButton>
+
     <ApButton>Move</ApButton>
+
     <ApButton variant="ghost">
       Cancel
     </ApButton>
+
     <ApButton variant="danger">
       <template #icon>
         <IconTrash

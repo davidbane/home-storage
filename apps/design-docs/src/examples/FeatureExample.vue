@@ -4,10 +4,12 @@
       :value="312"
       label="items filed"
     />
+
     <ApStat
       :value="4"
       label="running low"
     />
+
     <ApStat
       :value="6"
       label="rooms"

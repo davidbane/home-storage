@@ -5,6 +5,7 @@
         <template #meta>
           <span class="type-meta text-ink-muted">Pick bins, then print on 2⅝ × 1 in address labels.</span>
         </template>
+
         <template #actions>
           <ApButton
             variant="primary"
@@ -40,6 +41,7 @@
               {{ group.places.every((place) => isOn(place.id)) ? 'Select none' : 'Select all' }}
             </button>
           </template>
+
           <ul class="m-0 list-none rounded-md bg-surface-1 px-4 py-1 shadow-raised">
             <li
               v-for="place in group.places"
@@ -52,6 +54,7 @@
               >
                 {{ house.ancestry(place.id).slice(1).map((ancestor) => ancestor.name).join(' / ') }}
               </ApCheckbox>
+
               <span
                 v-if="place.code"
                 class="type-code text-ink-muted"
@@ -68,6 +71,7 @@
         <h2 class="m-0 type-title print:hidden">
           Preview
         </h2>
+
         <p
           v-if="!sheet.length"
           class="m-0 type-meta text-ink-muted print:hidden"
@@ -89,7 +93,9 @@
               v-if="label.code"
               class="font-mono text-[11pt] leading-tight font-semibold tracking-wide text-brass"
             >{{ label.code }}</span>
+
             <span class="truncate font-display text-[14pt] leading-tight font-semibold">{{ label.name }}</span>
+
             <span class="truncate text-[8pt] leading-tight text-ink-muted">{{ house.pathText(label.id) }}</span>
           </div>
         </div>
