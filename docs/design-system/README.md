@@ -12,7 +12,7 @@ A dark, modern-gothic look for the home apps: bottle green and bone, a thread of
 
 | Package | What |
 |---|---|
-| `packages/tokens` (`@home/tokens`) | `src/tokens.json` is the source of truth. `yarn tokens` compiles it to CSS variables and a Tailwind v4 theme, and regenerates `tokens.md`. |
+| `packages/apothecary-tokens` (`@home/apothecary-tokens`) | `src/tokens.json` is the source of truth. `yarn tokens` compiles it to CSS variables and a Tailwind v4 theme, and regenerates `tokens.md`. |
 | `packages/ui` (`@home/ui`) | Vue 3 components, composables (`useTheme`, `useToast`, `useIsDesktop`) and base styles. |
 | `apps/design-docs` | The live docs app. Examples there are the code shown on each page. |
 

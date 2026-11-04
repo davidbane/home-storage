@@ -6,8 +6,8 @@ My home apps, starting with the house storage catalog: a Django REST Framework A
 
 ```
 packages/
-  tokens/        @home/tokens  design tokens → CSS variables + a Tailwind v4 theme
-  ui/            @home/ui      Vue 3 components built on those tokens
+  apothecary-tokens/  @home/apothecary-tokens  design tokens → CSS variables + a Tailwind v4 theme
+  ui/                 @home/ui                 Vue 3 components built on those tokens
 apps/
   storage-web/   the storage catalog: Vue 3, Pinia, axios, Vue Router
   design-docs/   live design system docs (yarn docs)
@@ -16,7 +16,7 @@ docs/
 backend/         Django + DRF API (moved in from davidbane/homeapi, history kept)
 ```
 
-The packages are Yarn workspaces, so a change to a component shows up in the app on save. When a second home app needs them outside this repo, publish `@home/tokens` and `@home/ui` (GitHub Packages works well) and version them with Changesets.
+The packages are Yarn workspaces, so a change to a component shows up in the app on save. When a second home app needs them outside this repo, publish `@home/apothecary-tokens` and `@home/ui` (GitHub Packages works well) and version them with Changesets.
 
 ## Getting started
 
@@ -33,7 +33,7 @@ yarn tokens       # rebuild tokens (and docs/design-system/tokens.md) after edit
 yarn docs         # live design system docs at http://localhost:5174
 ```
 
-Adding a dependency to one workspace: `yarn workspace storage-web add <pkg>` (or `@home/ui`, `@home/tokens`). Yarn is set to a plain `node_modules` layout in `.yarnrc.yml`.
+Adding a dependency to one workspace: `yarn workspace storage-web add <pkg>` (or `@home/ui`, `@home/apothecary-tokens`). Yarn is set to a plain `node_modules` layout in `.yarnrc.yml`.
 
 ### Backend
 
@@ -66,7 +66,7 @@ The Apothecary design system is documented in [`docs/design-system`](docs/design
 
 ## How the styling fits together
 
-1. **`packages/tokens/src/tokens.json`** is the source of truth: colors per theme (`night`, `parchment`), type styles, spacing, radii, shadows and breakpoints. It's the same file the Apothecary design-system page uses.
+1. **`packages/apothecary-tokens/src/tokens.json`** is the source of truth: colors per theme (`night`, `parchment`), type styles, spacing, radii, shadows and breakpoints. It's the same file the Apothecary design-system page uses.
 2. **`yarn tokens`** compiles it into
    - `dist/tokens.css`: raw `--ap-*` custom properties, one block per `[data-theme]`
    - `dist/theme.css`: a Tailwind `@theme` that maps utilities onto those properties, plus `type-*` utilities for each text style.

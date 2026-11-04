@@ -40,7 +40,7 @@ export default [
   },
 
   {
-    files: ['packages/tokens/scripts/**', '**/vite.config.js', 'eslint.config.mjs'],
+    files: ['packages/apothecary-tokens/scripts/**', '**/vite.config.js', 'eslint.config.mjs'],
     languageOptions: { globals: globals.node },
   },
 ];

@@ -187,9 +187,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@home/tokens@workspace:*, @home/tokens@workspace:packages/tokens":
+"@home/apothecary-tokens@workspace:*, @home/apothecary-tokens@workspace:packages/apothecary-tokens":
   version: 0.0.0-use.local
-  resolution: "@home/tokens@workspace:packages/tokens"
+  resolution: "@home/apothecary-tokens@workspace:packages/apothecary-tokens"
   languageName: unknown
   linkType: soft
 
@@ -200,7 +200,7 @@ __metadata:
     "@fontsource/cormorant-garamond": "npm:^5.2.5"
     "@fontsource/inter": "npm:^5.2.5"
     "@fontsource/jetbrains-mono": "npm:^5.2.5"
-    "@home/tokens": "workspace:*"
+    "@home/apothecary-tokens": "workspace:*"
     "@tabler/icons-vue": "npm:^3.31.0"
     vite: "npm:^8.0.14"
     vue: "npm:^3.5.34"
@@ -1053,7 +1053,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "design-docs@workspace:apps/design-docs"
   dependencies:
-    "@home/tokens": "workspace:*"
+    "@home/apothecary-tokens": "workspace:*"
     "@home/ui": "workspace:*"
     "@tabler/icons-vue": "npm:^3.31.0"
     "@tailwindcss/vite": "npm:^4.3.0"

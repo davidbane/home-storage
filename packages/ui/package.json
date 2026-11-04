@@ -17,7 +17,7 @@
     "@fontsource/cormorant-garamond": "^5.2.5",
     "@fontsource/inter": "^5.2.5",
     "@fontsource/jetbrains-mono": "^5.2.5",
-    "@home/tokens": "workspace:*",
+    "@home/apothecary-tokens": "workspace:*",
     "@tabler/icons-vue": "^3.31.0"
   },
   "devDependencies": {

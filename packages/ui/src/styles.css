@@ -4,8 +4,8 @@
     @import "tailwindcss";
     @import "@home/ui/styles.css";
 */
-@import "@home/tokens/theme.css";
-@import "@home/tokens/tokens.css";
+@import "@home/apothecary-tokens/theme.css";
+@import "@home/apothecary-tokens/tokens.css";
 
 /* Let Tailwind see the utility classes used inside the components. */
 @source "./components";

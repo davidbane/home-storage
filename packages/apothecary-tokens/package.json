@@ -1,5 +1,5 @@
 {
-  "name": "@home/tokens",
+  "name": "@home/apothecary-tokens",
   "version": "0.1.0",
   "private": true,
   "description": "Apothecary design tokens: CSS custom properties and a Tailwind v4 theme",
