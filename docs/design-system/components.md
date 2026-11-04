@@ -1,6 +1,6 @@
 # Components
 
-Everything is exported from `@home/ui`. Each component has a live example in the docs app (`yarn docs`); the code shown there is the example's source. Components take `to` (a Vue Router location) or `href` wherever they can navigate.
+Everything is exported from `@keep/ui`. Each component has a live example in the docs app (`yarn docs`); the code shown there is the example's source. Components take `to` (a Vue Router location) or `href` wherever they can navigate.
 
 ## Actions
 

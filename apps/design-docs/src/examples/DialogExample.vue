@@ -28,7 +28,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApButton, ApDialog } from '@home/ui';
+  import { ApButton, ApDialog } from '@keep/ui';
 
   const open = ref(false);
 </script>

@@ -87,7 +87,7 @@
   import { computed } from 'vue';
   import { useRoute } from 'vue-router';
   import { IconArrowLeft } from '@tabler/icons-vue';
-  import { ApBreadcrumb, ApButton, ApContainer, ApIconButton, ApPageHead, ApSection } from '@home/ui';
+  import { ApBreadcrumb, ApButton, ApContainer, ApIconButton, ApPageHead, ApSection } from '@keep/ui';
   import ExampleFrame from '@/components/ExampleFrame.vue';
   import InlineMd from '@/components/InlineMd.vue';
   import { catalog } from '@/catalog';

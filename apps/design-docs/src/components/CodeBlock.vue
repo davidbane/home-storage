@@ -19,7 +19,7 @@
 
 <script setup>
   import { IconCopy } from '@tabler/icons-vue';
-  import { useToast } from '@home/ui';
+  import { useToast } from '@keep/ui';
 
   const props = defineProps({ code: { type: String, required: true }, label: String });
   const { show } = useToast();

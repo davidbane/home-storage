@@ -24,5 +24,5 @@
 </template>
 
 <script setup>
-  import { ApList, ApListRow, ApSection } from '@home/ui';
+  import { ApList, ApListRow, ApSection } from '@keep/ui';
 </script>

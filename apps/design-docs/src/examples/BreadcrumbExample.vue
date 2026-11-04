@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-  import { ApBreadcrumb } from '@home/ui';
+  import { ApBreadcrumb } from '@keep/ui';
 
   const path = [
     { label: 'The House', to: '/' },

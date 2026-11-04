@@ -14,7 +14,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApCheckbox } from '@home/ui';
+  import { ApCheckbox } from '@keep/ui';
 
   const drawerA = ref(true);
   const drawerB = ref(false);

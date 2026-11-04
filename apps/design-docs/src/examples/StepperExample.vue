@@ -7,7 +7,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApStepper } from '@home/ui';
+  import { ApStepper } from '@keep/ui';
 
   const count = ref(3);
 </script>

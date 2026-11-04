@@ -25,7 +25,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApTextField } from '@home/ui';
+  import { ApTextField } from '@keep/ui';
 
   const name = ref('AA batteries');
   const par = ref('four');

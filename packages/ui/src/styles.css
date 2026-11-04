@@ -2,10 +2,10 @@
   Apothecary base layer. Import after Tailwind in the app's stylesheet:
 
     @import "tailwindcss";
-    @import "@home/ui/styles.css";
+    @import "@keep/ui/styles.css";
 */
-@import "@home/apothecary-tokens/theme.css";
-@import "@home/apothecary-tokens/tokens.css";
+@import "@keep/apothecary-tokens/theme.css";
+@import "@keep/apothecary-tokens/tokens.css";
 
 /* Let Tailwind see the utility classes used inside the components. */
 @source "./components";

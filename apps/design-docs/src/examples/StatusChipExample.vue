@@ -11,5 +11,5 @@
 </template>
 
 <script setup>
-  import { ApStatusChip } from '@home/ui';
+  import { ApStatusChip } from '@keep/ui';
 </script>

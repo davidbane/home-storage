@@ -1,4 +1,4 @@
-import tokens from '@home/apothecary-tokens/tokens.json';
+import tokens from '@keep/apothecary-tokens/tokens.json';
 
 export { tokens };
 

@@ -29,5 +29,5 @@
 </template>
 
 <script setup>
-  import { ApLocationTile, ApTileGrid } from '@home/ui';
+  import { ApLocationTile, ApTileGrid } from '@keep/ui';
 </script>

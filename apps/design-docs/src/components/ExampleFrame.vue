@@ -27,7 +27,7 @@
 
 <script setup>
   import { computed } from 'vue';
-  import { ApPanel } from '@home/ui';
+  import { ApPanel } from '@keep/ui';
   import CodeBlock from './CodeBlock.vue';
   import { exampleFor, sourceFor } from '@/catalog';
 

@@ -8,7 +8,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApSearchField } from '@home/ui';
+  import { ApSearchField } from '@keep/ui';
 
   const query = ref('');
 </script>

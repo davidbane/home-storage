@@ -9,8 +9,8 @@
     "preview": "vite preview --port 5174"
   },
   "dependencies": {
-    "@home/apothecary-tokens": "workspace:*",
-    "@home/ui": "workspace:*",
+    "@keep/apothecary-tokens": "workspace:*",
+    "@keep/ui": "workspace:*",
     "@tabler/icons-vue": "^3.31.0",
     "vue": "^3.5.34",
     "vue-router": "^4.5.1"

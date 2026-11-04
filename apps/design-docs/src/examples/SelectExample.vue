@@ -21,7 +21,7 @@
 
 <script setup>
   import { ref } from 'vue';
-  import { ApSelect } from '@home/ui';
+  import { ApSelect } from '@keep/ui';
 
   const kept = ref('daily');
 </script>

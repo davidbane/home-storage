@@ -18,5 +18,5 @@
 <!-- In an app the dock is fixed to the bottom on phones and hidden at 960px and up.
      The wrapper here pins it in place. -->
 <script setup>
-  import { ApButton, ApDock } from '@home/ui';
+  import { ApButton, ApDock } from '@keep/ui';
 </script>

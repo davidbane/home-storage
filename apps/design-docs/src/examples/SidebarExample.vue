@@ -62,5 +62,5 @@
      The wrapper here just lets it sit in the page. -->
 <script setup>
   import { IconAlertTriangle, IconHome } from '@tabler/icons-vue';
-  import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@home/ui';
+  import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@keep/ui';
 </script>

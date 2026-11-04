@@ -119,7 +119,7 @@
 
 <script setup>
   import { computed } from 'vue';
-  import { ApContainer, ApPageHead, ApSection, useTheme } from '@home/ui';
+  import { ApContainer, ApPageHead, ApSection, useTheme } from '@keep/ui';
   import { contrast, hex, tokens } from '@/tokens';
 
   const { theme } = useTheme();

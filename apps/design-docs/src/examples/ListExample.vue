@@ -36,5 +36,5 @@
 </template>
 
 <script setup>
-  import { ApList, ApListRow } from '@home/ui';
+  import { ApList, ApListRow } from '@keep/ui';
 </script>

@@ -36,7 +36,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
-AUTH_USER_MODEL = 'homeapi.Owner'
+AUTH_USER_MODEL = 'materia.Owner'
 
 
 # Application definition
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     # Third-party
     'rest_framework',
     # Local
-    'homeapi',
+    'materia',
 ]
 
 REST_FRAMEWORK = {

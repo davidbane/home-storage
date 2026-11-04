@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-  import { ApButton, useToast } from '@home/ui';
+  import { ApButton, useToast } from '@keep/ui';
 
   const { show } = useToast();
 </script>

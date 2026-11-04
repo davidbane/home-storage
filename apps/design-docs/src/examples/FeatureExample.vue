@@ -18,5 +18,5 @@
 </template>
 
 <script setup>
-  import { ApFeature, ApStat } from '@home/ui';
+  import { ApFeature, ApStat } from '@keep/ui';
 </script>

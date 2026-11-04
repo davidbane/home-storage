@@ -1,5 +1,5 @@
 {
-  "name": "home-storage",
+  "name": "materia",
   "private": true,
   "packageManager": "yarn@4.9.1",
   "engines": {
@@ -10,12 +10,12 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "yarn workspace @home/apothecary-tokens build && yarn workspace storage-web dev",
+    "dev": "yarn workspace @keep/apothecary-tokens build && yarn workspace materia-web dev",
     "build": "yarn workspaces foreach --all --topological run build",
-    "tokens": "yarn workspace @home/apothecary-tokens build && yarn workspace @home/apothecary-tokens docs",
+    "tokens": "yarn workspace @keep/apothecary-tokens build && yarn workspace @keep/apothecary-tokens docs",
     "api": "cd backend && python manage.py runserver",
-    "tokens:docs": "yarn workspace @home/apothecary-tokens docs",
-    "docs": "yarn workspace @home/apothecary-tokens build && yarn workspace design-docs dev",
+    "tokens:docs": "yarn workspace @keep/apothecary-tokens docs",
+    "docs": "yarn workspace @keep/apothecary-tokens build && yarn workspace design-docs dev",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:py": "cd backend && .venv/bin/ruff format --check",

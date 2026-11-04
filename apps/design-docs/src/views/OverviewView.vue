@@ -85,7 +85,7 @@
 
 <script setup>
   import { RouterLink } from 'vue-router';
-  import { ApContainer, ApFeature, ApPageHead, ApStat } from '@home/ui';
+  import { ApContainer, ApFeature, ApPageHead, ApStat } from '@keep/ui';
   import { catalog } from '@/catalog';
   import { tokens } from '@/tokens';
 

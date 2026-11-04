@@ -105,7 +105,7 @@
 
 <script setup>
   import { computed } from 'vue';
-  import { ApContainer, ApPageHead, ApSection, useMediaQuery } from '@home/ui';
+  import { ApContainer, ApPageHead, ApSection, useMediaQuery } from '@keep/ui';
 
   const smallUp = useMediaQuery('(min-width: 37.5rem)');
   const mediumUp = useMediaQuery('(min-width: 60rem)');

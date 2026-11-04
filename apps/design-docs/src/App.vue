@@ -163,7 +163,7 @@
 <script setup>
   import { useRoute } from 'vue-router';
   import { IconBox, IconHome, IconLayout, IconMoon, IconPalette, IconSun, IconTypography } from '@tabler/icons-vue';
-  import { ApBrand, ApButton, ApNavGroup, ApNavItem, ApShell, ApSidebar, ApTab, ApTabBar, ApToaster, useTheme } from '@home/ui';
+  import { ApBrand, ApButton, ApNavGroup, ApNavItem, ApShell, ApSidebar, ApTab, ApTabBar, ApToaster, useTheme } from '@keep/ui';
   import { catalog, groups } from '@/catalog';
 
   const route = useRoute();

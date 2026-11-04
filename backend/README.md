@@ -1,6 +1,6 @@
 # backend
 
-Django REST Framework API for the home apps. Moved here from `davidbane/homeapi` with its history.
+Django REST Framework API for Materia. Moved here from `davidbane/homeapi` with its history.
 
 Endpoints (all under `/api/`): `residences`, `owners`, `locations`, `storage-items`, `storage-types`, and `health`. `locations` and `storage-items` take `?residence=<id>`.
 

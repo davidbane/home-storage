@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-  import { ApContainer, ApPageHead, ApSection } from '@home/ui';
+  import { ApContainer, ApPageHead, ApSection } from '@keep/ui';
   import { tokens } from '@/tokens';
 
   const depthNotes = {

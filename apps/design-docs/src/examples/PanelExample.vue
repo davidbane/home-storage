@@ -11,5 +11,5 @@
 </template>
 
 <script setup>
-  import { ApPanel } from '@home/ui';
+  import { ApPanel } from '@keep/ui';
 </script>
