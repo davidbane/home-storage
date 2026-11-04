@@ -7,7 +7,6 @@ import { deriveKinds } from '@/models';
  * Spot kinds come from depth (deriveKinds in models.js).
  *
  */
-// TODO: revisit models.js
 export function adapt(residence, areas, spots, items) {
   const roomIds = new Set(areas.filter((area) => area.residence === residence.id).map((area) => area.id));
   const ourSpots = spots.filter((spot) => roomIds.has(spot.storage_area.id));
