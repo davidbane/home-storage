@@ -17,7 +17,9 @@
     "tokens:docs": "yarn workspace @home/apothecary-tokens docs",
     "docs": "yarn workspace @home/apothecary-tokens build && yarn workspace design-docs dev",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "lint:py": "cd backend && .venv/bin/ruff format --check",
+    "lint:py:fix": "cd backend && .venv/bin/ruff format"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

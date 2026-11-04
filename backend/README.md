@@ -16,6 +16,10 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Formatting
+
+[Ruff](https://docs.astral.sh/ruff/) formats the backend with single quotes (`ruff.toml`). Migrations are skipped because Django generates them. From the repo root, `yarn lint:py` checks and `yarn lint:py:fix` applies it.
+
 ## Settings
 
 All configuration comes from the environment, read from `backend/.env` in development (via `django-environ`). `.env` is never committed; `.env.example` lists every setting.

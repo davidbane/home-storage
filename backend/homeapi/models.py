@@ -12,7 +12,7 @@ class Owner(AbstractUser):
 class Residence(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.ForeignKey(
-        Owner, on_delete=models.CASCADE, related_name="residences"
+        Owner, on_delete=models.CASCADE, related_name='residences'
     )
     name = models.CharField(max_length=50)
     residence_type = models.CharField(max_length=30)
@@ -28,10 +28,10 @@ class Location(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     residence = models.ForeignKey(
-        Residence, on_delete=models.CASCADE, related_name="locations"
+        Residence, on_delete=models.CASCADE, related_name='locations'
     )
     parent = models.ForeignKey(
-        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='children'
     )
     name = models.CharField(max_length=75)
     type = models.ForeignKey(
@@ -48,20 +48,20 @@ class Location(models.Model):
             models.CheckConstraint(
                 check=models.Q(parent__isnull=True, type__isnull=True)
                 | models.Q(parent__isnull=False, type__isnull=False),
-                name="only_storage_spots_have_a_type",
+                name='only_storage_spots_have_a_type',
             ),
         ]
 
 
 class StorageItem(models.Model):
     class StorageClass(models.TextChoices):
-        DAILY = "daily"
-        SURPLUS = "surplus"
-        LONG_TERM = "long_term"
+        DAILY = 'daily'
+        SURPLUS = 'surplus'
+        LONG_TERM = 'long_term'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     location = models.ForeignKey(
-        Location, on_delete=models.PROTECT, related_name="items"
+        Location, on_delete=models.PROTECT, related_name='items'
     )
     name = models.CharField(max_length=30)
     brand = models.CharField(max_length=20, blank=True)
@@ -77,10 +77,10 @@ class StorageItem(models.Model):
 class ItemEvent(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     item = models.ForeignKey(
-        StorageItem, on_delete=models.CASCADE, related_name="history"
+        StorageItem, on_delete=models.CASCADE, related_name='history'
     )
     date = models.DateTimeField(auto_now_add=True)
     text = models.CharField(max_length=255)
 
     class Meta:
-        ordering = ["-date"]
+        ordering = ['-date']

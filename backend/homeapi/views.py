@@ -15,7 +15,7 @@ from .serializers import (
 
 def residence_param(request):
     """The ?residence= filter as a UUID, or None. A malformed id is a 400."""
-    value = request.query_params.get("residence")
+    value = request.query_params.get('residence')
     return serializers.UUIDField().to_internal_value(value) if value else None
 
 
@@ -27,7 +27,7 @@ class ProtectedDestroyMixin:
             return super().destroy(request, *args, **kwargs)
         except ProtectedError:
             return Response(
-                {"detail": "This is still in use."}, status=status.HTTP_409_CONFLICT
+                {'detail': 'This is still in use.'}, status=status.HTTP_409_CONFLICT
             )
 
 
@@ -36,7 +36,7 @@ class HealthCheckViewSet(ViewSet):
     permission_classes = []
 
     def list(self, request):
-        return Response({"status": "Healthy!"})
+        return Response({'status': 'Healthy!'})
 
 
 class ResidenceViewSet(ModelViewSet):
@@ -59,7 +59,7 @@ class StorageItemViewSet(ModelViewSet):
     permission_classes = []
 
     def get_queryset(self):
-        items = StorageItem.objects.prefetch_related("history")
+        items = StorageItem.objects.prefetch_related('history')
         residence = residence_param(self.request)
         return items.filter(location__residence=residence) if residence else items
 

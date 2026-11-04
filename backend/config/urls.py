@@ -21,7 +21,7 @@ from django.urls import include, path
 from homeapi.views import HealthCheckViewSet
 
 urlpatterns = [
-    path("", HealthCheckViewSet.as_view({"get": "list"}), name="health-check"),
-    path("admin/", admin.site.urls),
-    path("api/", include("homeapi.urls")),
+    path('', HealthCheckViewSet.as_view({'get': 'list'}), name='health-check'),
+    path('admin/', admin.site.urls),
+    path('api/', include('homeapi.urls')),
 ]

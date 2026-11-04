@@ -1,0 +1,5 @@
+# Django generates migrations, so they're left as written.
+extend-exclude = ["migrations"]
+
+[format]
+quote-style = "single"
