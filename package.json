@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "dev": "yarn workspace @keep/apothecary-tokens build && yarn workspace materia-web dev",
-    "build": "yarn workspaces foreach --all --topological run build",
+    "build": "yarn workspace @keep/apothecary-tokens build && yarn workspaces foreach --all --exclude @keep/apothecary-tokens --topological run build",
     "tokens": "yarn workspace @keep/apothecary-tokens build && yarn workspace @keep/apothecary-tokens docs",
     "api": "cd backend && python manage.py runserver",
     "tokens:docs": "yarn workspace @keep/apothecary-tokens docs",
