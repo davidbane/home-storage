@@ -134,7 +134,7 @@
               v-for="piece in furniture.filter((candidate) => candidate.code)"
               :key="piece.id"
               :code="piece.code"
-              :label="piece.note ?? piece.name"
+              :label="piece.note || piece.name"
             />
             <span class="type-meta text-ink-muted">{{ summary }}</span>
           </div>

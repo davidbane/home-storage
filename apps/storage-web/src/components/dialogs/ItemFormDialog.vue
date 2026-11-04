@@ -160,8 +160,8 @@
       par: form.par.trim() ? Number(form.par) : null,
       storage_class: form.storage_class,
       location: form.location,
-      brand: form.brand.trim() || undefined,
-      used_for: form.used_for.trim() || undefined,
+      brand: form.brand.trim(),
+      used_for: form.used_for.trim(),
     };
   }
 

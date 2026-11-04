@@ -89,7 +89,7 @@
     if (!form.name.trim()) {
       return void (error.value = 'Enter a name.');
     }
-    const draft = { name: form.name.trim(), note: form.note.trim() || undefined };
+    const draft = { name: form.name.trim(), note: form.note.trim() };
     const room = editing.value;
     if (room) {
       await house.updateRoom(room.id, draft);

@@ -58,7 +58,7 @@ The app reads sample data by default. To use the real API, create `apps/storage-
 VITE_DATA_SOURCE=api
 ```
 
-`src/api/endpoints.js` documents the DRF response shapes as they are today, and `src/api/adapt.js` turns residences, areas, spots and items into the app's location tree. State lives in a Pinia store (`src/stores/house.js`).
+The API returns the shapes in `src/models.js`, and `src/api/endpoints.js` lists the calls. The only thing the app adds is each location's `kind`, worked out from its depth (`deriveKinds`). State lives in a Pinia store (`src/stores/house.js`).
 
 ## Design system
 

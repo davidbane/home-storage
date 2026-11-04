@@ -215,7 +215,7 @@
       }
       type = created.id;
     }
-    const draft = { name: form.name.trim(), parent: form.parent, type, code: form.code.trim() || undefined, note: form.note.trim() || undefined };
+    const draft = { name: form.name.trim(), parent: form.parent, type, code: form.code.trim(), note: form.note.trim() };
     const spot = editing.value;
     if (spot) {
       await house.updateSpot(spot.id, draft);

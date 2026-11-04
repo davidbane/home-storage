@@ -1,20 +1,27 @@
-// The app's view of the catalog. API responses are adapted into these shapes (see api/adapt.js).
+// The catalog as backend/homeapi/serializers.py returns it, plus `kind` (see deriveKinds).
 
 /**
- * Locations form one tree: house → room → furniture → container → slot.
+ * @typedef {object} Residence
+ * @property {string} id
+ * @property {string} name
+ */
+
+/**
+ * Locations form one tree per residence: room → furniture → container → slot.
  *
  * @typedef {object} Location
  * @property {string} id
  * @property {string} name
- * @property {'house' | 'room' | 'furniture' | 'container' | 'slot'} kind
- * @property {string | null} parent
+ * @property {string} residence
+ * @property {'room' | 'furniture' | 'container' | 'slot'} kind Set by deriveKinds, not stored.
+ * @property {string | null} parent Null for a room.
  * @property {string} [code] Printed label code, e.g. "C-07-B".
  * @property {string} [note] Short note shown under a tile, e.g. "chargers".
- * @property {string} [type] Storage type id (spots only), e.g. the "Drawer" type.
+ * @property {string | null} [type] Storage type id (spots only), e.g. the "Drawer" type.
  */
 
 /**
- * A kind of storage spot: "Drawer chest", "Bin", "Shelf". Backed by the API's StorageType.
+ * A kind of storage spot: "Drawer chest", "Bin", "Shelf".
  *
  * @typedef {object} StorageType
  * @property {string} id
@@ -26,7 +33,7 @@
  *
  * @typedef {object} RoomDraft
  * @property {string} name
- * @property {string} [note]
+ * @property {string} note
  */
 
 /**
@@ -36,8 +43,8 @@
  * @property {string} name
  * @property {string} parent
  * @property {string} type
- * @property {string} [code]
- * @property {string} [note]
+ * @property {string} code
+ * @property {string} note
  */
 
 /**
@@ -49,11 +56,12 @@ export function deriveKinds(locations) {
   const byId = new Map(locations.map((location) => [location.id, location]));
   const parents = new Set(locations.flatMap((location) => (location.parent ? [location.parent] : [])));
   const depth = (location) => {
-    const parent = location.parent ? byId.get(location.parent) : undefined;
-    return !parent || parent.kind === 'house' || parent.kind === 'room' ? 0 : 1 + depth(parent);
+    const parent = byId.get(location.parent);
+    return !parent?.parent ? 0 : 1 + depth(parent);
   };
   for (const location of locations) {
-    if (location.kind === 'house' || location.kind === 'room') {
+    if (!location.parent) {
+      location.kind = 'room';
       continue;
     }
     const level = depth(location);

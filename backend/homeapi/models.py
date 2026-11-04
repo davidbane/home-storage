@@ -23,37 +23,64 @@ class StorageType(models.Model):
     name = models.CharField(max_length=30, unique=True)
 
 
-class StorageArea(models.Model):
+class Location(models.Model):
+    """A node in a residence's tree: a room when it has no parent, otherwise a storage spot."""
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     residence = models.ForeignKey(
-        Residence, on_delete=models.CASCADE, related_name="areas"
+        Residence, on_delete=models.CASCADE, related_name="locations"
     )
-    description = models.TextField(null=True)
-    name = models.CharField(max_length=50)
-
-
-class StorageSpot(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     parent = models.ForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
     )
     name = models.CharField(max_length=75)
-    storage_type = models.ForeignKey(StorageType, on_delete=models.PROTECT)
-    storage_area = models.ForeignKey(
-        StorageArea, on_delete=models.CASCADE, related_name="spots"
+    type = models.ForeignKey(
+        StorageType, on_delete=models.PROTECT, null=True, blank=True
     )
+    code = models.CharField(max_length=30, blank=True)
+    note = models.TextField(blank=True)
     primary_color = models.CharField(max_length=30, blank=True)
     secondary_color = models.CharField(max_length=30, blank=True)
-    description = models.TextField(blank=True)
     qr_code_image_url = models.URLField(blank=True)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(parent__isnull=True, type__isnull=True)
+                | models.Q(parent__isnull=False, type__isnull=False),
+                name="only_storage_spots_have_a_type",
+            ),
+        ]
 
 
 class StorageItem(models.Model):
+    class StorageClass(models.TextChoices):
+        DAILY = "daily"
+        SURPLUS = "surplus"
+        LONG_TERM = "long_term"
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    storage_spot = models.ForeignKey(
-        StorageSpot, on_delete=models.SET_NULL, null=True, related_name="items"
+    location = models.ForeignKey(
+        Location, on_delete=models.PROTECT, related_name="items"
     )
     name = models.CharField(max_length=30)
-    brand = models.CharField(max_length=20)
-    count = models.IntegerField()
-    description = models.TextField(blank=True)
+    brand = models.CharField(max_length=20, blank=True)
+    quantity = models.IntegerField()
+    par = models.PositiveIntegerField(null=True, blank=True)
+    storage_class = models.CharField(
+        max_length=10, choices=StorageClass.choices, default=StorageClass.DAILY
+    )
+    used_for = models.TextField(blank=True)
+    moved_from = models.TextField(blank=True)
+
+
+class ItemEvent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    item = models.ForeignKey(
+        StorageItem, on_delete=models.CASCADE, related_name="history"
+    )
+    date = models.DateTimeField(auto_now_add=True)
+    text = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ["-date"]

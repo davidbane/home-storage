@@ -7,45 +7,45 @@ export const storageTypes = [
   { id: 'type-closet', name: 'Closet' },
 ];
 
-// Sample data until the DRF endpoints exist. Shapes match ../models.js.
+export const residence = { id: 'house', name: 'The House' };
+
+// Sample data for running without the API. Shapes match ../models.js.
 export const locations = [
-  { id: 'house', name: 'The House', kind: 'house', parent: null },
+  { id: 'kitchen', name: 'Kitchen', parent: null },
+  { id: 'pantry', name: 'Pantry', parent: 'kitchen', code: 'P-01', type: 'type-shelving' },
+  { id: 'pantry-top', name: 'Top shelf', parent: 'pantry', note: 'paper goods', type: 'type-shelf' },
+  { id: 'pantry-mid', name: 'Middle shelf', parent: 'pantry', note: 'baking', type: 'type-shelf' },
+  { id: 'pantry-low', name: 'Bottom shelf', parent: 'pantry', note: 'bulk', type: 'type-shelf' },
 
-  { id: 'kitchen', name: 'Kitchen', kind: 'room', parent: 'house' },
-  { id: 'pantry', name: 'Pantry', kind: 'furniture', parent: 'kitchen', code: 'P-01', type: 'type-shelving' },
-  { id: 'pantry-top', name: 'Top shelf', kind: 'container', parent: 'pantry', note: 'paper goods', type: 'type-shelf' },
-  { id: 'pantry-mid', name: 'Middle shelf', kind: 'container', parent: 'pantry', note: 'baking', type: 'type-shelf' },
-  { id: 'pantry-low', name: 'Bottom shelf', kind: 'container', parent: 'pantry', note: 'bulk', type: 'type-shelf' },
+  { id: 'hall-closet', name: 'Hall closet', parent: null },
+  { id: 'drawer-chest', name: 'Drawer chest', parent: 'hall-closet', code: 'C-07', note: 'Oak drawer chest', type: 'type-chest' },
+  { id: 'drawer-a', name: 'Drawer A', parent: 'drawer-chest', code: 'C-07-A', note: 'tools, tape', type: 'type-drawer' },
+  { id: 'drawer-b', name: 'Drawer B', parent: 'drawer-chest', code: 'C-07-B', type: 'type-drawer' },
+  { id: 'drawer-c', name: 'Drawer C', parent: 'drawer-chest', code: 'C-07-C', note: 'chargers', type: 'type-drawer' },
+  { id: 'drawer-d', name: 'Drawer D', parent: 'drawer-chest', code: 'C-07-D', note: 'gift wrap', type: 'type-drawer' },
+  { id: 'drawer-e', name: 'Drawer E', parent: 'drawer-chest', code: 'C-07-E', type: 'type-drawer' },
+  { id: 'drawer-f', name: 'Drawer F', parent: 'drawer-chest', code: 'C-07-F', note: 'first aid', type: 'type-drawer' },
 
-  { id: 'hall-closet', name: 'Hall closet', kind: 'room', parent: 'house' },
-  { id: 'drawer-chest', name: 'Drawer chest', kind: 'furniture', parent: 'hall-closet', code: 'C-07', note: 'Oak drawer chest', type: 'type-chest' },
-  { id: 'drawer-a', name: 'Drawer A', kind: 'container', parent: 'drawer-chest', code: 'C-07-A', note: 'tools, tape', type: 'type-drawer' },
-  { id: 'drawer-b', name: 'Drawer B', kind: 'container', parent: 'drawer-chest', code: 'C-07-B', type: 'type-drawer' },
-  { id: 'drawer-c', name: 'Drawer C', kind: 'container', parent: 'drawer-chest', code: 'C-07-C', note: 'chargers', type: 'type-drawer' },
-  { id: 'drawer-d', name: 'Drawer D', kind: 'container', parent: 'drawer-chest', code: 'C-07-D', note: 'gift wrap', type: 'type-drawer' },
-  { id: 'drawer-e', name: 'Drawer E', kind: 'container', parent: 'drawer-chest', code: 'C-07-E', type: 'type-drawer' },
-  { id: 'drawer-f', name: 'Drawer F', kind: 'container', parent: 'drawer-chest', code: 'C-07-F', note: 'first aid', type: 'type-drawer' },
+  { id: 'garage', name: 'Garage', parent: null },
+  { id: 'garage-shelves', name: 'Steel shelving', parent: 'garage', code: 'G-02', type: 'type-shelving' },
+  { id: 'shelf-1', name: 'Shelf 1', parent: 'garage-shelves', type: 'type-shelf' },
+  { id: 'shelf-2', name: 'Shelf 2', parent: 'garage-shelves', type: 'type-shelf' },
+  { id: 'shelf-3', name: 'Shelf 3', parent: 'garage-shelves', note: 'overflow', type: 'type-shelf' },
 
-  { id: 'garage', name: 'Garage', kind: 'room', parent: 'house' },
-  { id: 'garage-shelves', name: 'Steel shelving', kind: 'furniture', parent: 'garage', code: 'G-02', type: 'type-shelving' },
-  { id: 'shelf-1', name: 'Shelf 1', kind: 'container', parent: 'garage-shelves', type: 'type-shelf' },
-  { id: 'shelf-2', name: 'Shelf 2', kind: 'container', parent: 'garage-shelves', type: 'type-shelf' },
-  { id: 'shelf-3', name: 'Shelf 3', kind: 'container', parent: 'garage-shelves', note: 'overflow', type: 'type-shelf' },
+  { id: 'basement', name: 'Basement', parent: null },
+  { id: 'utility-rack', name: 'Utility rack', parent: 'basement', code: 'B-01', type: 'type-shelving' },
+  { id: 'gear-shelf', name: 'Gear shelf', parent: 'utility-rack', note: 'camping', type: 'type-shelf' },
+  { id: 'filters-bin', name: 'Filters bin', parent: 'utility-rack', type: 'type-bin' },
 
-  { id: 'basement', name: 'Basement', kind: 'room', parent: 'house' },
-  { id: 'utility-rack', name: 'Utility rack', kind: 'furniture', parent: 'basement', code: 'B-01', type: 'type-shelving' },
-  { id: 'gear-shelf', name: 'Gear shelf', kind: 'container', parent: 'utility-rack', note: 'camping', type: 'type-shelf' },
-  { id: 'filters-bin', name: 'Filters bin', kind: 'container', parent: 'utility-rack', type: 'type-bin' },
+  { id: 'bedroom', name: 'Bedroom', parent: null },
+  { id: 'closet', name: 'Closet', parent: 'bedroom', type: 'type-closet' },
+  { id: 'closet-top', name: 'Top shelf', parent: 'closet', note: 'linens', type: 'type-shelf' },
 
-  { id: 'bedroom', name: 'Bedroom', kind: 'room', parent: 'house' },
-  { id: 'closet', name: 'Closet', kind: 'furniture', parent: 'bedroom', type: 'type-closet' },
-  { id: 'closet-top', name: 'Top shelf', kind: 'container', parent: 'closet', note: 'linens', type: 'type-shelf' },
-
-  { id: 'attic', name: 'Attic', kind: 'room', parent: 'house' },
-  { id: 'attic-bins', name: 'Storage bins', kind: 'furniture', parent: 'attic', code: 'A-01', type: 'type-shelving' },
-  { id: 'bin-4', name: 'Bin 4', kind: 'container', parent: 'attic-bins', code: 'A-01-4', note: 'holiday', type: 'type-bin' },
-  { id: 'bin-9', name: 'Bin 9', kind: 'container', parent: 'attic-bins', code: 'A-01-9', note: 'keepsakes', type: 'type-bin' },
-];
+  { id: 'attic', name: 'Attic', parent: null },
+  { id: 'attic-bins', name: 'Storage bins', parent: 'attic', code: 'A-01', type: 'type-shelving' },
+  { id: 'bin-4', name: 'Bin 4', parent: 'attic-bins', code: 'A-01-4', note: 'holiday', type: 'type-bin' },
+  { id: 'bin-9', name: 'Bin 9', parent: 'attic-bins', code: 'A-01-9', note: 'keepsakes', type: 'type-bin' },
+].map((place) => ({ residence: residence.id, ...place }));
 
 const item = (fields) => ({
   id: fields.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),

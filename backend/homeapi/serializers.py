@@ -1,11 +1,12 @@
+from django.db import transaction
 from rest_framework import serializers
 
 from homeapi.models import (
+    ItemEvent,
+    Location,
     Owner,
     Residence,
-    StorageArea,
     StorageItem,
-    StorageSpot,
     StorageType,
 )
 
@@ -51,38 +52,76 @@ class ResidenceSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class StorageAreaSerializer(serializers.ModelSerializer):
-    description = serializers.CharField(required=False)
-
-    class Meta:
-        model = StorageArea
-        fields = "__all__"
-
-
 class StorageTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = StorageType
         fields = "__all__"
 
 
-class StorageSpotSerializer(serializers.ModelSerializer):
-    children = serializers.SerializerMethodField()
-    storage_area = StorageAreaSerializer()
-    storage_type = StorageTypeSerializer()
-
+class LocationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = StorageSpot
+        model = Location
         fields = "__all__"
 
-    def get_children(self, obj):
-        serializer = StorageSpotSerializer(obj.children.all(), many=True)
+    def validate(self, attrs):
+        def value(field):
+            return attrs.get(field, getattr(self.instance, field, None))
 
-        return serializer.data
+        parent = value("parent")
+        residence = value("residence")
+        if self.instance and residence != self.instance.residence:
+            raise serializers.ValidationError(
+                {"residence": "A location can't change residence."}
+            )
+        if parent and parent.residence != residence:
+            raise serializers.ValidationError(
+                {"parent": "The parent is in a different residence."}
+            )
+        if bool(parent) != bool(value("type")):
+            raise serializers.ValidationError(
+                {"type": "Storage spots need a type; rooms can't have one."}
+            )
+        ancestor = parent
+        while self.instance and ancestor:
+            if ancestor == self.instance:
+                raise serializers.ValidationError(
+                    {"parent": "A location can't move inside itself."}
+                )
+            ancestor = ancestor.parent
+        return attrs
+
+
+class ItemEventSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%d", read_only=True)
+
+    class Meta:
+        model = ItemEvent
+        fields = ["date", "text"]
 
 
 class StorageItemSerializer(serializers.ModelSerializer):
-    storage_spot = StorageSpotSerializer()
+    history = ItemEventSerializer(many=True, read_only=True)
+    event = serializers.CharField(write_only=True, required=False, max_length=255)
 
     class Meta:
         model = StorageItem
         fields = "__all__"
+
+    def create(self, validated_data):
+        event = validated_data.pop("event", None)
+        with transaction.atomic():
+            item = super().create(validated_data)
+            self._log(item, event)
+        return item
+
+    def update(self, instance, validated_data):
+        event = validated_data.pop("event", None)
+        with transaction.atomic():
+            item = super().update(instance, validated_data)
+            self._log(item, event)
+        return item
+
+    @staticmethod
+    def _log(item, event):
+        if event:
+            item.history.create(text=event)

@@ -2,8 +2,7 @@ import { computed, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 import { deriveKinds } from '@/models';
 import { api } from '@/api/endpoints';
-import { adapt } from '@/api/adapt';
-import { items as mockItems, locations as mockLocations, storageTypes as mockTypes } from '@/api/mock';
+import { items as mockItems, locations as mockLocations, residence as mockResidence, storageTypes as mockTypes } from '@/api/mock';
 
 /** VITE_DATA_SOURCE=api reads the DRF backend; anything else uses the sample data. */
 const useApi = import.meta.env.VITE_DATA_SOURCE === 'api';
@@ -19,15 +18,6 @@ function readList() {
 }
 
 const slug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item';
-
-/** The fields the API knows today. Par, storage class and history stay client-side until it has them. */
-const toApi = (draft) => ({
-  name: draft.name,
-  brand: draft.brand ?? '',
-  count: draft.quantity,
-  description: draft.used_for ?? '',
-  storage_spot: draft.location,
-});
 
 /**
  * The four statuses, decided here rather than in components:
@@ -48,6 +38,7 @@ export function status(item) {
 }
 
 export const useHouseStore = defineStore('house', () => {
+  const house = ref(null);
   const locations = ref([]);
   const items = ref([]);
   const types = ref([]);
@@ -61,22 +52,17 @@ export const useHouseStore = defineStore('house', () => {
     error.value = null;
     try {
       if (useApi) {
-        const [residences, areas, spots, apiItems, apiTypes] = await Promise.all([
-          api.residences(),
-          api.areas(),
-          api.spots(),
-          api.items(),
-          api.types(),
-        ]);
-        const residence = residences[0];
+        const [residence] = await api.residences();
         if (!residence) {
           throw new Error('No residence yet. Add one in the Django admin.');
         }
-        const data = adapt(residence, areas, spots, apiItems);
-        locations.value = data.locations;
-        items.value = data.items;
+        const [apiLocations, apiItems, apiTypes] = await Promise.all([api.locations(residence.id), api.items(residence.id), api.types()]);
+        house.value = residence;
+        locations.value = deriveKinds(apiLocations);
+        items.value = apiItems;
         types.value = apiTypes;
       } else {
+        house.value = structuredClone(mockResidence);
         locations.value = deriveKinds(structuredClone(mockLocations));
         items.value = structuredClone(mockItems);
         types.value = structuredClone(mockTypes);
@@ -99,10 +85,9 @@ export const useHouseStore = defineStore('house', () => {
     }
     return byParent;
   });
-  const house = computed(() => locations.value.find((place) => place.kind === 'house'));
   const location = (id) => byId.value.get(id);
   const children = (id) => childMap.value.get(id) ?? [];
-  const rooms = computed(() => (house.value ? children(house.value.id) : []));
+  const rooms = computed(() => locations.value.filter((place) => !place.parent));
   const item = (id) => items.value.find((candidate) => candidate.id === id);
 
   function subtree(id) {
@@ -119,10 +104,10 @@ export const useHouseStore = defineStore('house', () => {
     return items.value.filter((record) => ids.has(record.location));
   };
 
-  /** From the room down, excluding the house. */
+  /** From the room down. */
   function ancestry(id) {
     const out = [];
-    for (let place = location(id); place && place.kind !== 'house'; place = place.parent ? location(place.parent) : undefined) {
+    for (let place = location(id); place; place = place.parent ? location(place.parent) : undefined) {
       out.unshift(place);
     }
     return out;
@@ -185,7 +170,7 @@ export const useHouseStore = defineStore('house', () => {
     }
     return (
       locations.value.find((place) => place.code?.toLowerCase() === term)
-      ?? locations.value.find((place) => place.kind !== 'house' && place.name.toLowerCase() === term)
+      ?? locations.value.find((place) => place.name.toLowerCase() === term)
     );
   }
 
@@ -193,7 +178,8 @@ export const useHouseStore = defineStore('house', () => {
   const fail = (exception) => (saveError.value = exception instanceof Error ? exception.message : String(exception));
   const today = () => new Date().toISOString().slice(0, 10);
 
-  async function setQuantity(id, quantity) {
+  /** `event` is the history line to save with the change, if any. */
+  async function setQuantity(id, quantity, event) {
     const record = item(id);
     if (!record) {
       return;
@@ -204,7 +190,7 @@ export const useHouseStore = defineStore('house', () => {
       return;
     }
     try {
-      await api.updateItem(id, { count: quantity });
+      await api.updateItem(id, { quantity, event });
       saveError.value = null;
     } catch (exception) {
       record.quantity = previous;
@@ -213,18 +199,18 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   async function addItem(draft) {
-    const local = {
-      id: `${slug(draft.name)}-${Math.random().toString(36).slice(2, 7)}`,
-      history: [{ date: today(), text: `Added ${draft.quantity}` }],
-      ...draft,
-    };
+    const event = `Added ${draft.quantity}`;
     if (!useApi) {
+      const local = {
+        id: `${slug(draft.name)}-${Math.random().toString(36).slice(2, 7)}`,
+        history: [{ date: today(), text: event }],
+        ...draft,
+      };
       items.value = [...items.value, local];
       return local;
     }
     try {
-      const created = await api.createItem(toApi(draft));
-      const saved = { ...local, id: created.id };
+      const saved = await api.createItem({ ...draft, event });
       items.value = [...items.value, saved];
       saveError.value = null;
       return saved;
@@ -248,7 +234,8 @@ export const useHouseStore = defineStore('house', () => {
       return;
     }
     try {
-      await api.updateItem(id, toApi(draft));
+      const moveFields = moved ? { moved_from: record.moved_from, event: record.history[0].text } : {};
+      Object.assign(record, await api.updateItem(id, { ...draft, ...moveFields }));
       saveError.value = null;
     } catch (exception) {
       Object.assign(record, before);
@@ -273,7 +260,7 @@ export const useHouseStore = defineStore('house', () => {
       return;
     }
     try {
-      await api.updateItem(id, { storage_spot: to });
+      Object.assign(record, await api.updateItem(id, { location: to, moved_from: record.moved_from, event: record.history[0].text }));
       saveError.value = null;
     } catch (exception) {
       Object.assign(record, before);
@@ -294,11 +281,11 @@ export const useHouseStore = defineStore('house', () => {
     const restore = async () => {
       if (useApi) {
         // The API gives a re-created item a new id.
-        const created = await api.createItem(toApi(record)).catch((exception) => (fail(exception), undefined));
+        const created = await api.createItem({ ...record, event: 'Restored' }).catch((exception) => (fail(exception), undefined));
         if (!created) {
           return;
         }
-        record.id = created.id;
+        Object.assign(record, created);
       }
       const next = [...items.value];
       next.splice(Math.min(index, next.length), 0, record);
@@ -334,16 +321,16 @@ export const useHouseStore = defineStore('house', () => {
     if (!home) {
       return;
     }
-    const room = { id: newId('room'), name: draft.name, kind: 'room', parent: home.id, note: draft.note };
+    let room = { id: newId('room'), parent: null, ...draft };
     if (useApi) {
       try {
-        room.id = (await api.createArea({ name: draft.name, description: draft.note ?? '', residence: home.id })).id;
+        room = await api.createLocation({ ...draft, residence: home.id });
         saveError.value = null;
       } catch (exception) {
         return void fail(exception);
       }
     }
-    locations.value = [...locations.value, room];
+    locations.value = deriveKinds([...locations.value, room]);
     return room;
   }
 
@@ -353,12 +340,12 @@ export const useHouseStore = defineStore('house', () => {
       return;
     }
     const before = { name: room.name, note: room.note };
-    Object.assign(room, { name: draft.name, note: draft.note });
+    Object.assign(room, draft);
     if (!useApi) {
       return;
     }
     try {
-      await api.updateArea(id, { name: draft.name, description: draft.note ?? '' });
+      await api.updateLocation(id, draft);
       saveError.value = null;
     } catch (exception) {
       Object.assign(room, before);
@@ -366,18 +353,11 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
-  /** The API's view of a spot's parent: null when it sits directly in a room. */
-  function spotApiFields(draft) {
-    const parent = location(draft.parent);
-    const room = parent?.kind === 'room' ? parent : roomOf(draft.parent);
-    return { parent: parent?.kind === 'room' ? null : draft.parent, storage_area: room?.id ?? draft.parent };
-  }
-
   async function addSpot(draft) {
-    const spot = { id: newId('spot'), name: draft.name, kind: 'container', parent: draft.parent, type: draft.type, code: draft.code, note: draft.note };
+    let spot = { id: newId('spot'), ...draft };
     if (useApi) {
       try {
-        spot.id = (await api.createSpot({ name: draft.name, storage_type: draft.type, description: draft.note ?? '', ...spotApiFields(draft) })).id;
+        spot = await api.createLocation({ ...draft, residence: house.value.id });
         saveError.value = null;
       } catch (exception) {
         return void fail(exception);
@@ -393,13 +373,13 @@ export const useHouseStore = defineStore('house', () => {
       return;
     }
     const before = { name: spot.name, parent: spot.parent, type: spot.type, code: spot.code, note: spot.note };
-    Object.assign(spot, { name: draft.name, parent: draft.parent, type: draft.type, code: draft.code, note: draft.note });
+    Object.assign(spot, draft);
     deriveKinds(locations.value);
     if (!useApi) {
       return;
     }
     try {
-      await api.updateSpot(id, { name: draft.name, storage_type: draft.type, description: draft.note ?? '', ...spotApiFields(draft) });
+      await api.updateLocation(id, draft);
       saveError.value = null;
     } catch (exception) {
       Object.assign(spot, before);
@@ -414,7 +394,7 @@ export const useHouseStore = defineStore('house', () => {
    */
   async function removePlace(id) {
     const place = location(id);
-    if (!place || place.kind === 'house') {
+    if (!place) {
       return false;
     }
     const held = contentsOf(id).items;
@@ -424,7 +404,7 @@ export const useHouseStore = defineStore('house', () => {
     }
     if (useApi) {
       try {
-        await (place.kind === 'room' ? api.deleteArea(id) : api.deleteSpot(id));
+        await api.deleteLocation(id);
         saveError.value = null;
       } catch (exception) {
         fail(exception);
@@ -519,12 +499,11 @@ export const useHouseStore = defineStore('house', () => {
     }
     const before = record.quantity;
     const target = record.par !== null ? Math.max(record.par, record.quantity + 1) : record.quantity + 1;
+    const logged = (text) => (record.history = [{ date: today(), text }, ...record.history], text);
     shopping.value = shopping.value.filter((listedId) => listedId !== id);
-    record.history = [{ date: today(), text: `Restocked to ${target}` }, ...record.history];
-    await setQuantity(id, target);
+    await setQuantity(id, target, logged(`Restocked to ${target}`));
     return async () => {
-      record.history = record.history.slice(1);
-      await setQuantity(id, before);
+      await setQuantity(id, before, logged(`Restock undone, back to ${before}`));
       shopping.value = [...shopping.value, id];
     };
   }
