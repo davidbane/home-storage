@@ -11,7 +11,7 @@ Materia is a catalog of what the house holds: every room, every drawer, and what
 ## What it keeps
 
 - **Places.** Rooms, furniture, containers and slots, in one tree. Name them the way the household does: "Hall closet", not "Closet 2".
-- **Stock.** Each item has a count and an optional par. Under par is Low, double par is Surplus.
+- **Stock.** Each item has a count and an optional par. Under par is Low.
 - **Print labels.** Give a place a printed code like `C-07-B`, then find it by that code.
 - **History.** Items remember where they've been.
 
@@ -111,7 +111,7 @@ Gothic in the voice, modern in the build. The full guide is in [`docs/design-sys
 
 - **Sapphire means "act".** One `variant="primary"` button per view. Brass is ornament only; nothing decorative is blue.
 - **Display face for headlines only.** Item names, paths, counts, quantities and controls are Inter.
-- **Status is a fixed vocabulary:** Low, Surplus, Long-term, Stocked (`statusLabel` in `@keep/ui`). The app decides which one applies (`status()` in `apps/materia-web/src/stores/house.js`); components only display it.
+- **Status is a fixed vocabulary:** Low and Stocked (`statusLabel` in `@keep/ui`). The app decides which one applies (`status()` in `apps/materia-web/src/stores/house.js`); components only display it.
 - **Depth is lit from above:** sunken for inputs, raised for cards and lists, floating for the tab bar and docks.
 - **One URL per state at every width.** `/rooms/hall-closet?in=drawer-b&item=9v-batteries` shows a detail pane on desktop and the item screen on a phone.
 

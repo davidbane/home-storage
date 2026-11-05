@@ -1,13 +1,11 @@
 /**
- * The four fixed statuses. Same word, color and dot in every home app.
+ * The two fixed statuses. Same word, color and dot in every home app.
  *
- * @typedef {'low' | 'surplus' | 'long' | 'ok'} Status
+ * @typedef {'low' | 'ok'} Status
  */
 
 export const statusLabel = {
   low: 'Low',
-  surplus: 'Surplus',
-  long: 'Long-term',
   ok: 'Stocked',
 };
 

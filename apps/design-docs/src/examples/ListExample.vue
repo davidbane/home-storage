@@ -20,7 +20,6 @@
     <ApListRow
       name="Headlamp"
       sub="Camping overflow"
-      status="surplus"
       :qty="2"
       to="/"
     />

@@ -94,7 +94,7 @@
     ['Display face for headlines only', 'Item names, paths, counts, quantities and controls are Inter.'],
     ['Sapphire means "act"', 'The only interactive fill. One primary button per view. Nothing decorative is blue.'],
     ['Brass is a thread, not a frame', 'A hairline on bin tags, a hover edge on tiles. Never a button.'],
-    ['Status is a fixed vocabulary', 'Low, Surplus, Long-term, Stocked: same word, color and dot everywhere.'],
+    ['Status is a fixed vocabulary', 'Low and Stocked: same word, color and dot everywhere.'],
     ['Depth is lit from above', 'Sunken for inputs, raised for cards and lists, floating for the tab bar and sheets.'],
   ];
   const sections = [

@@ -82,7 +82,6 @@ export function deriveKinds(locations) {
  * @property {string} name
  * @property {number} quantity
  * @property {number | null} par Target count; under it is Low. Null when the item isn't tracked against a par.
- * @property {'daily' | 'surplus' | 'long_term'} storage_class How an item is kept, independent of how many there are.
  * @property {string} location
  * @property {string} [brand]
  * @property {string} [used_for]
@@ -91,8 +90,8 @@ export function deriveKinds(locations) {
  */
 
 /**
- * What the add and edit forms produce: an Item's name, quantity, par, storage_class,
+ * What the add and edit forms produce: an Item's name, quantity, par,
  * location, brand and used_for.
  *
- * @typedef {Pick<Item, 'name' | 'quantity' | 'par' | 'storage_class' | 'location' | 'brand' | 'used_for'>} ItemDraft
+ * @typedef {Pick<Item, 'name' | 'quantity' | 'par' | 'location' | 'brand' | 'used_for'>} ItemDraft
  */

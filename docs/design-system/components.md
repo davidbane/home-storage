@@ -33,7 +33,7 @@ The round sapphire add button in the center of the tab bar. `label` required; em
 
 ### ApStatusChip
 
-`status`: `'low' | 'surplus' | 'long' | 'ok'`, shown as Low, Surplus, Long-term, Stocked with a dot. `label` overrides the word only when you must. The app decides the status (the storage app's `status()` in `stores/house.js`); the chip only displays it. In lists, leave Stocked out: show a chip only when it says something.
+`status`: `'low' | 'ok'`, shown as Low or Stocked with a dot. `label` overrides the word only when you must. The app decides the status (the storage app's `status()` in `stores/house.js`); the chip only displays it. In lists, leave Stocked out: show a chip only when it says something.
 
 ### ApBinTag
 

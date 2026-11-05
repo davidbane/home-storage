@@ -9,22 +9,9 @@ const useApi = import.meta.env.VITE_DATA_SOURCE === 'api';
 
 const slug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item';
 
-/**
- * The four statuses, decided here rather than in components:
- * long-term storage class → Long-term; under par → Low;
- * surplus storage class or at least double par → Surplus; else Stocked.
- */
+/** Under par is Low; everything else is Stocked. Decided here rather than in components. */
 export function status(item) {
-  if (item.storage_class === 'long_term') {
-    return 'long';
-  }
-  if (item.par !== null && item.quantity < item.par) {
-    return 'low';
-  }
-  if (item.storage_class === 'surplus' || (item.par !== null && item.quantity >= item.par * 2)) {
-    return 'surplus';
-  }
-  return 'ok';
+  return item.par !== null && item.quantity < item.par ? 'low' : 'ok';
 }
 
 export const useHouseStore = defineStore('house', () => {
@@ -123,17 +110,13 @@ export const useHouseStore = defineStore('house', () => {
       .join(' / ');
 
   // ---- status ----
-  const byStatus = (wanted) => computed(() => items.value.filter((record) => status(record) === wanted));
-  const lowItems = byStatus('low');
-  const surplusItems = byStatus('surplus');
-  const longTermItems = byStatus('long');
+  const lowItems = computed(() => items.value.filter((record) => status(record) === 'low'));
 
   function countsFor(id) {
     const list = itemsIn(id);
     return {
       total: list.length,
       low: list.filter((record) => status(record) === 'low').length,
-      surplus: list.filter((record) => status(record) === 'surplus').length,
     };
   }
 
@@ -471,7 +454,7 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   return {
-    locations, items, types, loading, error, saveError, house, rooms, lowItems, surplusItems, longTermItems, places, labelled,
+    locations, items, types, loading, error, saveError, house, rooms, lowItems, places, labelled,
     typeName, typeUsage, descendants, contentsOf, addRoom, updateRoom, addSpot, updateSpot, removePlace, addType, renameType, removeType,
     load, location, children, item, itemsIn, ancestry, roomOf, crumbs, pathText, countsFor, findByCode, search,
     setQuantity, addItem, updateItem, moveItem, removeItem,

@@ -22,7 +22,7 @@ A dark, modern-gothic look for the home apps: bottle green and bone, a thread of
 2. **Display face for headlines only.** Cormorant Garamond for titles and section heads. Item names, paths, counts, quantities and every control are Inter.
 3. **Sapphire means "act".** It's the only interactive fill: primary buttons, the add button, the active tab, the selected tile. One primary button per view. Nothing decorative is blue.
 4. **Brass is a thread, not a frame.** A hairline on bin tags, a hover edge on tiles, captions on the feature card. Never a button and never a full border on a card.
-5. **Status is a fixed vocabulary.** Low, Surplus, Long-term, Stocked: same word, color and dot in every home app.
+5. **Status is a fixed vocabulary.** Low and Stocked: same word, color and dot in every home app.
 6. **Depth is lit from above.** Sunken for things you type into or adjust, raised for cards and lists, floating for the tab bar, docks and sheets.
 
 ## Starting a new home app

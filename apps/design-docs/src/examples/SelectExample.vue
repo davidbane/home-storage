@@ -1,20 +1,20 @@
 <template>
   <ApSelect
-    v-model="kept"
-    label="Kept as"
+    v-model="storageType"
+    label="Storage type"
     required
     class="max-w-md"
   >
-    <option value="daily">
-      Daily use
+    <option value="drawer">
+      Drawer
     </option>
 
-    <option value="surplus">
-      Surplus store
+    <option value="shelf">
+      Shelf
     </option>
 
-    <option value="long_term">
-      Long-term
+    <option value="bin">
+      Bin
     </option>
   </ApSelect>
 </template>
@@ -23,5 +23,5 @@
   import { ref } from 'vue';
   import { ApSelect } from '@keep/ui';
 
-  const kept = ref('daily');
+  const storageType = ref('drawer');
 </script>

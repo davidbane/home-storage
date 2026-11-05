@@ -44,24 +44,6 @@
         :error="errors.location"
       />
 
-      <ApSelect
-        v-model="form.storage_class"
-        label="Kept as"
-        required
-      >
-        <option value="daily">
-          Daily use
-        </option>
-
-        <option value="surplus">
-          Surplus store
-        </option>
-
-        <option value="long_term">
-          Long-term
-        </option>
-      </ApSelect>
-
       <ApTextField
         v-model="form.brand"
         label="Brand"
@@ -107,7 +89,7 @@
 <script setup>
   import { computed, reactive, ref, watch } from 'vue';
   import { useRouter } from 'vue-router';
-  import { ApButton, ApDialog, ApSelect, ApTextField, useToast } from '@keep/ui';
+  import { ApButton, ApDialog, ApTextField, useToast } from '@keep/ui';
   import PlaceSelect from '@/components/PlaceSelect.vue';
   import { useHouseStore } from '@/stores/house';
   import { useUiStore } from '@/stores/ui';
@@ -124,7 +106,7 @@
   });
 
   // Text inputs bind strings; convert on save.
-  const form = reactive({ name: '', quantity: '1', par: '', storage_class: 'daily', location: null, brand: '', used_for: '' });
+  const form = reactive({ name: '', quantity: '1', par: '', location: null, brand: '', used_for: '' });
   const errors = reactive({});
   const saving = ref(false);
 
@@ -138,7 +120,6 @@
       name: item?.name ?? '',
       quantity: String(item?.quantity ?? 1),
       par: item?.par != null ? String(item.par) : '',
-      storage_class: item?.storage_class ?? 'daily',
       location: item?.location ?? (ui.dialog?.kind === 'add' ? (ui.dialog.location ?? null) : null),
       brand: item?.brand ?? '',
       used_for: item?.used_for ?? '',
@@ -169,7 +150,6 @@
       name: form.name.trim(),
       quantity: Number(form.quantity),
       par: form.par.trim() ? Number(form.par) : null,
-      storage_class: form.storage_class,
       location: form.location,
       brand: form.brand.trim(),
       used_for: form.used_for.trim(),

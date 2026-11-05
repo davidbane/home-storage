@@ -16,7 +16,7 @@ Set it with `data-theme` on `<html>`. `useTheme()` does that and remembers the c
 | Role | Fill (with its text) | Text on a surface | Tint behind text | Used for |
 |---|---|---|---|---|
 | Action | `sapphire` + `on-sapphire` | `sapphire-ink` | `sapphire-tint` | Primary buttons, add button, active tab, selected tile and row, links |
-| Ornament | none | `brass` | `brass-tint` | Bin-tag hairlines, tile hover edge, Long-term chip |
+| Ornament | none | `brass` | `brass-tint` | Bin-tag hairlines, tile hover edge |
 | Danger | `oxblood` + `on-sapphire` | `oxblood-ink` | `oxblood-tint` | Remove buttons, Low chip, errors |
 | Stocked | none | `verdigris-ink` | `verdigris-tint` | Stocked chip, confirmations |
 | Feature | `bottle` | `on-bottle`, `brass-on-bottle` | none | One summary card per screen |

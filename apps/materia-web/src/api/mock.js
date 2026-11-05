@@ -50,7 +50,6 @@ export const locations = [
 const item = (fields) => ({
   id: fields.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
   par: null,
-  storage_class: 'daily',
   history: [],
   ...fields,
 });
@@ -67,8 +66,8 @@ export const items = [
   }),
   item({ name: 'AA batteries', quantity: 12, par: 8, location: 'drawer-b', brand: 'Duracell' }),
   item({ name: 'AAA batteries', quantity: 6, par: 4, location: 'drawer-b' }),
-  item({ name: 'Headlamp', quantity: 2, location: 'drawer-b', storage_class: 'surplus', used_for: 'Camping overflow' }),
-  item({ name: 'Tea lights', quantity: 1, location: 'drawer-b', storage_class: 'long_term', used_for: 'Box of 50' }),
+  item({ name: 'Headlamp', quantity: 2, location: 'drawer-b', used_for: 'Camping overflow' }),
+  item({ name: 'Tea lights', quantity: 1, location: 'drawer-b', used_for: 'Box of 50' }),
   item({ name: 'Duct tape', quantity: 3, location: 'drawer-a' }),
   item({ name: 'Screwdriver set', quantity: 1, location: 'drawer-a' }),
   item({ name: 'Picture hooks', quantity: 40, location: 'drawer-a' }),
@@ -76,15 +75,15 @@ export const items = [
   item({ name: 'Wrapping paper', quantity: 5, location: 'drawer-d' }),
   item({ name: 'Bandages', quantity: 2, par: 1, location: 'drawer-f', used_for: 'Assorted box' }),
 
-  item({ name: 'Paper towels', quantity: 14, par: 6, location: 'shelf-3', storage_class: 'surplus' }),
+  item({ name: 'Paper towels', quantity: 14, par: 6, location: 'shelf-3' }),
   item({ name: 'Motor oil', quantity: 2, location: 'shelf-1' }),
   item({ name: 'Car wash soap', quantity: 1, location: 'shelf-2' }),
   item({ name: 'Coffee filters', quantity: 12, par: 50, location: 'pantry-top' }),
   item({ name: 'Flour', quantity: 2, par: 1, location: 'pantry-mid' }),
-  item({ name: 'Rice', quantity: 3, location: 'pantry-low', storage_class: 'surplus' }),
+  item({ name: 'Rice', quantity: 3, location: 'pantry-low' }),
   item({ name: 'Furnace filters', quantity: 1, par: 2, location: 'filters-bin', used_for: '16×25×1' }),
   item({ name: 'Camping stove', quantity: 1, location: 'gear-shelf', moved_from: 'Garage / Bin 4' }),
   item({ name: 'Spare sheets', quantity: 3, location: 'closet-top' }),
-  item({ name: 'Halloween decor', quantity: 1, location: 'bin-4', storage_class: 'long_term' }),
-  item({ name: 'Yearbooks', quantity: 6, location: 'bin-9', storage_class: 'long_term' }),
+  item({ name: 'Halloween decor', quantity: 1, location: 'bin-4' }),
+  item({ name: 'Yearbooks', quantity: 6, location: 'bin-9' }),
 ];

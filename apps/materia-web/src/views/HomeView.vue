@@ -102,46 +102,13 @@
       v-else
       class="flex flex-col gap-6 md:gap-10"
     >
-      <ApFeature
-        aria-label="Summary"
-        class="grid grid-cols-3 gap-x-6 gap-y-4 md:grid-cols-4"
-      >
-        <ApStat
-          :value="house.items.length"
-          label="items filed"
-        />
-
-        <ApStat
-          :value="house.lowItems.length"
-          label="running low"
-        />
-
-        <ApStat
-          :value="house.surplusItems.length"
-          label="in surplus"
-          class="hidden md:flex"
-        />
-
-        <ApStat
-          :value="house.rooms.length"
-          label="rooms"
-          class="md:hidden"
-        />
-
-        <ApStat
-          :value="house.longTermItems.length"
-          label="long-term"
-          class="hidden md:flex"
-        />
-      </ApFeature>
-
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
         <ApSection
           title="Needs attention"
           link-label="See all"
           link-to="/low"
         >
-          <ApList>
+          <ApList v-if="attention.length">
             <ApListRow
               v-for="item in attention"
               :key="item.id"
@@ -152,6 +119,13 @@
               :to="linkFor(item)"
             />
           </ApList>
+
+          <p
+            v-else
+            class="m-0 text-[15px] text-ink-muted"
+          >
+            Everything's at par.
+          </p>
         </ApSection>
 
         <ApSection
@@ -227,8 +201,8 @@
   import { computed, ref } from 'vue';
   import { IconPlus, IconScan, IconSettings } from '@tabler/icons-vue';
   import {
-    ApButton, ApContainer, ApFeature, ApIconButton, ApList, ApListRow, ApLocationTile,
-    ApPageHead, ApSearchField, ApSection, ApStat, ApTileGrid,
+    ApButton, ApContainer, ApIconButton, ApList, ApListRow, ApLocationTile,
+    ApPageHead, ApSearchField, ApSection, ApTileGrid,
   } from '@keep/ui';
   import { status, useHouseStore } from '@/stores/house';
   import { useUiStore } from '@/stores/ui';
@@ -237,7 +211,7 @@
   const ui = useUiStore();
   const query = ref('');
   const results = computed(() => house.search(query.value));
-  const attention = computed(() => [...house.lowItems, ...house.surplusItems].slice(0, 4));
+  const attention = computed(() => house.lowItems.slice(0, 4));
 
   const greeting = computed(() => {
     const hour = new Date().getHours();
@@ -247,6 +221,6 @@
   const linkFor = (item) => ({ path: `/rooms/${house.roomOf(item.location)?.id}`, query: { in: item.location, item: item.id } });
   const tileMeta = (id) => {
     const counts = house.countsFor(id);
-    return counts.low ? { meta: `${counts.low} low`, tone: 'alert' } : counts.surplus ? { meta: `${counts.surplus} surplus`, tone: 'muted' } : { meta: 'all stocked', tone: 'muted' };
+    return counts.low ? { meta: `${counts.low} low`, tone: 'alert' } : { meta: 'all stocked', tone: 'muted' };
   };
 </script>

@@ -18,10 +18,10 @@ Every value here compiles to a CSS custom property `--ap-<name>` and, for Tailwi
 | `ink-muted` | `#a89f8c` | `#5a5848` | Locations, metadata, helper text. 5.3:1 minimum on surface-2. |
 | `brass` | `#c9a25e` | `#7a5c24` | The apothecary accent: bin-tag hairlines and numbers, the location tile hover, small icons. Ornament only, never an action. Text-safe on surface-0/1/2. |
 | `brass-bright` | `#e2c07f` | `#5e4519` | Hover and pressed state for brass elements. |
-| `brass-tint` | `#2e281b` | `#eadcbc` | Fill behind brass text: the long-term status chip. |
+| `brass-tint` | `#2e281b` | `#eadcbc` | Fill behind brass text. |
 | `sapphire` | `#2a55b8` | `#234a9e` | Jewel blue. The ONE interactive fill: primary buttons, selected tab, links' underline. Pair with on-sapphire. |
-| `sapphire-ink` | `#8dadf2` | `#234a9e` | Sapphire as text or icon on a surface: links, active breadcrumb, surplus status. |
-| `sapphire-tint` | `#182a4f` | `#d9e0f0` | Selected tiles and rows, the active tab, the surplus chip; behind sapphire-ink. |
+| `sapphire-ink` | `#8dadf2` | `#234a9e` | Sapphire as text or icon on a surface: links, active breadcrumb. |
+| `sapphire-tint` | `#182a4f` | `#d9e0f0` | Selected tiles and rows, the active tab; behind sapphire-ink. |
 | `on-sapphire` | `#f4eedf` | `#f7f1e4` | Text and icons on sapphire and oxblood fills. |
 | `oxblood` | `#8e2f2a` | `#8e2f2a` | Destructive fill (remove item, delete location). Pair with on-sapphire. |
 | `oxblood-ink` | `#ec9a90` | `#8e2f2a` | Low-stock and error text on surfaces. |

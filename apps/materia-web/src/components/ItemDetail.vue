@@ -170,7 +170,6 @@
     const difference = item.quantity - item.par;
     return difference < 0 ? `${-difference} under par of ${item.par}` : difference === 0 ? `At par of ${item.par}` : `${difference} over par of ${item.par}`;
   });
-  const storageLabel = { daily: 'Daily use', surplus: 'Surplus store', long_term: 'Long-term' };
   const formatDate = (date) => new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   const details = computed(() => {
     const item = currentItem.value;
@@ -181,7 +180,6 @@
       ['Par', item.par !== null ? String(item.par) : undefined],
       ['Brand', item.brand],
       ['Used for', item.used_for],
-      ['Storage', storageLabel[item.storage_class]],
       ['Bin', house.location(item.location)?.code],
       ['Moved from', item.moved_from],
     ].filter((row) => Boolean(row[1]));

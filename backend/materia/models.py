@@ -54,11 +54,6 @@ class Location(models.Model):
 
 
 class StorageItem(models.Model):
-    class StorageClass(models.TextChoices):
-        DAILY = 'daily'
-        SURPLUS = 'surplus'
-        LONG_TERM = 'long_term'
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     location = models.ForeignKey(
         Location, on_delete=models.PROTECT, related_name='items'
@@ -67,9 +62,6 @@ class StorageItem(models.Model):
     brand = models.CharField(max_length=20, blank=True)
     quantity = models.IntegerField()
     par = models.PositiveIntegerField(null=True, blank=True)
-    storage_class = models.CharField(
-        max_length=10, choices=StorageClass.choices, default=StorageClass.DAILY
-    )
     used_for = models.TextField(blank=True)
     moved_from = models.TextField(blank=True)
 

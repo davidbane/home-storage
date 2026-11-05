@@ -416,10 +416,10 @@
   const openItem = computed(() => (itemId.value ? house.item(itemId.value) : undefined));
   const showItemScreen = computed(() => Boolean(openItem.value) && !isDesktop.value);
 
-  const roomCounts = computed(() => (room.value ? house.countsFor(room.value.id) : { total: 0, low: 0, surplus: 0 }));
+  const roomCounts = computed(() => (room.value ? house.countsFor(room.value.id) : { total: 0, low: 0 }));
   const summary = computed(() => {
     const counts = roomCounts.value;
-    return [`${counts.total} items`, counts.low && `${counts.low} low`, counts.surplus && `${counts.surplus} surplus`].filter(Boolean).join(' · ');
+    return [`${counts.total} items`, counts.low && `${counts.low} low`].filter(Boolean).join(' · ');
   });
   const withQuery = (changes) => ({ query: { ...route.query, ...changes } });
   const closeItem = () => router.replace(withQuery({ item: undefined }));

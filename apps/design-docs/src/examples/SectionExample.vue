@@ -16,7 +16,6 @@
       <ApListRow
         name="Paper towels"
         sub="Garage / Shelf 3"
-        status="surplus"
         :qty="14"
       />
     </ApList>
