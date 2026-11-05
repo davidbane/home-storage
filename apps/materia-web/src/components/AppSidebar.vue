@@ -21,7 +21,7 @@
       <ApNavItem
         to="/low"
         label="Low stock"
-        :count="house.lowItems.length"
+        :count="house.lowItems.length || undefined"
         alert
       >
         <template #icon>
@@ -45,8 +45,8 @@
         :key="room.id"
         :to="`/rooms/${room.id}`"
         :label="room.name"
-        :count="house.countsFor(room.id).total"
-        :alert="house.countsFor(room.id).low > 0"
+        :count="house.countsFor(room.id).low || undefined"
+        alert
       />
 
       <li>
