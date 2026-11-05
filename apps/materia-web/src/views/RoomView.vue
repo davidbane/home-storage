@@ -65,13 +65,13 @@
         variant="body"
       />
 
-      <ApDock>
+      <ApDock v-if="status(openItem) === 'low'">
         <ApButton
           variant="primary"
           class="flex-1"
-          @click="ui.openMove(openItem.id)"
+          @click="house.restock(openItem.id)"
         >
-          Move
+          Restock to {{ openItem.par }}
         </ApButton>
       </ApDock>
     </template>

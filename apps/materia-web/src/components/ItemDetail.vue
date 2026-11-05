@@ -127,11 +127,12 @@
       </ApButton>
 
       <ApButton
+        v-if="itemStatus === 'low'"
         variant="primary"
         class="flex-1"
-        @click="ui.openMove(currentItem.id)"
+        @click="house.restock(currentItem.id)"
       >
-        Move
+        Restock to {{ currentItem.par }}
       </ApButton>
     </div>
   </component>

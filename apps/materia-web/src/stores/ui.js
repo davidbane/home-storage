@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 
 /**
  * Which app-level dialog is open. Views ask for one; App.vue renders it.
- * `dialog` is null or { kind, ...ids }, with kind one of: add, edit, move, remove, find,
+ * `dialog` is null or { kind, ...ids }, with kind one of: add, edit, remove, find,
  * room-add, room-edit, spot-add, spot-edit, place-remove.
  */
 export const useUiStore = defineStore('ui', () => {
@@ -12,7 +12,6 @@ export const useUiStore = defineStore('ui', () => {
     dialog,
     openAdd: (location) => (dialog.value = { kind: 'add', location }),
     openEdit: (itemId) => (dialog.value = { kind: 'edit', itemId }),
-    openMove: (itemId) => (dialog.value = { kind: 'move', itemId }),
     openRemove: (itemId) => (dialog.value = { kind: 'remove', itemId }),
     openFind: () => (dialog.value = { kind: 'find' }),
     openAddRoom: () => (dialog.value = { kind: 'room-add' }),

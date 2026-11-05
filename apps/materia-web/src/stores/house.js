@@ -241,6 +241,28 @@ export const useHouseStore = defineStore('house', () => {
     }
   }
 
+  /** Fills a low item back up to par, saving the history line in the same request. */
+  async function restock(id) {
+    const record = item(id);
+    if (!record || status(record) !== 'low') {
+      return;
+    }
+    const before = { quantity: record.quantity, history: record.history };
+    const event = `Restocked to ${record.par}`;
+    record.quantity = record.par;
+    record.history = [{ date: today(), text: event }, ...record.history];
+    if (!useApi) {
+      return;
+    }
+    try {
+      Object.assign(record, await api.updateItem(id, { quantity: record.quantity, event }));
+      saveError.value = null;
+    } catch (exception) {
+      Object.assign(record, before);
+      fail(exception);
+    }
+  }
+
   /** Removes an item and returns a function that puts it back (for Undo). */
   async function removeItem(id) {
     const record = item(id);
@@ -457,6 +479,6 @@ export const useHouseStore = defineStore('house', () => {
     locations, items, types, loading, error, saveError, house, rooms, lowItems, places, labelled,
     typeName, typeUsage, descendants, contentsOf, addRoom, updateRoom, addSpot, updateSpot, removePlace, addType, renameType, removeType,
     load, location, children, item, itemsIn, ancestry, roomOf, crumbs, pathText, countsFor, findByCode, search,
-    setQuantity, addItem, updateItem, moveItem, removeItem,
+    setQuantity, restock, addItem, updateItem, moveItem, removeItem,
   };
 });
