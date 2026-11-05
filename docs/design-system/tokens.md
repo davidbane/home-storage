@@ -8,12 +8,12 @@ Every value here compiles to a CSS custom property `--ap-<name>` and, for Tailwi
 
 | Token | Night | Parchment | Usage |
 |---|---|---|---|
-| `surface-0` | `#0c100e` | `#f3efe6` | Page ground. Near-black green in Night, warm paper in Parchment. |
-| `surface-1` | `#141b18` | `#fbf9f4` | Cards, list rows, drawers. Holds ink, ink-muted, brass and every *-ink role color at 4.5:1 or better. |
-| `surface-2` | `#1c2622` | `#eae4d7` | Raised surfaces: the tab bar, sheets, icon buttons, tonal buttons. |
+| `surface-0` | `#0e1a16` | `#f3efe6` | Page ground. Deep pine green in Night, warm paper in Parchment. |
+| `surface-1` | `#15261f` | `#fbf9f4` | Cards, list rows, drawers. Holds ink, ink-muted, brass and every *-ink role color at 4.5:1 or better. |
+| `surface-2` | `#1e352c` | `#eae4d7` | Raised surfaces: the tab bar, sheets, icon buttons, tonal buttons. |
 | `bottle` | `#2a3b33` | `#2a3b33` | Brand bottle green, identical in both themes. Used sparingly as a feature surface: the summary card on Home, a room hero. Pair only with on-bottle and brass-on-bottle. |
-| `line` | `#26322d` | `#dad2c1` | Default hairline between rows and around inputs. |
-| `line-strong` | `#3a4a43` | `#b8ad95` | Hover borders and section dividers. |
+| `line` | `#2b4438` | `#dad2c1` | Default hairline between rows and around inputs. |
+| `line-strong` | `#425c50` | `#b8ad95` | Hover borders and section dividers. |
 | `ink` | `#ece3d0` | `#1e2622` | Primary text on any surface. Bone in Night, green-black in Parchment. |
 | `ink-muted` | `#a89f8c` | `#5a5848` | Locations, metadata, helper text. 5.3:1 minimum on surface-2. |
 | `brass` | `#c9a25e` | `#7a5c24` | The apothecary accent: bin-tag hairlines and numbers, the location tile hover, small icons. Ornament only, never an action. Text-safe on surface-0/1/2. |
@@ -27,7 +27,7 @@ Every value here compiles to a CSS custom property `--ap-<name>` and, for Tailwi
 | `oxblood-ink` | `#ec9a90` | `#8e2f2a` | Low-stock and error text on surfaces. |
 | `oxblood-tint` | `#3a1b19` | `#f1dad4` | Behind oxblood-ink: the low-stock chip and error banner. |
 | `verdigris-ink` | `#7cc2a6` | `#2b6250` | Stocked / confirmed text and icons. |
-| `verdigris-tint` | `#173229` | `#d6e8de` | Behind verdigris-ink: the stocked chip. |
+| `verdigris-tint` | `#1f4d3c` | `#d6e8de` | Behind verdigris-ink: the stocked chip. |
 | `on-bottle` | `#ece3d0` | `#ece3d0` | Text on bottle (9.3:1). |
 | `brass-on-bottle` | `#c9a25e` | `#c9a25e` | Brass detail on bottle (5.0:1): numerals and captions on feature cards. |
 | `focus` | → `sapphire-ink` | → `sapphire-ink` | Focus ring: 2px, offset 2px. Never removed. |
@@ -40,12 +40,12 @@ WCAG 2 ratios, computed from the values above. Body text needs **4.5:1**; ⚠ ma
 
 | Text on | `surface-0` | `surface-1` | `surface-2` |
 |---|---|---|---|
-| `ink` | 15.0 | 13.7 | 12.2 |
-| `ink-muted` | 7.3 | 6.7 | 5.9 |
-| `brass` | 8.0 | 7.3 | 6.5 |
-| `sapphire-ink` | 8.6 | 7.8 | 7.0 |
-| `oxblood-ink` | 8.8 | 8.0 | 7.1 |
-| `verdigris-ink` | 9.2 | 8.4 | 7.5 |
+| `ink` | 14.0 | 12.4 | 10.3 |
+| `ink-muted` | 6.8 | 6.0 | 5.0 |
+| `brass` | 7.5 | 6.6 | 5.5 |
+| `sapphire-ink` | 8.0 | 7.1 | 5.9 |
+| `oxblood-ink` | 8.1 | 7.2 | 6.0 |
+| `verdigris-ink` | 8.6 | 7.6 | 6.3 |
 
 | Pair | Ratio |
 |---|---|
@@ -53,7 +53,7 @@ WCAG 2 ratios, computed from the values above. Body text needs **4.5:1**; ⚠ ma
 | `on-sapphire` on `oxblood` | 7.0 |
 | `sapphire-ink` on `sapphire-tint` | 6.3 |
 | `oxblood-ink` on `oxblood-tint` | 7.1 |
-| `verdigris-ink` on `verdigris-tint` | 6.6 |
+| `verdigris-ink` on `verdigris-tint` | 4.6 |
 | `brass` on `brass-tint` | 6.1 |
 | `on-bottle` on `bottle` | 9.3 |
 | `brass-on-bottle` on `bottle` | 5.0 |
