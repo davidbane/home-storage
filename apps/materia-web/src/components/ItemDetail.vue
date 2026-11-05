@@ -127,29 +127,11 @@
       </ApButton>
 
       <ApButton
+        variant="primary"
         class="flex-1"
         @click="ui.openMove(currentItem.id)"
       >
         Move
-      </ApButton>
-
-      <ApButton
-        :variant="house.onList(currentItem.id) ? 'tonal' : 'primary'"
-        class="flex-2"
-        :aria-pressed="house.onList(currentItem.id)"
-        @click="house.toggleList(currentItem.id)"
-      >
-        <template
-          v-if="house.onList(currentItem.id)"
-          #icon
-        >
-          <IconCheck
-            :size="18"
-            stroke="1.75"
-            aria-hidden="true"
-          />
-        </template>
-        {{ house.onList(currentItem.id) ? 'On shopping list' : 'Add to shopping list' }}
       </ApButton>
     </div>
   </component>
@@ -157,7 +139,7 @@
 
 <script setup>
   import { computed } from 'vue';
-  import { IconCheck, IconPencil, IconTrash, IconX } from '@tabler/icons-vue';
+  import { IconPencil, IconTrash, IconX } from '@tabler/icons-vue';
   import { ApBreadcrumb, ApButton, ApIconButton, ApPanel, ApStatusChip, ApStepper } from '@keep/ui';
   import { status, useHouseStore } from '@/stores/house';
   import { useUiStore } from '@/stores/ui';

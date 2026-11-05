@@ -10,7 +10,6 @@ export const router = createRouter({
     // meta.dock: the view renders its own bottom action dock on phones, so the tab bar is hidden.
     { path: '/rooms/:roomId', name: 'room', component: () => import('@/views/RoomView.vue'), meta: { dock: true } },
     { path: '/low', name: 'low', component: () => import('@/views/LowStockView.vue') },
-    { path: '/lists', name: 'lists', component: () => import('@/views/ListsView.vue') },
     // ?room= preselects a room's bins; ?ids= preselects specific places.
     { path: '/labels', name: 'labels', component: () => import('@/views/LabelsView.vue') },
     { path: '/settings', name: 'settings', component: () => import('@/views/SettingsView.vue') },

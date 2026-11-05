@@ -12,8 +12,7 @@ Materia is a catalog of what the house holds: every room, every drawer, and what
 
 - **Places.** Rooms, furniture, containers and slots, in one tree. Name them the way the household does: "Hall closet", not "Closet 2".
 - **Stock.** Each item has a count and an optional par. Under par is Low, double par is Surplus.
-- **A shopping list.** Add what's low, then mark it bought. The count restocks to par.
-- **Labels.** Give a place a printed code like `C-07-B`, then find it by that code.
+- **Print labels.** Give a place a printed code like `C-07-B`, then find it by that code.
 - **History.** Items remember where they've been.
 
 ## The household

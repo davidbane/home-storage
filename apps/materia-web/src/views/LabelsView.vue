@@ -1,7 +1,7 @@
 <template>
   <ApContainer>
     <div class="print:hidden">
-      <ApPageHead title="Labels">
+      <ApPageHead title="Print labels">
         <template #meta>
           <span class="type-meta text-ink-muted">Pick bins, then print on 2⅝ × 1 in address labels.</span>
         </template>
