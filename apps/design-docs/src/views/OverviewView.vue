@@ -90,7 +90,7 @@
   import { tokens } from '@/tokens';
 
   const principles = [
-    ['Gothic in the voice, modern in the build', 'The palette and the Cormorant display face carry the gothic. Everything else is contemporary app UI.'],
+    ['Gothic in the voice, modern in the build', 'The palette and the EB Garamond display face carry the gothic. Everything else is contemporary app UI.'],
     ['Display face for headlines only', 'Item names, paths, counts, quantities and controls are Inter.'],
     ['Sapphire means "act"', 'The only interactive fill. One primary button per view. Nothing decorative is blue.'],
     ['Brass is a thread, not a frame', 'A hairline on bin tags, a hover edge on tiles. Never a button.'],
@@ -99,7 +99,7 @@
   ];
   const sections = [
     { to: '/color', title: 'Color', text: 'Roles, both themes and live contrast checks.' },
-    { to: '/type', title: 'Type', text: 'Cormorant for display, Inter for everything you read.' },
+    { to: '/type', title: 'Type', text: 'EB Garamond for display, Inter for everything you read.' },
     { to: '/shape', title: 'Space, shape and depth', text: 'The 4px scale, radii and the three depth levels.' },
     { to: '/layout', title: 'Layout', text: 'Breakpoints, navigation and page patterns.' },
     { to: '/components', title: 'Components', text: 'Every component, live, with its code.' },

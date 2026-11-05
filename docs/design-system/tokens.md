@@ -84,7 +84,7 @@ WCAG 2 ratios, computed from the values above. Body text needs **4.5:1**; ⚠ ma
 
 Families:
 
-- `display`: "Cormorant Garamond", "Cormorant", Georgia, serif
+- `display`: "EB Garamond", Georgia, serif
 - `sans`: "Inter", system-ui, -apple-system, sans-serif
 - `mono`: "JetBrains Mono", ui-monospace, monospace
 
@@ -94,7 +94,7 @@ Families:
 | `type-display-xl` | display | 44px / 46px, -0.01em | 600 | Large screen titles: a room, a cabinet, an item. |
 | `type-display-lg` | display | 30px / 34px, -0.005em | 600 | Section heroes and container headings. |
 | `type-title` | display | 22px / 26px | 600 | Section headings. Never item names in dense lists: those are sans. |
-| `type-numeral` | sans | 32px / 32px | 500 | Big counts on location tiles, the stepper and summary cards. Set in Inter: Cormorant's old-style 1 and 0 read as I and o. |
+| `type-numeral` | sans | 32px / 32px | 500 | Big counts on location tiles, the stepper and summary cards. Set in Inter so counts line up with the rest of the interface. |
 | `type-body` | sans | 15px / 22px | 400 | Running text, item names in lists, form values. |
 | `type-body-strong` | sans | 15px / 22px | 500 | Item names, quantities, button labels. |
 | `type-meta` | sans | 13px / 18px | 400 | Paths, timestamps, secondary lines. |

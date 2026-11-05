@@ -166,10 +166,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/cormorant-garamond@npm:^5.2.5":
+"@fontsource/eb-garamond@npm:^5.3.0":
   version: 5.3.0
-  resolution: "@fontsource/cormorant-garamond@npm:5.3.0"
-  checksum: 10c0/74f1fd9aa5c62d77e60df14b52c3f1737949f2fec8a2cb383c304f4409664b4c95e5cc5065a78269849959a4ae7d7922d997336f2159b4008c285e61a40b1284
+  resolution: "@fontsource/eb-garamond@npm:5.3.0"
+  checksum: 10c0/8b54d5b11c606da990635167363135452706cb8f0181d5c5c2b780edcebdfc578af8391d854e77e7323ec07164640a064346e5362e97332d2dd26a8ccfd78b2e
   languageName: node
   linkType: hard
 
@@ -291,7 +291,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@keep/ui@workspace:packages/ui"
   dependencies:
-    "@fontsource/cormorant-garamond": "npm:^5.2.5"
+    "@fontsource/eb-garamond": "npm:^5.3.0"
     "@fontsource/inter": "npm:^5.2.5"
     "@fontsource/jetbrains-mono": "npm:^5.2.5"
     "@keep/apothecary-tokens": "workspace:*"

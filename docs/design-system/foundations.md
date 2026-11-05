@@ -34,17 +34,17 @@ Rules:
 
 | Style | Face | Where |
 |---|---|---|
-| `type-display-2xl` (60px) | Cormorant 600 | Desktop screen titles (`md:` and up) |
-| `type-display-xl` (44px) | Cormorant 600 | Phone screen titles |
-| `type-display-lg` (30px) | Cormorant 600 | Section heroes |
-| `type-title` (22px) | Cormorant 600 | Section headings, dialog titles |
-| `type-numeral` (32px) | Inter 500 | Counts on tiles and the stepper. Not Cormorant: its old-style 1 and 0 read as I and o |
+| `type-display-2xl` (60px) | EB Garamond 600 | Desktop screen titles (`md:` and up) |
+| `type-display-xl` (44px) | EB Garamond 600 | Phone screen titles |
+| `type-display-lg` (30px) | EB Garamond 600 | Section heroes |
+| `type-title` (22px) | EB Garamond 600 | Section headings, dialog titles |
+| `type-numeral` (32px) | Inter 500 | Counts on tiles and the stepper. Set in Inter so counts line up with the interface |
 | `type-body` / `type-body-strong` (15px) | Inter 400 / 500 | Running text, item names, values |
 | `type-meta` (13px) | Inter 400 | Paths, timestamps, secondary lines |
 | `type-caption` (12px) | Inter 500 | Chips, tab labels. Sentence case, no tracking |
 | `type-code` (12px) | JetBrains Mono | Bin codes |
 
-Never set Cormorant below 20px or use it for item names in lists. Two weights per face, no more. Fonts are self-hosted through `@keep/ui/fonts`.
+Never set EB Garamond below 20px or use it for item names in lists. Two weights per face, no more. Fonts are self-hosted through `@keep/ui/fonts`.
 
 ## Spacing
 
@@ -73,7 +73,7 @@ Sapphire fills add `shadow-glow` and `sheen-strong`, so the one action on screen
 
 ## Ornament budget
 
-Two signature moves, nothing else: the **brass bin tag** and the **Cormorant titles**. No filigree, textures, drop caps or decorative borders. If something new feels like it needs ornament, it probably needs better hierarchy instead.
+Two signature moves, nothing else: the **brass bin tag** and the **EB Garamond titles**. No filigree, textures, drop caps or decorative borders. If something new feels like it needs ornament, it probably needs better hierarchy instead.
 
 ## Icons
 

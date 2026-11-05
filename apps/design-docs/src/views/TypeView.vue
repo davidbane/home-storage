@@ -3,7 +3,7 @@
     <ApPageHead title="Type">
       <template #meta>
         <p class="m-0 max-w-2xl text-[15px] leading-[22px] text-ink-muted">
-          Cormorant Garamond for headlines and big numbers, Inter for everything you read or tap, JetBrains Mono for bin codes. Each style is a Tailwind utility, like
+          EB Garamond for headlines, Inter for everything you read or tap, JetBrains Mono for bin codes. Each style is a Tailwind utility, like
           <code class="font-mono text-[0.9em]">type-meta</code>.
         </p>
       </template>

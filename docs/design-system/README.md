@@ -18,8 +18,8 @@ A dark, modern-gothic look for the home apps: bottle green and bone, a thread of
 
 ## Principles
 
-1. **Gothic in the voice, modern in the build.** The gothic lives in two places: the palette and the Cormorant display face. Everything else is contemporary app UI: soft radii, generous space, tonal surfaces, quiet depth.
-2. **Display face for headlines only.** Cormorant Garamond for titles and section heads. Item names, paths, counts, quantities and every control are Inter.
+1. **Gothic in the voice, modern in the build.** The gothic lives in two places: the palette and the EB Garamond display face. Everything else is contemporary app UI: soft radii, generous space, tonal surfaces, quiet depth.
+2. **Display face for headlines only.** EB Garamond for titles and section heads. Item names, paths, counts, quantities and every control are Inter.
 3. **Sapphire means "act".** It's the only interactive fill: primary buttons, the add button, the active tab, the selected tile. One primary button per view. Nothing decorative is blue.
 4. **Brass is a thread, not a frame.** A hairline on bin tags, a hover edge on tiles, captions on the feature card. Never a button and never a full border on a card.
 5. **Status is a fixed vocabulary.** Low and Stocked: same word, color and dot in every home app.

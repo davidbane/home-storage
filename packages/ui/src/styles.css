@@ -15,7 +15,7 @@
     background: var(--color-surface-0);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    /* Cormorant defaults to old-style figures, whose 1 and 0 read as I and o. */
+    /* EB Garamond defaults to old-style figures, which sit unevenly in headings like "In Shelf 1". */
     font-variant-numeric: lining-nums;
     -webkit-font-smoothing: antialiased;
   }
