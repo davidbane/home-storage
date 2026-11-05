@@ -81,7 +81,7 @@
         <!-- Light theme on screen and paper: labels are printed matter. -->
         <div
           v-else
-          data-theme="parchment"
+          data-theme="day"
           class="grid grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-2 rounded-md bg-surface-0 p-3 print:grid-cols-[repeat(3,2.625in)] print:gap-x-[0.125in] print:gap-y-0 print:bg-transparent print:p-0"
         >
           <div

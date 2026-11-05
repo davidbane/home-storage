@@ -7,9 +7,9 @@ Exact values for everything below are in the [token reference](tokens.md). This 
 | Theme | Use | Feel |
 |---|---|---|
 | `night` (default) | The identity | Near-black green ground, bone text |
-| `parchment` | Daylight, and anything printed | Soft sage ground, green-black text |
+| `day` | Daylight, and anything printed | Soft sage ground, green-black text |
 
-Set it with `data-theme` on `<html>`. `useTheme()` does that and remembers the choice per browser. `bottle`, `on-bottle` and `brass-on-bottle` are identical in both themes, so the feature card looks the same everywhere. Printed matter (labels) always uses parchment: put `data-theme="parchment"` on the printed region.
+Set it with `data-theme` on `<html>`. `useTheme()` does that and remembers the choice per browser. `bottle`, `on-bottle` and `brass-on-bottle` are identical in both themes, so the feature card looks the same everywhere. Printed matter (labels) always uses day: put `data-theme="day"` on the printed region.
 
 ## Color roles
 

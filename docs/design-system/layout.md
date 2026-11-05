@@ -42,4 +42,4 @@ Pages put their content in `ApContainer` and open with `ApPageHead`: a large tit
 
 ## Printing
 
-`ApShell`'s sidebar, the tab bar, docks and toasts hide when printing, and the page background turns white. Mark other screen-only controls `print:hidden`, and give printed content `data-theme="parchment"`.
+`ApShell`'s sidebar, the tab bar, docks and toasts hide when printing, and the page background turns white. Mark other screen-only controls `print:hidden`, and give printed content `data-theme="day"`.

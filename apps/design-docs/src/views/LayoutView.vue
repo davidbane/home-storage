@@ -124,6 +124,6 @@
     ['Tiles reflow', 'ApTileGrid fits as many tiles as the width allows, never under 100px. Pass columns to mirror real furniture.'],
     ['Lists stay lists', 'Don\'t switch to tables on desktop; the grouped list reads fine at 700px wide.'],
     ['Dialogs', 'Centered on desktop, a bottom sheet on phones. Primary action last.'],
-    ['Printing', 'Sidebar, tab bar, docks and toasts hide. Give printed content data-theme="parchment".'],
+    ['Printing', 'Sidebar, tab bar, docks and toasts hide. Give printed content data-theme="day".'],
   ];
 </script>

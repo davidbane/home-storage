@@ -83,9 +83,12 @@
 
       <ApSection title="Appearance">
         <div class="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-1 px-4 py-3 shadow-raised">
-          <span class="text-[15px]">{{ theme === 'night' ? 'Night theme' : 'Parchment theme' }}</span>
+          <span class="text-[15px]">{{ theme === 'night' ? 'Night theme' : 'Day theme' }}</span>
 
-          <ApButton @click="toggle">
+          <ApButton
+            class="w-44"
+            @click="toggle"
+          >
             <template #icon>
               <IconSun
                 v-if="theme === 'night'"
@@ -101,7 +104,7 @@
                 aria-hidden="true"
               />
             </template>
-            Switch to {{ theme === 'night' ? 'parchment' : 'night' }}
+            Switch to {{ theme === 'night' ? 'day' : 'night' }}
           </ApButton>
         </div>
       </ApSection>

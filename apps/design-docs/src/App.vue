@@ -88,7 +88,7 @@
                 v-bind="icon"
               />
             </template>
-            {{ theme === 'night' ? 'Parchment theme' : 'Night theme' }}
+            {{ theme === 'night' ? 'Day theme' : 'Night theme' }}
           </ApButton>
         </template>
       </ApSidebar>
@@ -138,7 +138,7 @@
 
         <button
           type="button"
-          :aria-label="theme === 'night' ? 'Switch to parchment theme' : 'Switch to night theme'"
+          :aria-label="theme === 'night' ? 'Switch to day theme' : 'Switch to night theme'"
           class="flex min-w-14 cursor-pointer flex-col items-center gap-0.5 rounded-pill border-0 bg-transparent px-2 py-1.5 text-[11px] leading-3.5 font-medium text-ink-muted"
           @click="toggle"
         >

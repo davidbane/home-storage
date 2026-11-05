@@ -117,7 +117,7 @@ Gothic in the voice, modern in the build. The full guide is in [`docs/design-sys
 
 ### How the styling fits together
 
-1. **`packages/apothecary-tokens/src/tokens.json`** is the source of truth: colors per theme (`night`, `parchment`), type styles, spacing, radii, shadows and breakpoints. It's the same file the Apothecary design-system page uses.
+1. **`packages/apothecary-tokens/src/tokens.json`** is the source of truth: colors per theme (`night`, `day`), type styles, spacing, radii, shadows and breakpoints. It's the same file the Apothecary design-system page uses.
 2. **`yarn tokens`** compiles it into
    - `dist/tokens.css`: raw `--ap-*` custom properties, one block per `[data-theme]`
    - `dist/theme.css`: a Tailwind `@theme` that maps utilities onto those properties, plus `type-*` utilities for each text style.
