@@ -92,11 +92,10 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 class ItemEventSerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(format='%Y-%m-%d', read_only=True)
-
     class Meta:
         model = ItemEvent
         fields = ['date', 'text']
+        read_only_fields = ['date']
 
 
 class StorageItemSerializer(serializers.ModelSerializer):

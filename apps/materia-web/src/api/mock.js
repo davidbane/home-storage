@@ -59,9 +59,9 @@ export const items = [
     name: '9V batteries', quantity: 1, par: 4, location: 'drawer-b', brand: 'Energizer',
     used_for: 'Smoke detectors, each spring', moved_from: 'Garage',
     history: [
-      { date: '2026-10-26', text: 'Used 3 for smoke detectors' },
-      { date: '2026-10-12', text: 'Moved to Drawer B' },
-      { date: '2026-03-03', text: 'Added 4' },
+      { date: '2026-10-26T12:00:00Z', text: 'Used 3 for smoke detectors' },
+      { date: '2026-10-12T12:00:00Z', text: 'Moved to Drawer B' },
+      { date: '2026-03-03T12:00:00Z', text: 'Added 4' },
     ],
   }),
   item({ name: 'AA batteries', quantity: 12, par: 8, location: 'drawer-b', brand: 'Duracell' }),

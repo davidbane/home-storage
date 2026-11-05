@@ -171,7 +171,7 @@
     const difference = item.quantity - item.par;
     return difference < 0 ? `${-difference} under par of ${item.par}` : difference === 0 ? `At par of ${item.par}` : `${difference} over par of ${item.par}`;
   });
-  const formatDate = (date) => new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const formatDate = (date) => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   const details = computed(() => {
     const item = currentItem.value;
     if (!item) {

@@ -149,7 +149,7 @@ export const useHouseStore = defineStore('house', () => {
 
   // ---- actions ----
   const fail = (exception) => (saveError.value = exception instanceof Error ? exception.message : String(exception));
-  const today = () => new Date().toISOString().slice(0, 10);
+  const now = () => new Date().toISOString();
 
   /** `event` is the history line to save with the change, if any. */
   async function setQuantity(id, quantity, event) {
@@ -176,7 +176,7 @@ export const useHouseStore = defineStore('house', () => {
     if (!useApi) {
       const local = {
         id: `${slug(draft.name)}-${Math.random().toString(36).slice(2, 7)}`,
-        history: [{ date: today(), text: event }],
+        history: [{ date: now(), text: event }],
         ...draft,
       };
       items.value = [...items.value, local];
@@ -218,7 +218,7 @@ export const useHouseStore = defineStore('house', () => {
 
   function recordMove(record, from) {
     record.moved_from = pathText(from);
-    record.history = [{ date: today(), text: `Moved to ${pathText(record.location)}` }, ...record.history];
+    record.history = [{ date: now(), text: `Moved to ${pathText(record.location)}` }, ...record.history];
   }
 
   async function moveItem(id, to) {
@@ -250,7 +250,7 @@ export const useHouseStore = defineStore('house', () => {
     const before = { quantity: record.quantity, history: record.history };
     const event = `Restocked to ${record.par}`;
     record.quantity = record.par;
-    record.history = [{ date: today(), text: event }, ...record.history];
+    record.history = [{ date: now(), text: event }, ...record.history];
     if (!useApi) {
       return;
     }

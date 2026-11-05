@@ -72,7 +72,7 @@ export function deriveKinds(locations) {
 
 /**
  * @typedef {object} ItemEvent
- * @property {string} date ISO date
+ * @property {string} date ISO timestamp
  * @property {string} text
  */
 
