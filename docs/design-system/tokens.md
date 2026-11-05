@@ -8,27 +8,27 @@ Every value here compiles to a CSS custom property `--ap-<name>` and, for Tailwi
 
 | Token | Night | Parchment | Usage |
 |---|---|---|---|
-| `surface-0` | `#101211` | `#f3efe6` | Page ground. Off-black in Night, so the green cards sit on it, warm paper in Parchment. |
-| `surface-1` | `#15261f` | `#fbf9f4` | Cards, list rows, drawers. Holds ink, ink-muted, brass and every *-ink role color at 4.5:1 or better. |
-| `surface-2` | `#1e352c` | `#eae4d7` | Raised surfaces: the tab bar, sheets, icon buttons, tonal buttons. |
+| `surface-0` | `#101211` | `#eff1ec` | Page ground. Off-black in Night, so the green cards sit on it, soft sage in Parchment. |
+| `surface-1` | `#15261f` | `#fbfcfa` | Cards, list rows, drawers. Holds ink, ink-muted, brass and every *-ink role color at 4.5:1 or better. |
+| `surface-2` | `#1e352c` | `#e2e7e0` | Raised surfaces: the tab bar, sheets, icon buttons, tonal buttons. |
 | `bottle` | `#2a3b33` | `#2a3b33` | Brand bottle green, identical in both themes. Used sparingly as a feature surface: the summary card on Home, a room hero. Pair only with on-bottle and brass-on-bottle. |
-| `line` | `#2b4438` | `#dad2c1` | Default hairline between rows and around inputs. |
-| `line-strong` | `#425c50` | `#b8ad95` | Hover borders and section dividers. |
+| `line` | `#2b4438` | `#d3dad1` | Default hairline between rows and around inputs. |
+| `line-strong` | `#425c50` | `#a9b4ab` | Hover borders and section dividers. |
 | `ink` | `#eceeeb` | `#1e2622` | Primary text on any surface. Bone in Night, green-black in Parchment. |
-| `ink-muted` | `#a4aaa6` | `#5a5848` | Locations, metadata, helper text. 5.3:1 minimum on surface-2. |
+| `ink-muted` | `#a4aaa6` | `#515a54` | Locations, metadata, helper text. 5.3:1 minimum on surface-2. |
 | `brass` | `#c9a25e` | `#7a5c24` | The apothecary accent: bin-tag hairlines and numbers, the location tile hover, small icons. Ornament only, never an action. Text-safe on surface-0/1/2. |
 | `brass-bright` | `#e2c07f` | `#5e4519` | Hover and pressed state for brass elements. |
 | `brass-tint` | `#2e281b` | `#eadcbc` | Fill behind brass text. |
 | `sapphire` | `#2a55b8` | `#234a9e` | Jewel blue. The ONE interactive fill: primary buttons, selected tab, links' underline. Pair with on-sapphire. |
 | `sapphire-ink` | `#8dadf2` | `#234a9e` | Sapphire as text or icon on a surface: links, active breadcrumb. |
 | `sapphire-tint` | `#182a4f` | `#d9e0f0` | Selected tiles and rows, the active tab; behind sapphire-ink. |
-| `on-sapphire` | `#f5f6f4` | `#f7f1e4` | Text and icons on sapphire and oxblood fills. |
+| `on-sapphire` | `#f5f6f4` | `#f7f8f5` | Text and icons on sapphire and oxblood fills. |
 | `oxblood` | `#8e2f2a` | `#8e2f2a` | Destructive fill (remove item, delete location). Pair with on-sapphire. |
 | `oxblood-ink` | `#ec9a90` | `#8e2f2a` | Low-stock and error text on surfaces. |
 | `oxblood-tint` | `#3a1b19` | `#f1dad4` | Behind oxblood-ink: the low-stock chip and error banner. |
 | `verdigris-ink` | `#7cc2a6` | `#2b6250` | Stocked / confirmed text and icons. |
 | `verdigris-tint` | `#1f4d3c` | `#d6e8de` | Behind verdigris-ink: the stocked chip. |
-| `on-bottle` | `#eceeeb` | `#ece3d0` | Text on bottle (9.3:1). |
+| `on-bottle` | `#eceeeb` | `#eceeeb` | Text on bottle (9.3:1). |
 | `brass-on-bottle` | `#c9a25e` | `#c9a25e` | Brass detail on bottle (5.0:1): numerals and captions on feature cards. |
 | `focus` | → `sapphire-ink` | → `sapphire-ink` | Focus ring: 2px, offset 2px. Never removed. |
 
@@ -62,22 +62,22 @@ WCAG 2 ratios, computed from the values above. Body text needs **4.5:1**; ⚠ ma
 
 | Text on | `surface-0` | `surface-1` | `surface-2` |
 |---|---|---|---|
-| `ink` | 13.5 | 14.7 | 12.2 |
-| `ink-muted` | 6.3 | 6.8 | 5.7 |
-| `brass` | 5.4 | 5.9 | 4.9 |
-| `sapphire-ink` | 7.2 | 7.8 | 6.5 |
-| `oxblood-ink` | 7.1 | 7.7 | 6.4 |
-| `verdigris-ink` | 6.2 | 6.7 | 5.6 |
+| `ink` | 13.6 | 15.1 | 12.3 |
+| `ink-muted` | 6.3 | 6.9 | 5.7 |
+| `brass` | 5.5 | 6.0 | 4.9 |
+| `sapphire-ink` | 7.3 | 8.0 | 6.6 |
+| `oxblood-ink` | 7.1 | 7.9 | 6.5 |
+| `verdigris-ink` | 6.2 | 6.9 | 5.6 |
 
 | Pair | Ratio |
 |---|---|
-| `on-sapphire` on `sapphire` | 7.3 |
-| `on-sapphire` on `oxblood` | 7.2 |
+| `on-sapphire` on `sapphire` | 7.7 |
+| `on-sapphire` on `oxblood` | 7.6 |
 | `sapphire-ink` on `sapphire-tint` | 6.2 |
 | `oxblood-ink` on `oxblood-tint` | 6.1 |
 | `verdigris-ink` on `verdigris-tint` | 5.5 |
 | `brass` on `brass-tint` | 4.6 |
-| `on-bottle` on `bottle` | 9.3 |
+| `on-bottle` on `bottle` | 10.2 |
 | `brass-on-bottle` on `bottle` | 5.0 |
 
 ## Typography
