@@ -8,7 +8,7 @@ Every value here compiles to a CSS custom property `--ap-<name>` and, for Tailwi
 
 | Token | Night | Parchment | Usage |
 |---|---|---|---|
-| `surface-0` | `#0e1a16` | `#f3efe6` | Page ground. Deep pine green in Night, warm paper in Parchment. |
+| `surface-0` | `#101211` | `#f3efe6` | Page ground. Off-black in Night, so the green cards sit on it, warm paper in Parchment. |
 | `surface-1` | `#15261f` | `#fbf9f4` | Cards, list rows, drawers. Holds ink, ink-muted, brass and every *-ink role color at 4.5:1 or better. |
 | `surface-2` | `#1e352c` | `#eae4d7` | Raised surfaces: the tab bar, sheets, icon buttons, tonal buttons. |
 | `bottle` | `#2a3b33` | `#2a3b33` | Brand bottle green, identical in both themes. Used sparingly as a feature surface: the summary card on Home, a room hero. Pair only with on-bottle and brass-on-bottle. |
@@ -40,12 +40,12 @@ WCAG 2 ratios, computed from the values above. Body text needs **4.5:1**; ⚠ ma
 
 | Text on | `surface-0` | `surface-1` | `surface-2` |
 |---|---|---|---|
-| `ink` | 14.0 | 12.4 | 10.3 |
-| `ink-muted` | 6.8 | 6.0 | 5.0 |
-| `brass` | 7.5 | 6.6 | 5.5 |
-| `sapphire-ink` | 8.0 | 7.1 | 5.9 |
-| `oxblood-ink` | 8.1 | 7.2 | 6.0 |
-| `verdigris-ink` | 8.6 | 7.6 | 6.3 |
+| `ink` | 14.7 | 12.4 | 10.3 |
+| `ink-muted` | 7.2 | 6.0 | 5.0 |
+| `brass` | 7.9 | 6.6 | 5.5 |
+| `sapphire-ink` | 8.4 | 7.1 | 5.9 |
+| `oxblood-ink` | 8.6 | 7.2 | 6.0 |
+| `verdigris-ink` | 9.1 | 7.6 | 6.3 |
 
 | Pair | Ratio |
 |---|---|
