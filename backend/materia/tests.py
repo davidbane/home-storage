@@ -147,7 +147,6 @@ class StorageItemTests(ApiTestCase):
                 'brand': '',
                 'quantity': 2,
                 'par': 4,
-                'storage_class': 'surplus',
                 'used_for': '',
                 'location': self.child.id,
                 'event': 'Added 2',
@@ -156,7 +155,6 @@ class StorageItemTests(ApiTestCase):
         )
         self.assertEqual(response.status_code, 201, response.data)
         self.assertEqual(response.data['par'], 4)
-        self.assertEqual(response.data['storage_class'], 'surplus')
         self.assertEqual(
             [entry['text'] for entry in response.data['history']], ['Added 2']
         )
@@ -199,13 +197,6 @@ class StorageItemTests(ApiTestCase):
         )
         self.assertEqual(response.data['quantity'], 5)
         self.assertEqual(response.data['history'], [])
-
-    def test_unknown_storage_class_is_rejected(self):
-        item = self.add_item()
-        response = self.client.patch(
-            f'/api/storage-items/{item.id}/', {'storage_class': 'attic'}, format='json'
-        )
-        self.assertEqual(response.status_code, 400)
 
     def test_list_filters_by_residence(self):
         item = self.add_item()

@@ -10,11 +10,11 @@
     </ApTab>
 
     <ApTab
-      to="/lists"
-      label="Lists"
+      to="/low"
+      label="Low"
     >
       <template #icon>
-        <IconList v-bind="icon" />
+        <IconAlertTriangle v-bind="icon" />
       </template>
     </ApTab>
 
@@ -30,27 +30,27 @@
     </ApFab>
 
     <ApTab
-      to="/low"
-      label="Low"
+      to="/labels"
+      label="Print labels"
     >
       <template #icon>
-        <IconAlertTriangle v-bind="icon" />
+        <IconQrcode v-bind="icon" />
       </template>
     </ApTab>
 
     <ApTab
-      to="/labels"
-      label="Labels"
+      to="/settings"
+      label="Settings"
     >
       <template #icon>
-        <IconQrcode v-bind="icon" />
+        <IconSettings v-bind="icon" />
       </template>
     </ApTab>
   </ApTabBar>
 </template>
 
 <script setup>
-  import { IconAlertTriangle, IconHome, IconList, IconPlus, IconQrcode } from '@tabler/icons-vue';
+  import { IconAlertTriangle, IconHome, IconPlus, IconQrcode, IconSettings } from '@tabler/icons-vue';
   import { ApFab, ApTab, ApTabBar } from '@keep/ui';
   import { useUiStore } from '@/stores/ui';
 

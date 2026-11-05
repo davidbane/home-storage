@@ -16,7 +16,7 @@ Set it with `data-theme` on `<html>`. `useTheme()` does that and remembers the c
 | Role | Fill (with its text) | Text on a surface | Tint behind text | Used for |
 |---|---|---|---|---|
 | Action | `sapphire` + `on-sapphire` | `sapphire-ink` | `sapphire-tint` | Primary buttons, add button, active tab, selected tile and row, links |
-| Ornament | none | `brass` | `brass-tint` | Bin-tag hairlines, tile hover edge, Long-term chip |
+| Ornament | none | `brass` | `brass-tint` | Bin-tag hairlines, tile hover edge |
 | Danger | `oxblood` + `on-sapphire` | `oxblood-ink` | `oxblood-tint` | Remove buttons, Low chip, errors |
 | Stocked | none | `verdigris-ink` | `verdigris-tint` | Stocked chip, confirmations |
 | Feature | `bottle` | `on-bottle`, `brass-on-bottle` | none | One summary card per screen |
@@ -38,7 +38,7 @@ Rules:
 | `type-display-xl` (44px) | Cormorant 600 | Phone screen titles |
 | `type-display-lg` (30px) | Cormorant 600 | Section heroes |
 | `type-title` (22px) | Cormorant 600 | Section headings, dialog titles |
-| `type-numeral` (32px) | Cormorant 500 | Counts on tiles and the stepper; its old-style figures are part of the voice |
+| `type-numeral` (32px) | Inter 500 | Counts on tiles and the stepper. Not Cormorant: its old-style 1 and 0 read as I and o |
 | `type-body` / `type-body-strong` (15px) | Inter 400 / 500 | Running text, item names, values |
 | `type-meta` (13px) | Inter 400 | Paths, timestamps, secondary lines |
 | `type-caption` (12px) | Inter 500 | Chips, tab labels. Sentence case, no tracking |
@@ -58,7 +58,6 @@ A 4px scale that matches Tailwind's: `p-4` is 16px. Phone gutters are `space-5` 
 | `rounded-md` (12px) | Buttons, inputs, list groups |
 | `rounded-lg` (20px) | Cards, sheets, the feature card |
 | `rounded-pill` | Chips, steppers, tab bar, icon buttons |
-| `rounded-arch-top` | Location tiles only: arched top, `radius-md` bottom |
 
 ## Depth
 
@@ -74,7 +73,7 @@ Sapphire fills add `shadow-glow` and `sheen-strong`, so the one action on screen
 
 ## Ornament budget
 
-Three signature moves, nothing else: the **arched tile**, the **brass bin tag**, and the **Cormorant numerals**. No filigree, textures, drop caps or decorative borders. If something new feels like it needs ornament, it probably needs better hierarchy instead.
+Two signature moves, nothing else: the **brass bin tag** and the **Cormorant titles**. No filigree, textures, drop caps or decorative borders. If something new feels like it needs ornament, it probably needs better hierarchy instead.
 
 ## Icons
 

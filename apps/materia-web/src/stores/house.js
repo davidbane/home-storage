@@ -1,4 +1,4 @@
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { deriveKinds } from '@/models';
 import { api } from '@/api/endpoints';
@@ -7,34 +7,11 @@ import { items as mockItems, locations as mockLocations, residence as mockReside
 /** VITE_DATA_SOURCE=api reads the DRF backend; anything else uses the sample data. */
 const useApi = import.meta.env.VITE_DATA_SOURCE === 'api';
 
-const LIST_KEY = 'materia:shopping';
-function readList() {
-  try {
-    const stored = JSON.parse(localStorage.getItem(LIST_KEY) ?? '[]');
-    return Array.isArray(stored) ? stored.filter((id) => typeof id === 'string') : [];
-  } catch {
-    return [];
-  }
-}
-
 const slug = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item';
 
-/**
- * The four statuses, decided here rather than in components:
- * long-term storage class → Long-term; under par → Low;
- * surplus storage class or at least double par → Surplus; else Stocked.
- */
+/** Under par is Low; everything else is Stocked. Decided here rather than in components. */
 export function status(item) {
-  if (item.storage_class === 'long_term') {
-    return 'long';
-  }
-  if (item.par !== null && item.quantity < item.par) {
-    return 'low';
-  }
-  if (item.storage_class === 'surplus' || (item.par !== null && item.quantity >= item.par * 2)) {
-    return 'surplus';
-  }
-  return 'ok';
+  return item.par !== null && item.quantity < item.par ? 'low' : 'ok';
 }
 
 export const useHouseStore = defineStore('house', () => {
@@ -133,17 +110,13 @@ export const useHouseStore = defineStore('house', () => {
       .join(' / ');
 
   // ---- status ----
-  const byStatus = (wanted) => computed(() => items.value.filter((record) => status(record) === wanted));
-  const lowItems = byStatus('low');
-  const surplusItems = byStatus('surplus');
-  const longTermItems = byStatus('long');
+  const lowItems = computed(() => items.value.filter((record) => status(record) === 'low'));
 
   function countsFor(id) {
     const list = itemsIn(id);
     return {
       total: list.length,
       low: list.filter((record) => status(record) === 'low').length,
-      surplus: list.filter((record) => status(record) === 'surplus').length,
     };
   }
 
@@ -159,7 +132,7 @@ export const useHouseStore = defineStore('house', () => {
     })),
   );
 
-  /** Everything with a printable code, or any container, for the Labels page. */
+  /** Everything with a printable code, or any container, for the Print labels page. */
   const labelled = computed(() => locations.value.filter((place) => place.code || place.kind === 'container' || place.kind === 'slot'));
 
   /** A location by its printed code (case-insensitive), falling back to an exact name. */
@@ -276,8 +249,6 @@ export const useHouseStore = defineStore('house', () => {
     }
     const index = items.value.indexOf(record);
     items.value = items.value.filter((other) => other.id !== id);
-    const wasListed = shopping.value.includes(id);
-    shopping.value = shopping.value.filter((listedId) => listedId !== id);
     const restore = async () => {
       if (useApi) {
         // The API gives a re-created item a new id.
@@ -290,9 +261,6 @@ export const useHouseStore = defineStore('house', () => {
       const next = [...items.value];
       next.splice(Math.min(index, next.length), 0, record);
       items.value = next;
-      if (wasListed) {
-        shopping.value = [...shopping.value, record.id];
-      }
     };
     if (!useApi) {
       return restore;
@@ -477,37 +445,6 @@ export const useHouseStore = defineStore('house', () => {
     return true;
   }
 
-  // ---- shopping list (kept in this browser until the API has lists) ----
-  const shopping = ref(readList());
-  watch(shopping, (ids) => {
-    try {
-      localStorage.setItem(LIST_KEY, JSON.stringify(ids));
-    } catch {
-      /* storage blocked: the list lasts for this visit */
-    }
-  });
-  const shoppingItems = computed(() => shopping.value.map((id) => item(id)).filter(Boolean));
-  const onList = (id) => shopping.value.includes(id);
-  function toggleList(id) {
-    shopping.value = onList(id) ? shopping.value.filter((listedId) => listedId !== id) : [...shopping.value, id];
-  }
-  /** Marks a listed item bought: restocks it to par (or by one with no par) and takes it off the list. */
-  async function markBought(id) {
-    const record = item(id);
-    if (!record) {
-      return;
-    }
-    const before = record.quantity;
-    const target = record.par !== null ? Math.max(record.par, record.quantity + 1) : record.quantity + 1;
-    const logged = (text) => (record.history = [{ date: today(), text }, ...record.history], text);
-    shopping.value = shopping.value.filter((listedId) => listedId !== id);
-    await setQuantity(id, target, logged(`Restocked to ${target}`));
-    return async () => {
-      await setQuantity(id, before, logged(`Restock undone, back to ${before}`));
-      shopping.value = [...shopping.value, id];
-    };
-  }
-
   function search(query) {
     const term = query.trim().toLowerCase();
     if (!term) {
@@ -517,10 +454,9 @@ export const useHouseStore = defineStore('house', () => {
   }
 
   return {
-    locations, items, types, loading, error, saveError, house, rooms, lowItems, surplusItems, longTermItems, places, labelled,
-    shopping, shoppingItems,
+    locations, items, types, loading, error, saveError, house, rooms, lowItems, places, labelled,
     typeName, typeUsage, descendants, contentsOf, addRoom, updateRoom, addSpot, updateSpot, removePlace, addType, renameType, removeType,
     load, location, children, item, itemsIn, ancestry, roomOf, crumbs, pathText, countsFor, findByCode, search,
-    setQuantity, addItem, updateItem, moveItem, removeItem, onList, toggleList, markBought,
+    setQuantity, addItem, updateItem, moveItem, removeItem,
   };
 });

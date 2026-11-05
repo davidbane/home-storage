@@ -16,12 +16,12 @@ Every value here compiles to a CSS custom property `--ap-<name>` and, for Tailwi
 | `line-strong` | `#3a4a43` | `#b8ad95` | Hover borders and section dividers. |
 | `ink` | `#ece3d0` | `#1e2622` | Primary text on any surface. Bone in Night, green-black in Parchment. |
 | `ink-muted` | `#a89f8c` | `#5a5848` | Locations, metadata, helper text. 5.3:1 minimum on surface-2. |
-| `brass` | `#c9a25e` | `#7a5c24` | The apothecary accent: bin-tag hairlines and numbers, the arch tile hover, small icons. Ornament only, never an action. Text-safe on surface-0/1/2. |
+| `brass` | `#c9a25e` | `#7a5c24` | The apothecary accent: bin-tag hairlines and numbers, the location tile hover, small icons. Ornament only, never an action. Text-safe on surface-0/1/2. |
 | `brass-bright` | `#e2c07f` | `#5e4519` | Hover and pressed state for brass elements. |
-| `brass-tint` | `#2e281b` | `#eadcbc` | Fill behind brass text: the long-term status chip. |
+| `brass-tint` | `#2e281b` | `#eadcbc` | Fill behind brass text. |
 | `sapphire` | `#2a55b8` | `#234a9e` | Jewel blue. The ONE interactive fill: primary buttons, selected tab, links' underline. Pair with on-sapphire. |
-| `sapphire-ink` | `#8dadf2` | `#234a9e` | Sapphire as text or icon on a surface: links, active breadcrumb, surplus status. |
-| `sapphire-tint` | `#182a4f` | `#d9e0f0` | Selected tiles and rows, the active tab, the surplus chip; behind sapphire-ink. |
+| `sapphire-ink` | `#8dadf2` | `#234a9e` | Sapphire as text or icon on a surface: links, active breadcrumb. |
+| `sapphire-tint` | `#182a4f` | `#d9e0f0` | Selected tiles and rows, the active tab; behind sapphire-ink. |
 | `on-sapphire` | `#f4eedf` | `#f7f1e4` | Text and icons on sapphire and oxblood fills. |
 | `oxblood` | `#8e2f2a` | `#8e2f2a` | Destructive fill (remove item, delete location). Pair with on-sapphire. |
 | `oxblood-ink` | `#ec9a90` | `#8e2f2a` | Low-stock and error text on surfaces. |
@@ -94,7 +94,7 @@ Families:
 | `type-display-xl` | display | 44px / 46px, -0.01em | 600 | Large screen titles: a room, a cabinet, an item. |
 | `type-display-lg` | display | 30px / 34px, -0.005em | 600 | Section heroes and container headings. |
 | `type-title` | display | 22px / 26px | 600 | Section headings. Never item names in dense lists: those are sans. |
-| `type-numeral` | display | 32px / 32px | 500 | Big counts on location tiles and summary cards. Cormorant's old-style figures are part of the voice. |
+| `type-numeral` | sans | 32px / 32px | 500 | Big counts on location tiles, the stepper and summary cards. Set in Inter: Cormorant's old-style 1 and 0 read as I and o. |
 | `type-body` | sans | 15px / 22px | 400 | Running text, item names in lists, form values. |
 | `type-body-strong` | sans | 15px / 22px | 500 | Item names, quantities, button labels. |
 | `type-meta` | sans | 13px / 18px | 400 | Paths, timestamps, secondary lines. |
@@ -123,7 +123,6 @@ Spacing matches Tailwind's 4px scale, so `space-5` is `p-5` / `gap-5`.
 | `rounded-sm` | `6px` | Bin tags, keyboard hints. |
 | `rounded-md` | `12px` | Buttons, inputs, list groups. |
 | `rounded-lg` | `20px` | Cards, sheets, feature surfaces. |
-| `rounded-arch` | `64px` | TOP corners only of location tiles: the lancet-window arch, the system's one ornamental shape. Bottom corners take radius-md. |
 | `rounded-pill` | `999px` | Chips, steppers, the tab bar, icon buttons. |
 
 ## Depth

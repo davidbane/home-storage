@@ -67,29 +67,11 @@
 
       <ApDock>
         <ApButton
+          variant="primary"
           class="flex-1"
           @click="ui.openMove(openItem.id)"
         >
           Move
-        </ApButton>
-
-        <ApButton
-          :variant="house.onList(openItem.id) ? 'tonal' : 'primary'"
-          class="flex-2"
-          :aria-pressed="house.onList(openItem.id)"
-          @click="house.toggleList(openItem.id)"
-        >
-          <template
-            v-if="house.onList(openItem.id)"
-            #icon
-          >
-            <IconCheck
-              :size="18"
-              stroke="1.75"
-              aria-hidden="true"
-            />
-          </template>
-          {{ house.onList(openItem.id) ? 'On shopping list' : 'Add to shopping list' }}
         </ApButton>
       </ApDock>
     </template>
@@ -388,7 +370,7 @@
 <script setup>
   import { computed } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import { IconArrowLeft, IconBoxMultiple, IconCheck, IconPencil, IconPlus, IconPrinter, IconTrash } from '@tabler/icons-vue';
+  import { IconArrowLeft, IconBoxMultiple, IconPencil, IconPlus, IconPrinter, IconTrash } from '@tabler/icons-vue';
   import {
     ApBinTag, ApBreadcrumb, ApButton, ApContainer, ApDock, ApIconButton, ApList, ApListRow,
     ApLocationTile, ApPageHead, ApSection, ApSplit, ApStatusChip, ApTileGrid, useIsDesktop,
@@ -434,10 +416,10 @@
   const openItem = computed(() => (itemId.value ? house.item(itemId.value) : undefined));
   const showItemScreen = computed(() => Boolean(openItem.value) && !isDesktop.value);
 
-  const roomCounts = computed(() => (room.value ? house.countsFor(room.value.id) : { total: 0, low: 0, surplus: 0 }));
+  const roomCounts = computed(() => (room.value ? house.countsFor(room.value.id) : { total: 0, low: 0 }));
   const summary = computed(() => {
     const counts = roomCounts.value;
-    return [`${counts.total} items`, counts.low && `${counts.low} low`, counts.surplus && `${counts.surplus} surplus`].filter(Boolean).join(' · ');
+    return [`${counts.total} items`, counts.low && `${counts.low} low`].filter(Boolean).join(' · ');
   });
   const withQuery = (changes) => ({ query: { ...route.query, ...changes } });
   const closeItem = () => router.replace(withQuery({ item: undefined }));
@@ -445,9 +427,6 @@
     const counts = house.countsFor(id);
     if (counts.low) {
       return { meta: `${counts.low} low`, tone: 'alert' };
-    }
-    if (counts.total === 0) {
-      return { meta: 'empty', tone: 'muted' };
     }
     return { meta: note, tone: 'muted' };
   };

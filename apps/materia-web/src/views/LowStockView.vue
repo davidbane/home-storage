@@ -4,18 +4,6 @@
       <template #meta>
         <span class="type-meta text-ink-muted">{{ house.lowItems.length }} items under par</span>
       </template>
-
-      <template
-        v-if="notListed.length"
-        #actions
-      >
-        <ApButton
-          variant="primary"
-          @click="listAll"
-        >
-          Add {{ notListed.length }} to shopping list
-        </ApButton>
-      </template>
     </ApPageHead>
 
     <ApList
@@ -43,16 +31,8 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue';
-  import { ApButton, ApContainer, ApList, ApListRow, ApPageHead, useToast } from '@keep/ui';
+  import { ApContainer, ApList, ApListRow, ApPageHead } from '@keep/ui';
   import { status, useHouseStore } from '@/stores/house';
 
   const house = useHouseStore();
-  const { show } = useToast();
-  const notListed = computed(() => house.lowItems.filter((item) => !house.onList(item.id)));
-  function listAll() {
-    const count = notListed.value.length;
-    notListed.value.forEach((item) => house.toggleList(item.id));
-    show(`Added ${count} to the shopping list`);
-  }
 </script>

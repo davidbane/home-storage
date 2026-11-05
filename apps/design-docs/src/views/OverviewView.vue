@@ -90,12 +90,11 @@
   import { tokens } from '@/tokens';
 
   const principles = [
-    ['Gothic in the voice, modern in the build', 'The palette, the Cormorant display face and the arched tile carry the gothic. Everything else is contemporary app UI.'],
-    ['Display face for headlines and numbers only', 'Item names, paths, quantities and controls are Inter.'],
+    ['Gothic in the voice, modern in the build', 'The palette and the Cormorant display face carry the gothic. Everything else is contemporary app UI.'],
+    ['Display face for headlines only', 'Item names, paths, counts, quantities and controls are Inter.'],
     ['Sapphire means "act"', 'The only interactive fill. One primary button per view. Nothing decorative is blue.'],
     ['Brass is a thread, not a frame', 'A hairline on bin tags, a hover edge on tiles. Never a button.'],
-    ['Arched things are places', 'Only location tiles get the arch.'],
-    ['Status is a fixed vocabulary', 'Low, Surplus, Long-term, Stocked: same word, color and dot everywhere.'],
+    ['Status is a fixed vocabulary', 'Low and Stocked: same word, color and dot everywhere.'],
     ['Depth is lit from above', 'Sunken for inputs, raised for cards and lists, floating for the tab bar and sheets.'],
   ];
   const sections = [

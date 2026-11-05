@@ -47,13 +47,13 @@
           <div class="flex flex-col gap-1">
             <span class="type-numeral">0 1 2 3 4 5 6 7 8 9</span>
 
-            <span class="type-meta text-ink-muted">Cormorant old-style figures: counts on tiles and the stepper</span>
+            <span class="type-meta text-ink-muted">Inter: counts on tiles and the stepper</span>
           </div>
 
           <div class="flex flex-col gap-1">
             <span class="text-[32px] leading-8 font-medium tabular-nums">0 1 2 3 4 5 6 7 8 9</span>
 
-            <span class="type-meta text-ink-muted">Inter: quantities in lists and forms</span>
+            <span class="type-meta text-ink-muted">Inter, tabular: quantities in lists and forms</span>
           </div>
         </div>
       </ApSection>

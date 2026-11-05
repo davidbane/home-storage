@@ -9,7 +9,7 @@
         variant="primary"
         class="flex-2"
       >
-        Add to shopping list
+        Add item
       </ApButton>
     </ApDock>
   </div>

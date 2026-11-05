@@ -39,12 +39,12 @@
 
   /**
    * One item in a list: name, a detail line, status and quantity.
-   * `ok` status stays quiet in lists; only Low, Surplus and Long-term show a chip.
+   * `ok` status stays quiet in lists; only Low shows a chip.
    */
   const props = defineProps({
     name: { type: String, required: true },
     sub: String,
-    status: { type: String, validator: (value) => ['low', 'surplus', 'long', 'ok'].includes(value) },
+    status: { type: String, validator: (value) => ['low', 'ok'].includes(value) },
     qty: [Number, String],
     to: [String, Object],
     selected: Boolean,

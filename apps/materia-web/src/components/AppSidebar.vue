@@ -19,19 +19,9 @@
       </ApNavItem>
 
       <ApNavItem
-        to="/lists"
-        label="Shopping list"
-        :count="house.shopping.length || undefined"
-      >
-        <template #icon>
-          <IconList v-bind="icon" />
-        </template>
-      </ApNavItem>
-
-      <ApNavItem
         to="/low"
         label="Low stock"
-        :count="house.lowItems.length"
+        :count="house.lowItems.length || undefined"
         alert
       >
         <template #icon>
@@ -41,7 +31,7 @@
 
       <ApNavItem
         to="/labels"
-        label="Labels"
+        label="Print labels"
       >
         <template #icon>
           <IconQrcode v-bind="icon" />
@@ -55,8 +45,8 @@
         :key="room.id"
         :to="`/rooms/${room.id}`"
         :label="room.name"
-        :count="house.countsFor(room.id).total"
-        :alert="house.countsFor(room.id).low > 0"
+        :count="house.countsFor(room.id).low || undefined"
+        alert
       />
 
       <li>
@@ -87,7 +77,7 @@
 
 <script setup>
   import { useRoute } from 'vue-router';
-  import { IconHome, IconAlertTriangle, IconList, IconPlus, IconQrcode, IconSettings } from '@tabler/icons-vue';
+  import { IconHome, IconAlertTriangle, IconPlus, IconQrcode, IconSettings } from '@tabler/icons-vue';
   import { ApBrand, ApNavGroup, ApNavItem, ApSidebar } from '@keep/ui';
   import { useHouseStore } from '@/stores/house';
   import { useUiStore } from '@/stores/ui';

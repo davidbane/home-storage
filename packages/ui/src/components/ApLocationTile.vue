@@ -3,15 +3,27 @@
     :to="props.to"
     :aria-current="props.selected ? 'true' : undefined"
     :class="[
-      'flex min-w-0 flex-col items-center gap-0.5 rounded-arch-top border px-2 pt-5 pb-3 text-center no-underline transition duration-150 md:pt-8 md:pb-5',
+      'flex min-w-0 flex-col gap-1 rounded-md border p-3 text-left no-underline transition duration-150',
       props.selected
         ? '-translate-y-0.5 border-sapphire-ink bg-sapphire-tint text-sapphire-ink shadow-raised-hover'
         : 'border-transparent bg-surface-1 sheen text-ink shadow-raised hover:-translate-y-0.5 hover:border-brass hover:shadow-raised-hover',
     ]"
   >
-    <span :class="['type-numeral md:text-[2.5rem] md:leading-11', props.count === 0 && !props.selected && 'text-ink-muted']">{{ props.count }}</span>
+    <span class="type-body-strong">{{ props.name }}</span>
 
-    <span class="text-sm leading-5 font-medium">{{ props.name }}</span>
+    <span
+      v-if="props.count > 0"
+      class="flex flex-wrap items-baseline gap-x-1"
+    >
+      <span class="type-numeral tabular-nums">{{ props.count }}</span>
+
+      <span :class="['type-meta', !props.selected && 'text-ink-muted']">{{ props.count === 1 ? 'item' : 'items' }}</span>
+    </span>
+
+    <span
+      v-else
+      :class="['type-meta', !props.selected && 'text-ink-muted']"
+    >Empty</span>
 
     <span
       v-if="props.meta"
@@ -24,8 +36,7 @@
   import ApLink from './ApLink.vue';
 
   /**
-   * A place that holds things, under the lancet arch, led by its item count.
-   * Arched things are places: nothing else in the system uses this shape.
+   * A place that holds things: its name, how many items are inside, then a short note.
    */
   const props = defineProps({
     name: { type: String, required: true },
