@@ -65,13 +65,13 @@
         variant="body"
       />
 
-      <ApDock>
+      <ApDock v-if="status(openItem) === 'low'">
         <ApButton
           variant="primary"
           class="flex-1"
-          @click="ui.openMove(openItem.id)"
+          @click="house.restock(openItem.id)"
         >
-          Move
+          Restock to {{ openItem.par }}
         </ApButton>
       </ApDock>
     </template>
@@ -263,6 +263,7 @@
         <ApSection
           v-if="selected"
           :title="`In ${selected.name}`"
+          class="overflow-hidden rounded-lg border border-sapphire-ink/50 bg-surface-1 sheen p-4 shadow-raised"
         >
           <template #aside>
             <div class="flex items-center gap-4">
@@ -283,7 +284,11 @@
             </div>
           </template>
 
-          <ApList v-if="contents.length">
+          <ApList
+            v-if="contents.length"
+            flat
+            class="-mx-4 -mb-4 border-t border-line"
+          >
             <ApListRow
               v-for="item in contents"
               :key="item.id"
@@ -298,7 +303,7 @@
 
           <div
             v-else
-            class="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-1 px-4 py-4 shadow-raised"
+            class="flex flex-wrap items-center justify-between gap-3"
           >
             <span class="text-[15px] text-ink-muted">Nothing here yet.</span>
 

@@ -165,10 +165,17 @@
     const target = editing.value;
     try {
       if (target) {
+        const from = target.location;
         await house.updateItem(target.id, draft);
         if (!house.saveError) {
           ui.close();
-          show(`Saved ${draft.name}`);
+          if (draft.location === from) {
+            show(`Saved ${draft.name}`);
+          } else {
+            // Follow the item to its new place.
+            router.replace({ path: `/rooms/${house.roomOf(draft.location)?.id}`, query: { in: draft.location, item: target.id } });
+            show(`Moved ${draft.name} to ${house.location(draft.location)?.name}`, { action: { label: 'Undo', run: () => house.moveItem(target.id, from) } });
+          }
         }
       } else {
         const added = await house.addItem(draft);

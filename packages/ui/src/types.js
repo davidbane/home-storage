@@ -9,7 +9,7 @@ export const statusLabel = {
   ok: 'Stocked',
 };
 
-/** @typedef {'night' | 'parchment'} Theme */
+/** @typedef {'night' | 'day'} Theme */
 
 /**
  * @typedef {object} Crumb

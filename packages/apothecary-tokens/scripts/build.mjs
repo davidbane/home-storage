@@ -31,7 +31,7 @@ const themed = [...tokens.color.tokens, ...(tokens.shadow?.tokens ?? [])];
 const blocks = themes.map((theme, index) => {
   const selector = index === 0 ? `:root,\n[data-theme="${theme}"]` : `[data-theme="${theme}"]`;
   const lines = themed.map((token) => `  --${PREFIX}-${token.name}: ${valueFor(token, theme)};`);
-  return `${selector} {\n  color-scheme: ${theme === 'parchment' ? 'light' : 'dark'};\n${lines.join('\n')}\n}`;
+  return `${selector} {\n  color-scheme: ${theme === 'day' ? 'light' : 'dark'};\n${lines.join('\n')}\n}`;
 });
 
 const flat = [

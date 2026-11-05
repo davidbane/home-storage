@@ -158,7 +158,10 @@ class StorageItemTests(ApiTestCase):
         self.assertEqual(
             [entry['text'] for entry in response.data['history']], ['Added 2']
         )
-        self.assertRegex(response.data['history'][0]['date'], r'^\d{4}-\d{2}-\d{2}$')
+        # A full timestamp, so the browser can show the day in its own time zone.
+        self.assertRegex(
+            response.data['history'][0]['date'], r'^\d{4}-\d{2}-\d{2}T.*Z$'
+        )
         self.assertNotIn('event', response.data)
 
     def test_move_saves_the_location_and_its_history_together(self):

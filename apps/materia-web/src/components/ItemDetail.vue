@@ -3,7 +3,7 @@
     :is="variant === 'pane' ? ApPanel : 'div'"
     v-if="currentItem"
     v-bind="variant === 'pane' ? { as: 'aside', 'aria-label': currentItem.name } : {}"
-    class="flex flex-col gap-6"
+    :class="['flex flex-col gap-6', variant === 'pane' && 'border border-sapphire-ink/50']"
   >
     <div
       v-if="variant === 'pane'"
@@ -127,11 +127,12 @@
       </ApButton>
 
       <ApButton
+        v-if="itemStatus === 'low'"
         variant="primary"
         class="flex-1"
-        @click="ui.openMove(currentItem.id)"
+        @click="house.restock(currentItem.id)"
       >
-        Move
+        Restock to {{ currentItem.par }}
       </ApButton>
     </div>
   </component>
@@ -170,7 +171,7 @@
     const difference = item.quantity - item.par;
     return difference < 0 ? `${-difference} under par of ${item.par}` : difference === 0 ? `At par of ${item.par}` : `${difference} over par of ${item.par}`;
   });
-  const formatDate = (date) => new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const formatDate = (date) => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
   const details = computed(() => {
     const item = currentItem.value;
     if (!item) {

@@ -47,8 +47,6 @@
 
   <ItemFormDialog />
 
-  <MoveDialog />
-
   <RemoveDialog />
 
   <FindDialog />
@@ -69,7 +67,6 @@
   import AppTabBar from '@/components/AppTabBar.vue';
   import FindDialog from '@/components/dialogs/FindDialog.vue';
   import ItemFormDialog from '@/components/dialogs/ItemFormDialog.vue';
-  import MoveDialog from '@/components/dialogs/MoveDialog.vue';
   import PlaceRemoveDialog from '@/components/dialogs/PlaceRemoveDialog.vue';
   import RemoveDialog from '@/components/dialogs/RemoveDialog.vue';
   import RoomFormDialog from '@/components/dialogs/RoomFormDialog.vue';

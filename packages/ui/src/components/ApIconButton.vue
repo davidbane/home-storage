@@ -8,7 +8,7 @@
     :title="props.label"
     :class="[
       'inline-flex flex-none cursor-pointer items-center justify-center rounded-pill bg-surface-2 text-ink transition duration-150',
-      'shadow-[inset_0_1px_0_#ffffff12,0_1px_2px_#0000004d] hover:bg-line active:translate-y-px',
+      'shadow-raised hover:bg-line active:translate-y-px',
       props.size === 'lg' ? 'size-12' : 'size-10',
     ]"
   >

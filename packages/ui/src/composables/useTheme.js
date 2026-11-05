@@ -3,7 +3,11 @@ const KEY = 'ap-theme';
 const read = () => {
   try {
     const stored = localStorage.getItem(KEY);
-    return stored === 'night' || stored === 'parchment' ? stored : null;
+    // Browsers that saved the theme under its old name.
+    if (stored === 'parchment') {
+      return 'day';
+    }
+    return stored === 'night' || stored === 'day' ? stored : null;
   } catch {
     return null;
   }
@@ -27,8 +31,8 @@ watch(
   { immediate: true },
 );
 
-/** Night is the default identity; parchment is the daylight theme. Persists per browser. */
+/** Night is the default identity; day is the light theme. Persists per browser. */
 export function useTheme() {
-  const toggle = () => (theme.value = theme.value === 'night' ? 'parchment' : 'night');
+  const toggle = () => (theme.value = theme.value === 'night' ? 'day' : 'night');
   return { theme, toggle };
 }

@@ -149,7 +149,7 @@ export const useHouseStore = defineStore('house', () => {
 
   // ---- actions ----
   const fail = (exception) => (saveError.value = exception instanceof Error ? exception.message : String(exception));
-  const today = () => new Date().toISOString().slice(0, 10);
+  const now = () => new Date().toISOString();
 
   /** `event` is the history line to save with the change, if any. */
   async function setQuantity(id, quantity, event) {
@@ -176,7 +176,7 @@ export const useHouseStore = defineStore('house', () => {
     if (!useApi) {
       const local = {
         id: `${slug(draft.name)}-${Math.random().toString(36).slice(2, 7)}`,
-        history: [{ date: today(), text: event }],
+        history: [{ date: now(), text: event }],
         ...draft,
       };
       items.value = [...items.value, local];
@@ -218,7 +218,7 @@ export const useHouseStore = defineStore('house', () => {
 
   function recordMove(record, from) {
     record.moved_from = pathText(from);
-    record.history = [{ date: today(), text: `Moved to ${pathText(record.location)}` }, ...record.history];
+    record.history = [{ date: now(), text: `Moved to ${pathText(record.location)}` }, ...record.history];
   }
 
   async function moveItem(id, to) {
@@ -234,6 +234,28 @@ export const useHouseStore = defineStore('house', () => {
     }
     try {
       Object.assign(record, await api.updateItem(id, { location: to, moved_from: record.moved_from, event: record.history[0].text }));
+      saveError.value = null;
+    } catch (exception) {
+      Object.assign(record, before);
+      fail(exception);
+    }
+  }
+
+  /** Fills a low item back up to par, saving the history line in the same request. */
+  async function restock(id) {
+    const record = item(id);
+    if (!record || status(record) !== 'low') {
+      return;
+    }
+    const before = { quantity: record.quantity, history: record.history };
+    const event = `Restocked to ${record.par}`;
+    record.quantity = record.par;
+    record.history = [{ date: now(), text: event }, ...record.history];
+    if (!useApi) {
+      return;
+    }
+    try {
+      Object.assign(record, await api.updateItem(id, { quantity: record.quantity, event }));
       saveError.value = null;
     } catch (exception) {
       Object.assign(record, before);
@@ -457,6 +479,6 @@ export const useHouseStore = defineStore('house', () => {
     locations, items, types, loading, error, saveError, house, rooms, lowItems, places, labelled,
     typeName, typeUsage, descendants, contentsOf, addRoom, updateRoom, addSpot, updateSpot, removePlace, addType, renameType, removeType,
     load, location, children, item, itemsIn, ancestry, roomOf, crumbs, pathText, countsFor, findByCode, search,
-    setQuantity, addItem, updateItem, moveItem, removeItem,
+    setQuantity, restock, addItem, updateItem, moveItem, removeItem,
   };
 });
