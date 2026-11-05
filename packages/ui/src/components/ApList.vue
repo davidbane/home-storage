@@ -1,13 +1,16 @@
 <template>
   <ul
     :aria-label="label"
-    class="m-0 list-none overflow-hidden rounded-md bg-surface-1 sheen p-0 shadow-raised [&>li+li]:border-t [&>li+li]:border-line"
+    :class="[
+      'm-0 list-none overflow-hidden p-0 [&>li+li]:border-t [&>li+li]:border-line',
+      !flat && 'rounded-md bg-surface-1 sheen shadow-raised',
+    ]"
   >
     <slot />
   </ul>
 </template>
 
 <script setup>
-  /** Grouped list on a raised surface. Fill it with ApListRow. */
-  defineProps({ label: String });
+  /** Grouped list on a raised surface, or on its parent's surface when `flat`. Fill it with ApListRow. */
+  defineProps({ label: String, flat: Boolean });
 </script>

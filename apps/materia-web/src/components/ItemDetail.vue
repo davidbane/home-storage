@@ -3,7 +3,7 @@
     :is="variant === 'pane' ? ApPanel : 'div'"
     v-if="currentItem"
     v-bind="variant === 'pane' ? { as: 'aside', 'aria-label': currentItem.name } : {}"
-    class="flex flex-col gap-6"
+    :class="['flex flex-col gap-6', variant === 'pane' && 'border border-sapphire-ink/50']"
   >
     <div
       v-if="variant === 'pane'"
