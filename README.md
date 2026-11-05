@@ -110,8 +110,7 @@ Gothic in the voice, modern in the build. The full guide is in [`docs/design-sys
 ### Rules worth remembering
 
 - **Sapphire means "act".** One `variant="primary"` button per view. Brass is ornament only; nothing decorative is blue.
-- **Display face for headlines and numbers only.** Item names, paths, quantities and controls are Inter.
-- **Arched things are places.** Only `ApLocationTile` gets the arch.
+- **Display face for headlines only.** Item names, paths, counts, quantities and controls are Inter.
 - **Status is a fixed vocabulary:** Low, Surplus, Long-term, Stocked (`statusLabel` in `@keep/ui`). The app decides which one applies (`status()` in `apps/materia-web/src/stores/house.js`); components only display it.
 - **Depth is lit from above:** sunken for inputs, raised for cards and lists, floating for the tab bar and docks.
 - **One URL per state at every width.** `/rooms/hall-closet?in=drawer-b&item=9v-batteries` shows a detail pane on desktop and the item screen on a phone.
@@ -122,7 +121,7 @@ Gothic in the voice, modern in the build. The full guide is in [`docs/design-sys
 2. **`yarn tokens`** compiles it into
    - `dist/tokens.css`: raw `--ap-*` custom properties, one block per `[data-theme]`
    - `dist/theme.css`: a Tailwind `@theme` that maps utilities onto those properties, plus `type-*` utilities for each text style.
-3. **`@keep/ui/styles.css`** imports both, adds base styles and a few system utilities (`rounded-arch-top`, `sheen`, `feature-wash`), and points Tailwind at the component sources.
+3. **`@keep/ui/styles.css`** imports both, adds base styles and a few system utilities (`sheen`, `feature-wash`), and points Tailwind at the component sources.
 4. **The app's `style.css`** is two lines: `@import "tailwindcss";` then `@import "@keep/ui/styles.css";`.
 
 Because utilities resolve to CSS variables, switching `data-theme` on `<html>` re-themes everything with no rebuild (`useTheme()` handles that and remembers the choice).
@@ -136,7 +135,7 @@ The theme **replaces** Tailwind's default palette, radii, shadows, fonts and bre
 | Color | `bg-surface-0/1/2`, `text-ink`, `text-ink-muted`, `bg-sapphire`, `text-sapphire-ink`, `bg-oxblood-tint`, `border-brass`, `bg-bottle`, … |
 | Type | `type-display-2xl`, `type-display-xl`, `type-display-lg`, `type-title`, `type-numeral`, `type-body`, `type-body-strong`, `type-meta`, `type-caption`, `type-code` |
 | Depth | `shadow-raised`, `shadow-raised-hover`, `shadow-sunken`, `shadow-glow`, `shadow-float`, `shadow-dock`, `shadow-sheet` |
-| Radius | `rounded-sm` 6, `rounded-md` 12, `rounded-lg` 20, `rounded-pill`, `rounded-arch-top` |
+| Radius | `rounded-sm` 6, `rounded-md` 12, `rounded-lg` 20, `rounded-pill` |
 | Breakpoints | `sm:` 600px, `md:` 960px (desktop: sidebar, split panes), `lg:` 1280px |
 | Layout | `max-w-page`, `w-sidebar`, `w-pane` |
 

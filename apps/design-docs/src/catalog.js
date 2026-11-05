@@ -16,7 +16,7 @@ export const catalog = [
   { slug: 'select', name: 'ApSelect', group: 'Forms', example: 'Select', summary: 'The same well around a native select. Put options and optgroups in the slot.' },
   { slug: 'checkbox', name: 'ApCheckbox', group: 'Forms', example: 'Checkbox', summary: 'A checkbox with its label; the whole row is a 44px target.' },
   { slug: 'search-field', name: 'ApSearchField', group: 'Forms', example: 'SearchField', summary: 'The search well. With `shortcut`, "/" focuses it on desktop.' },
-  { slug: 'stepper', name: 'ApStepper', group: 'Forms', example: 'Stepper', summary: 'Adjust a count in place: raised buttons in a sunken track, the count as a display numeral.' },
+  { slug: 'stepper', name: 'ApStepper', group: 'Forms', example: 'Stepper', summary: 'Adjust a count in place: raised buttons in a sunken track, the count as a large numeral.' },
   { slug: 'dialog', name: 'ApDialog', group: 'Overlays and feedback', example: 'Dialog', summary: 'A modal on the native dialog element: focus trapped, Escape closes it. A bottom sheet on phones.', rules: ['Primary action last; Cancel before it; destructive actions far left.'] },
   { slug: 'toast', name: 'ApToaster, useToast', group: 'Overlays and feedback', example: 'Toast', summary: 'Short confirmations with one optional action, usually Undo. Mount ApToaster once.' },
   { slug: 'page-head', name: 'ApPageHead', group: 'Layout and navigation', example: 'PageHead', summary: 'The large-title header with back (phones), eyebrow, meta and actions slots.' },

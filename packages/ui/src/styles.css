@@ -15,6 +15,8 @@
     background: var(--color-surface-0);
     color: var(--color-ink);
     font-family: var(--font-sans);
+    /* Cormorant defaults to old-style figures, whose 1 and 0 read as I and o. */
+    font-variant-numeric: lining-nums;
     -webkit-font-smoothing: antialiased;
   }
   :focus-visible {
@@ -33,11 +35,6 @@
       animation-duration: 0s !important;
     }
   }
-}
-
-/* The location tile's lancet arch: the system's one ornamental shape. */
-@utility rounded-arch-top {
-  border-radius: var(--radius-arch) var(--radius-arch) var(--radius-md) var(--radius-md);
 }
 
 /* A faint top sheen on raised surfaces, the light source in the depth model. */

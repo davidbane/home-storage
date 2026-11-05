@@ -428,9 +428,6 @@
     if (counts.low) {
       return { meta: `${counts.low} low`, tone: 'alert' };
     }
-    if (counts.total === 0) {
-      return { meta: 'empty', tone: 'muted' };
-    }
     return { meta: note, tone: 'muted' };
   };
 </script>

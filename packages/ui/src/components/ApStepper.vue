@@ -42,7 +42,7 @@
 <script setup>
   import { IconMinus, IconPlus } from '@tabler/icons-vue';
 
-  /** Adjust a count in place. Raised buttons in a sunken track; the count is a display numeral. */
+  /** Adjust a count in place. Raised buttons in a sunken track; the count is a large numeral. */
   const model = defineModel({ type: Number, required: true });
   const props = defineProps({
     min: { type: Number, default: 0 },

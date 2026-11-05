@@ -35,7 +35,7 @@
           >
             <div
               class="h-24 border border-brass bg-surface-1 shadow-raised"
-              :style="{ borderRadius: token.name === 'radius-arch' ? `var(--ap-radius-arch) var(--ap-radius-arch) var(--ap-radius-md) var(--ap-radius-md)` : `var(--ap-${token.name})` }"
+              :style="{ borderRadius: `var(--ap-${token.name})` }"
             />
 
             <figcaption class="flex flex-col">

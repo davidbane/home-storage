@@ -62,13 +62,13 @@ The `#trailing` slot replaces the quantity, e.g. for row buttons. Don't put butt
 
 ### ApLocationTile and ApTileGrid
 
-A place that holds things, under the arch, led by its count. Props: `name`, `count`, `meta` (a short line), `metaTone` (`'alert'` turns it oxblood, e.g. "1 low"), `to`, `selected`. Only places get the arch.
+A place that holds things: its name, then how many items are inside (or "Empty"), then a short note. Left-aligned so it reads top to bottom at a glance. Props: `name`, `count`, `meta` (a short line), `metaTone` (`'alert'` turns it oxblood, e.g. "1 low"), `to`, `selected`.
 
 `ApTileGrid` reflows by width; pass `columns` (2, 3 or 4) to mirror real furniture.
 
 ### ApFeature and ApStat
 
-The one bottle-green surface per screen, holding `ApStat`s (`value`, `label`): a Cormorant numeral over a brass caption. Text inside uses only `on-bottle` and `brass-on-bottle`.
+The one bottle-green surface per screen, holding `ApStat`s (`value`, `label`): a large numeral over a brass caption. Text inside uses only `on-bottle` and `brass-on-bottle`.
 
 ### ApPanel
 
@@ -97,7 +97,7 @@ Same shape as `ApTextField` around a native `<select>`; put `<option>` and `<opt
 
 ### ApStepper
 
-`v-model` number, `min` (0), `max`, and labels for the two buttons ("Use one", "Add one"). Raised buttons in a sunken track; the count is a display numeral. Saves on each press, so pair it with an undo where the change matters.
+`v-model` number, `min` (0), `max`, and labels for the two buttons ("Use one", "Add one"). Raised buttons in a sunken track; the count is a large numeral. Saves on each press, so pair it with an undo where the change matters.
 
 ## Overlays and feedback
 

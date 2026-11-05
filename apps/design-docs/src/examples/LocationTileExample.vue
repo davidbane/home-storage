@@ -22,7 +22,6 @@
     <ApLocationTile
       name="Drawer E"
       :count="0"
-      meta="empty"
       to="/"
     />
   </ApTileGrid>
